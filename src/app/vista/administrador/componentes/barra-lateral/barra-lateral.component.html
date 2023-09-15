@@ -1,0 +1,32 @@
+<div class="sidebar-nav sidebar--nav">
+  <div class="sidebar-nav-body">
+      <div class="side-menu-close">
+          <i class="la la-times"></i>
+      </div>
+      <div class="author-content">
+          <div class="d-flex align-items-center">
+              <div class="author-img avatar-sm">
+                  <img src="assets/images/user.png" alt="">
+              </div>
+              <div class="author-bio">
+                  <h4 class="author__title">{{ usuario.NombreCompleto }}</h4>
+                  <span class="author__meta">{{ perfil }}</span>
+              </div>
+          </div>
+      </div>
+      <div class="sidebar-menu-wrap">
+          <ul class="sidebar-menu toggle-menu list-items">
+              <li *ngIf="menues.viajes"><a routerLink="/administrador/lista/viajes" [routerLinkActive]="['active']"><em class="lar la-list-alt mr-2 text-color-2 la-2x"></em>Viajes</a></li>
+              <li *ngIf="menues.agencias"><a routerLink="/administrador/agencias" [routerLinkActive]="['active']"><i class="las la-store mr-2 text-color-3"></i>Gestión Agencias</a></li>
+              <li *ngIf="menues.hoteles"><a routerLink="/administrador/hoteles" [routerLinkActive]="['active']"><i class="las la-hotel mr-2 text-color-6"></i>Gestión Hoteles</a></li>
+              <li *ngIf="menues.rutas"><a routerLink="/administrador/rutas" [routerLinkActive]="['active']"><i class="las la-route mr-2 text-color-7"></i>Gestión Rutas</a></li>
+              <li *ngIf="menues.tipoDocumentos"><a routerLink="/administrador/tipo/documentos" [routerLinkActive]="['active']"><i class="las la-folder-plus mr-2 text-color-9"></i>Tipos de Documentos</a></li>
+              <li *ngIf="menues.categorias"><a routerLink="/administrador/categorias" [routerLinkActive]="['active']"><em class="las la-stamp mr-2 text-color-4 la-2x"></em>Gestión Categorías</a></li>
+              <li *ngIf="menues.parametros"><a routerLink="/administrador/parametros" [routerLinkActive]="['active']"><i class="las la-tools mr-2 text-color-5"></i>Gestión Parámetros</a></li>
+              <li *ngIf="menues.usuarios"><a routerLink="/administrador/usuarios" [routerLinkActive]="['active']"><i class="las la-user mr-2 text-color-10"></i>Gestión Usuarios</a></li>
+              <li *ngIf="menues.supervisores"><a routerLink="/administrador/gestion/supervisores" [routerLinkActive]="['active']"><i class="las la-user-shield mr-2 text-color-11"></i>Gestión Supervisores</a></li><br><br>
+              <li *ngIf="menues.errores"><a routerLink="/administrador/errores" [routerLinkActive]="['active']"><em class="la la-times-circle-o mr-2 text-color-8 la-2x"></em>Log Errores</a></li>
+          </ul>
+      </div>
+  </div>
+</div>

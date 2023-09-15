@@ -1,0 +1,1863 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin"
+  [fullScreen]="true"></ngx-spinner>
+
+<app-componment-header></app-componment-header>
+<app-header-accountant></app-header-accountant>
+
+<section class="breadcrumb-area bread-bg-7">
+  <div class="breadcrumb-wrap">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="breadcrumb-content">
+            <div class="section-heading">
+              <h2 class="sec__title text-white">Liquidación Viaje</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="breadcrumb-list text-right">
+            <ul class="list-items">
+              <li><a href="index.html">SaludSA</a></li>
+              <li>Viajes</li>
+              <li>Liquidación</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bread-svg-box">
+    <svg class="bread-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none">
+      <polygon points="100 0 50 10 0 0 0 10 100 10"></polygon>
+    </svg>
+  </div>
+</section>
+
+<section class="listing-form section--padding">
+  <div>
+    <div class="row">
+
+      <div class="col-lg-9 mx-auto">
+        <div class="card border-light" style="margin-bottom: 20px !important;">
+          <div class="card-body bg-transparent" style="padding: 0px !important;">
+            <div class="form-row">
+              <div class="col-10"></div>
+              <div class="col-2" style="text-align: right !important;">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="RegresarPagina()"><i
+                    class="fas fa-long-arrow-alt-left mr-1"></i>Regresar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-box">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-title-wrap">
+                <div class="row" style="padding-top: 20px !important; padding-bottom: 20px !important;">
+                  <div class="col-md-12" style="line-height: 50px !important;">
+                    <h4 class="title" style="font-size: 16px !important;">NÚMERO DE SOLICITUD: <b>{{ dtViaje.IdViaje
+                        }}</b></h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-9" style="line-height: 50px !important;">
+                    <h3 class="title">Información de Contabilidad</h3>
+                  </div>
+                  <div class="col-md-3 text-right">
+                    <button type="submit" class="theme-btn theme-btn-small mr-2" (click)="CambioEditacionContabilidad()">
+                      <i class="las la-edit"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-content">
+            <div [ngStyle]="{'pointer-events': editarCuenta ? 'auto': 'none'}">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div>
+                        <label class="label-text"><b>Tipo de Cuenta</b></label>
+                        <div
+                          [ngClass]="vlContabilidad.tipoContabilidad == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="Tipo de Cuenta">
+                              <span class="las la-book"></span>
+                            </span>
+                          </div>
+                          <kendo-dropdownlist [(ngModel)]="dtContabilidad.tipoContabilidad" class="form-control regular-font"
+                            [data]="lstTipoCuenta">
+                          </kendo-dropdownlist>
+                        </div>
+                        <div *ngIf="vlContabilidad.tipoContabilidad == true">
+                          <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este campo es
+                            requerido</span>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                      <div>
+                        <label class="label-text"><b>Departamento</b></label>
+                        <div
+                          [ngClass]="vlContabilidad.departamento1 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="Departamento">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <kendo-dropdownlist class="form-control regular-font" [data]="lstDepartamento1"
+                            [(ngModel)]="dtDepartamento1" textField="CodigoDescripcion" valueField="Codigo"
+                            (ngModelChange)="ColocarDepartamento1()">
+                            <ng-template kendoDropDownListItemTemplate let-dataItem>
+                              <span>{{ dataItem.CodigoDescripcion }}</span>
+                            </ng-template>
+                          </kendo-dropdownlist>
+                        </div>
+                        <div *ngIf="vlContabilidad.departamento1 == true">
+                          <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este
+                            campo es
+                            requerido</span>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                      <div>
+                        <label class="label-text"><b>Departamento</b></label>
+                        <div
+                          [ngClass]="vlContabilidad.departamento2 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="Departamento">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <kendo-dropdownlist class="form-control regular-font" [data]="lstDepartamento2"
+                            [(ngModel)]="dtDepartamento2" textField="CodigoDescripcion" valueField="Codigo"
+                            (ngModelChange)="ColocarDepartamento2()">
+                            <ng-template kendoDropDownListItemTemplate let-dataItem>
+                              <span>{{ dataItem.CodigoDescripcion }}</span>
+                            </ng-template>
+                          </kendo-dropdownlist>
+                        </div>
+                        <div *ngIf="vlContabilidad.departamento2 == true">
+                          <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este campo es
+                            requerido</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div>
+                        <label class="label-text"><b>Centro de Costos</b></label>
+                        <div
+                          [ngClass]="vlContabilidad.departamento2 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="Departamento">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <kendo-dropdownlist class="form-control regular-font" [data]="lstCentroCostroFiltro"
+                            [(ngModel)]="dtCentroCosto" [filterable]="true" [textField]="'CodigoDescripcion'"
+                            [valueField]="'Codigo'" (filterChange)="FiltrarCentroCosto($event)"
+                            (ngModelChange)="ColocarCentroCosto()">
+                          </kendo-dropdownlist>
+
+
+                        </div>
+                        <div *ngIf="vlContabilidad.departamento2 == true">
+                          <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este campo es
+                            requerido</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div>
+                        <label class="label-text"><b>Propósito</b></label>
+                        <div
+                          [ngClass]="vlContabilidad.departamento2 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="Proposito">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <kendo-dropdownlist class="form-control regular-font" [data]="lstPropositos"
+                            [(ngModel)]="dtProposito" textField="CodigoDescripcion" valueField="Codigo"
+                            (ngModelChange)="ColorcarProposito()">
+                            <ng-template kendoDropDownListItemTemplate let-dataItem>
+                              <span>{{ dataItem.CodigoDescripcion }}</span>
+                            </ng-template>
+                          </kendo-dropdownlist>
+                        </div>
+                        <div *ngIf="vlContabilidad.departamento2 == true">
+                          <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este campo es
+                            requerido</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div>
+                        <label class="label-text"><b>Tipo de Gasto</b></label>
+                        <div
+                          [ngClass]="vlContabilidad.departamento2 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="Departamento">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <input type="text" [(ngModel)]="dtTipoGasto" class="form-control regular-font"
+                            placeholder="Tipo Gasto" readonly>
+                        </div>
+                        <div *ngIf="vlContabilidad.departamento2 == true">
+                          <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este campo es
+                            requerido</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12" *ngIf="editarCuenta" style="text-align: right;">
+                      <div>
+                        <button type="button" class="theme-btn theme-btn-small" (click)="GuardarViaje()"><i
+                            class="far fa-save"></i> &nbsp; Guardar Cambios</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-9 mx-auto">
+        <div class="form-box">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-title-wrap">
+                <div class="row">
+                  <div class="col-md-12" style="line-height: 50px !important;">
+                    <h3 class="title">Anticipo Viáticos</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-content">
+            <div class="table-form table-responsive">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th id="numero_diario">Número de Diario</th>
+                    <td colspan="3">
+                      {{ dtAsientoViaje.CodigoDiario }}
+                    </td>
+                    <td>
+                      <i class="las la-check-circle" style="font-size: 30px; color: #00a816;"></i>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th id="numero_linea">Número de Línea</th>
+                    <th id="texto_transaccion">Texto de la Transacción</th>
+                    <th id="debito">Débito</th>
+                    <th id="credito">Crédito</th>
+                    <th id="estado">Estado</th>
+                  </tr>
+                  <tr *ngFor="let viat of lstViaticosAvance; let i = index">
+                    <td>{{ viat }}</td>
+                    <td>Viaje {{ dtViaje.IdViaje }} {{ dtViaje.FechaInicioViaje }} - {{ dtViaje.FechaFinViaje }} {{
+                      dtViaje.Transporte.Ruta.NombreRuta }}</td>
+                    <td> <span *ngIf="i == 1">$ {{ global.FormatearNumero(totalViaticos, 2) }}</span> </td>
+                    <td> <span *ngIf="i == 0">$ {{ global.FormatearNumero(totalViaticos, 2) }}</span> </td>
+                    <td>
+                      <i class="las la-check-circle" style="font-size: 30px; color: #00a816;"></i>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th id="cierre_diario">Cierre de Diario</th>
+                    <td>
+                      {{ dtAsientoViaje.CierreDiario }}
+                    </td>
+                    <th id="total_viaticos"> $ {{ global.FormatearNumero(totalViaticos, 2) }} </th>
+                    <th id="total_viaticos"> $ {{ global.FormatearNumero(totalViaticos, 2) }} </th>
+                    <td>
+                      <i class="las la-check-circle" style="font-size: 30px; color: #00a816;"></i>
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-9 mx-auto">
+        <div class="form-box">
+
+          <div class="form-content">
+            <div class="table-form table-responsive">
+              <table class="table table-bordeless">
+                <thead>
+                  <tr>
+                    <th id="informacion_viaje" colspan="2"><b>INFORMACIÓN DEL VIAJE</b></th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr>
+                    <td style="width: 25%;"><b>Fecha de Inicio del Viaje</b></td>
+                    <th id="fecha_inicio_viaje" style="width: 75%;"><b>{{ dtViaje.FechaInicioViaje }}</b></th>
+                  </tr>
+                  <tr>
+                    <td style="width: 25%;"><b>Fecha de Finalización del Viaje</b></td>
+                    <th id="fecha_fin_viaje" style="width: 75%;"><b>{{ dtViaje.FechaFinViaje }}</b></th>
+                  </tr>
+                  <tr>
+                    <td style="width: 25%;"><b>Realizó Viaje</b></td>
+                    <td style="width: 75%;">
+                      <span *ngIf="dtViaje.RealizoViaje == 1">
+                        <b>Sí</b><i class="las la-check-circle ml-3" style="font-size: 25px; color: #00a816;"></i>
+                      </span>
+                      <span *ngIf="dtViaje.RealizoViaje == 2">
+                        <b>No</b><i class="las la-times-circle ml-3" style="font-size: 25px; color: #bf0000;"></i>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width: 25%;"><b>Regresó en la Fecha Establecida</b></td>
+                    <td style="width: 75%;">
+                      <span *ngIf="dtViaje.Regreso == 1">
+                        <b>Sí</b><i class="las la-check-circle ml-3" style="font-size: 25px; color: #00a816;"></i>
+                      </span>
+                      <span *ngIf="dtViaje.Regreso == 2">
+                        <b>No</b><i class="las la-times-circle ml-3" style="font-size: 25px; color: #bf0000;"></i>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width: 25%;"><b>Fecha de Regreso</b></td>
+                    <td style="width: 75%;">{{ dtViaje.RegresoFecha }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-9 mx-auto">
+        <div class="form-box">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-title-wrap">
+                <div>
+                  <h3 class="title">Lista de Facturas</h3>
+                  <p class="font-size-14">N° Facturas {{ lstArchivos.length }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 text-right" style="padding-right: 40px;"></div>
+          </div>
+
+          <div class="form-content">
+            <div class="table-form table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Proveedor</th>
+                    <th scope="col" class="size">Fecha</th>
+                    <th scope="col" class="size">Total</th>
+                    <th scope="col" class="size">Total Liquidar</th>
+                    <th scope="col">Concepto</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let file_ of lstArchivos; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>
+                      {{ file_.TipoDocumento.Nombre }} <br>
+                      {{ file_.NumeroFactura }}
+                    </td>
+                    <td>
+                      <span>{{ global.cadenaAJson(file_.DatosProveedor).Identificacion }}</span><br>
+                      <span>{{ global.cadenaAJson(file_.DatosProveedor).RazonSocial }}</span>
+                      <span>{{ global.cadenaAJson(file_.DatosProveedor).Nombre }}</span>
+                    </td>
+                    <td class="size">{{ file_.FechaEmision }}</td>
+                    <td class="size">$ {{ global.FormatearNumero(file_.TotalFactura, 2) }}</td>
+                    <td class="size">$ {{ global.FormatearNumero(file_.TotalLiquidar, 2) }}</td>
+                    <td>{{ file_.Categorias.Nombre }}</td>
+                    <td>
+
+                      <i *ngIf="file_.ValidacionDC == 1" style="color: #159932; font-size: 20px;"
+                        class="las la-check-circle" data-toggle="tooltip" data-placement="top"
+                        title="Distribución Contable Realizada">
+                      </i>
+
+                    </td>
+                    <td style="cursor: pointer;" (click)="DescargarArchivo(file_)">
+                      <i style="color: #999015; font-size: 20px;" class="las la-cloud-download-alt"
+                        data-toggle="tooltip" data-placement="top" title="Descargar Archivo"></i>
+                    </td>
+                    <td style="cursor: pointer;" (click)="ObtenerInformacionFactura(file_)">
+                      <i style="color: #104B89; font-size: 22px;" class="las la-edit" data-toggle="tooltip"
+                        data-placement="top" title="Editar Factura"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-9 mx-auto">
+        <div class="form-box">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-row">
+                <div class="col-md-12">
+                  <div class="form-title-wrap">
+                    <h3 class="title"><b>Detalle de Liquidación</b></h3>
+                  </div>
+
+                  <div class="form-row" style="padding: 20px;">
+                    <div class="form-group col-md-12">
+                      <label>Valor justificado total facturas</label>
+                      <input currencyMask [(ngModel)]="fmrDetalles.justificacion" class="form-control regular-font"
+                        placeholder="Ingresar Valor ($)" [readonly]="true" />
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label>Pendiente</label>
+                      <input currencyMask [(ngModel)]="fmrDetalles.creditoPendiente" class="form-control regular-font"
+                        placeholder="Ingresar Valor ($)" [readonly]="true" />
+                      <div *ngIf="VerificarCreditoPendiente() == -1">
+                        <span class="form-text text-muted">
+                          <b style="color: #cf3c22 !important;"> Descuento a Rol</b>
+                        </span>
+                      </div>
+
+                      <div *ngIf="VerificarCreditoPendiente() == 1">
+                        <span class="form-text text-muted">
+                          <b style="color: #2db33e !important;">Valor a acreditar</b>
+                        </span>
+                      </div>
+
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label>Adicionales</label>
+                      <input currencyMask [(ngModel)]="fmrDetalles.diferencia" class="form-control regular-font"
+                        placeholder="Ingresar Valor ($)" [readonly]="true" />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="form-title-wrap">
+                <div>
+                  <h3 class="title">Lista de Viáticos</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-title-wrap">
+                <div>
+                  <h3 class="title">Valores de Consideración</h3>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="form-row">
+                <div class="col-md-12">
+                  <div class="form-row">
+                    <div class="col-md-12">
+                      <div class="table-responsive" style="padding: 20px !important;">
+                        <table class="table tabla table-bordered">
+                          <thead style="background-color: #104B89; color: #fff;">
+                            <tr class="tabla-web">
+                              <th id="descripcion" class="tabla-i">Descripción</th>
+                              <th id="cantidad">Cantidad</th>
+                              <th id="valor" class="tabla-d">Valor $</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            <ng-container *ngFor="let viatic of lstViaticos">
+
+                              <tr
+                                *ngIf="viatic.Tipo != 'Subtotal' && viatic.Tipo != 'Total' && viatic.Tipo != 'Hospedaje' && viatic.Tipo != 'Kilometros'"
+                                class="tabla-bordes">
+                                <td><b>{{ viatic.Tipo }}</b></td>
+                                <td>{{ viatic.Cantidad }}</td>
+                                <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                              </tr>
+
+                              <tr *ngIf="viatic.Tipo == 'Subtotal'" class="tabla-bordes"
+                                style="background-color: #416c99d5;">
+                                <td style="color: #fff !important;"><b>Subtotal (Noches + Días)</b></td>
+                                <td>{{ viatic.Cantidad }}</td>
+                                <td style="color: #fff !important;">$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                              </tr>
+
+                              <tr *ngIf="viatic.Tipo == 'Kilometros'" class="tabla-bordes">
+                                <td><b>Kilómetros</b></td>
+                                <td>{{ viatic.Cantidad }}</td>
+                                <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                              </tr>
+
+                              <tr *ngIf="viatic.Tipo == 'Otros' && viatic.Cantidad == 'Sí'" class="tabla-bordes">
+                                <td></td>
+                                <td style="text-align: right !important;"><b>Justificación:</b></td>
+                                <td>
+                                  {{ viatic.Justificacion }}
+                                </td>
+                              </tr>
+
+                              <tr *ngIf="viatic.Tipo == 'Total'" class="tabla-bordes"
+                                style="background-color: #416c99d5;">
+                                <td style="color: #fff !important;"><b>Viáticos a Entregar</b></td>
+                                <td>{{ viatic.Cantidad }}</td>
+                                <td style="color: #fff !important;">$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                              </tr>
+
+                              <tr *ngIf="viatic.Tipo == 'Hospedaje' && viatic.Valor != 0" class="tabla-bordes">
+                                <td><b>{{ viatic.Tipo }}</b></td>
+                                <td>Sí</td>
+                                <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                              </tr>
+
+                              <tr *ngIf="viatic.Tipo == 'Hospedaje' && viatic.Valor == 0" class="tabla-bordes">
+                                <td><b>Hospedaje</b></td>
+                                <td><b>No</b></td>
+                                <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                              </tr>
+
+                            </ng-container>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-row">
+                <div class="col-md-12">
+                  <div class="form-row">
+                    <div class="col-md-12">
+                      <div class="table-responsive" style="padding: 20px !important;">
+                        <table class="table tabla table-bordered">
+                          <thead style="background-color: #104B89; color: #fff;">
+                            <tr class="tabla-web">
+                              <th id="descripcion" class="tabla-i">Descripción</th>
+                              <th id="valor" class="tabla-d" style="text-align: center !important;">Valor</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container>
+
+                              <tr class="tabla-bordes">
+                                <td><b>Cantidad de Viáticos Entregados</b></td>
+                                <td style="text-align: center !important;">$ {{ global.FormatearNumero(fmrDetalles.viaticos,
+                                  2) }}
+                                </td>
+                              </tr>
+
+                              <tr class="tabla-bordes">
+                                <td><b>Cantidad de Viáticos Pendientes por Acreditar</b></td>
+                                <td style="text-align: center !important;">$ {{
+                                  global.FormatearNumero(valorAdicionalAcreditacion, 2) }}</td>
+                              </tr>
+
+                              <tr class="tabla-bordes">
+                                <td><b>Total Viáticos a Justificar</b></td>
+                                <td style="text-align: center !important;"><b class="title">$ {{
+                                    global.FormatearNumero(valorTotalLiquidacion, 2) }}</b></td>
+                              </tr>
+
+                            </ng-container>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngIf="dtViaje.Estado.IdEstado == 7" class="col-lg-9 mx-auto">
+        <div *ngIf="valDContable == 1">
+          <div class="form-box">
+            <section class="multi_step_form">
+              <div *ngIf="caso == 4" id="msform">
+                <ul id="progressbar">
+
+                  <ng-container *ngIf="lstLiquidacionesViaje.length == 0">
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Crear Diario
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Linea Proveedor Anticipo
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Linea Liquidación
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Registra Diario
+                      </li>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container
+                    *ngIf="lstLiquidacionesViaje.length != 0 && IdLiquidacionDevolucionCabeceraAx != undefined && IdLiquidacionDevolucionCreditoAx == undefined && IdLiquidacionDevolucionDebitoAx == undefined && IdLiquidacionDevolucionCierreAx == undefined">
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">Crear Diario</li>
+                    </ng-container>
+                    <ng-container *ngIf="IdLiquidacionDevolucionCreditoAx == undefined">
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Linea Proveedor Anticipo</li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Linea Liquidación
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Registra Diario
+                      </li>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container
+                    *ngIf="lstLiquidacionesViaje.length != 0 && IdLiquidacionDevolucionCabeceraAx != undefined && IdLiquidacionDevolucionCreditoAx != undefined && IdLiquidacionDevolucionDebitoAx == undefined && IdLiquidacionDevolucionCierreAx == undefined">
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">
+                        Crear Diario
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">
+                        Linea Proveedor Anticipo
+                      </li>
+                    </ng-container>
+                    <ng-container *ngIf="IdLiquidacionDevolucionDebitoAx == undefined">
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Linea Liquidación
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Registra Diario
+                      </li>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container
+                    *ngIf="lstLiquidacionesViaje.length != 0 && IdLiquidacionDevolucionCabeceraAx != undefined && IdLiquidacionDevolucionCreditoAx != undefined && IdLiquidacionDevolucionDebitoAx != undefined && IdLiquidacionDevolucionCierreAx == undefined">
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">
+                        Crear Diario
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">
+                        Linea Proveedor LiquidaAnticipo
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">
+                        Linea Liquidación
+                      </li>
+                    </ng-container>
+                    <ng-container *ngIf="IdLiquidacionDevolucionCierreAx == undefined">
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}">
+                        Registra Diario
+                      </li>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container
+                    *ngIf="lstLiquidacionesViaje.length != 0 && IdLiquidacionDevolucionCabeceraAx != undefined && IdLiquidacionDevolucionCreditoAx != undefined && IdLiquidacionDevolucionDebitoAx != undefined && IdLiquidacionDevolucionCierreAx != undefined">
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">
+                        Crear Diario
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">
+                        Linea Proveedor LiquidaAnticipo
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">
+                        Línea Liquidación
+                      </li>
+                    </ng-container>
+                    <ng-container>
+                      <li [ngStyle]="{'width': caso == 4 ? '25%': '25%'}" class="active">
+                        Registra Diario
+                      </li>
+                    </ng-container>
+                  </ng-container>
+
+                </ul>
+              </div>
+
+              <div *ngIf="caso != 4" id="msform">
+                <ul id="progressbar">
+                  <ng-container *ngIf="lstLiquidacionesViaje.length != 0 ">
+
+                    <ng-container *ngIf="IdLiquidacionReembolsoCabeceraAx == undefined">
+                      <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                        Cabecera Diarios 1
+                      </li>
+                    </ng-container>
+
+                    <ng-container
+                      *ngIf="IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 == undefined">
+                      <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                        Cabecera Diarios
+                      </li>
+                    </ng-container>
+
+                    <ng-container
+                      *ngIf="IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 != undefined">
+                      <li [ngStyle]="{'width': caso != 1 ? '20%': '25%'}" class="active">
+                        Cabecera Diarios
+                      </li>
+                    </ng-container>
+
+                  </ng-container>
+
+                  <ng-container *ngIf="lstLiquidacionesViaje.length == 0">
+                    <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                      Cabecera Diarios Casos
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="lstLiquidacionesViaje.length != 0 ">
+                    <ng-container *ngIf="lstArchivoDetallesDistribucionContable == 0">
+                      <li [ngStyle]="{'width': caso != 1 ? '20%': '25%'}" class="active">
+                        Detalle Factura
+                      </li>
+                    </ng-container>
+
+                    <ng-container *ngIf="lstArchivoDetallesDistribucionContable != 0">
+                      <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                        Detalle Factura
+                      </li>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container *ngIf="lstLiquidacionesViaje.length == 0 ">
+                    <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                      Detalle Factura
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="lstLiquidacionesViaje.length != 0 ">
+                    <ng-container *ngIf="IdLiquidacionReembolsoCierreAx == undefined">
+                      <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                        Cierre Diarios
+                      </li>
+                    </ng-container>
+
+                    <ng-container
+                      *ngIf="IdLiquidacionReembolsoCierreAx != undefined && IdLiquidacionReembolsoCierreAsientoAx == undefined">
+                      <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                        Cierre Diarios
+                      </li>
+                    </ng-container>
+
+                    <ng-container
+                      *ngIf="IdLiquidacionReembolsoCierreAx != undefined && IdLiquidacionReembolsoCierreAsientoAx != undefined">
+                      <li [ngStyle]="{'width': caso != 1 ? '20%': '25%'}" class="active">
+                        Cierre Diarios
+                      </li>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container *ngIf="lstLiquidacionesViaje.length == 0 ">
+                    <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                      Cierre Diarios
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="valdiacionPasoDetallesAdicionales != 0 && listaCR.length == 0 && NumeroAsientoAdicionalAx != undefined">
+                    <li [ngStyle]="{'width': caso != 1 ? '20%': '25%'}" class="active">
+                      Detalles Adicionales
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="valdiacionPasoDetallesAdicionales != 0 && ( listaCR.length == 0 || listaCR.length != 0 ) && NumeroAsientoAdicionalAx == undefined">
+                    <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                      Detalles Adicionales
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="valdiacionPasoDetallesAdicionales == 0">
+                    <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                      Detalles Adicionales
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="caso == 2 && IdCierreLiquidacionAx2 != undefined">
+                    <li [ngStyle]="{'width': caso != 1 ? '20%': '25%'}" class="active">
+                      Viaticos Justificar
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="caso == 2 && IdCierreLiquidacionAx2 == undefined">
+                    <li [ngStyle]="{ 'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer'}">
+                      Viaticos Justificar
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="caso == 3 && IdCierreAcreditacionAx != undefined">
+                    <li [ngStyle]="{'width': caso != 1 ? '20%': '25%'}" class="active">
+                      Viaticos Pendientes
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="caso == 3 && IdCierreAcreditacionAx == undefined">
+                    <li [ngStyle]="{'width': caso != 1 ? '20%': '25%' , 'cursor':'pointer' }">
+                      Viaticos Pendientes
+                    </li>
+                  </ng-container>
+
+                </ul>
+              </div>
+
+            </section>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-9 mx-auto" style="padding: 20px !important;" *ngIf="dtViaje.Estado.IdEstado != 9">
+        <div class="form-box" style="padding: 30px !important;">
+
+          <div class="form-row">
+
+            <div *ngIf="vistaContableModificacion" class="col-3">
+              <button type="button" class="btn btn-outline-warning btn-block"
+                (click)="AbrirModalModificarSolicitudContabilidad()">
+                <i class="fas fa-pencil-alt mr-1"></i>Enviar a Corregir Solicitud
+              </button>
+            </div>
+
+            <div class="col-3"
+              *ngIf="IdLiquidacionDevolucionCabeceraAx != undefined && IdLiquidacionDevolucionCierreAx">
+              <button type="button" class="btn btn-outline-danger btn-block" (click)="EliminarCaso4()">
+                <i class="fas fa-times mr-1"></i>Eliminar Diarios Caso 4
+              </button>
+            </div>
+
+            <div class="col-3"
+              *ngIf="IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCierreAx == undefined">
+              <button type="button" class="btn btn-outline-danger btn-block" (click)="EliminarCaso1()">
+                <i class="fas fa-times mr-1"></i>Eliminar Diarios Caso 1
+              </button>
+            </div>
+
+            <div *ngIf="vistaContableFinal && caso != 4" class="col-3">
+
+              <div *ngIf="IdLiquidacionReembolsoCabeceraAx == undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="ValidarEstadoSolicitudViaje()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 == undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="LineaProveedorFactura()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 != undefined && lstArchivoDetallesDistribucionContable != 0">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="DistribucionContable()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 != undefined && lstArchivoDetallesDistribucionContable == 0 && IdLiquidacionReembolsoCierreAx == undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="RegistraDiario()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 != undefined && lstArchivoDetallesDistribucionContable == 0 && IdLiquidacionReembolsoCierreAx != undefined && IdLiquidacionReembolsoCierreAsientoAx == undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="LiquidaDiarioFactura()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 != undefined && lstArchivoDetallesDistribucionContable == 0 && IdLiquidacionReembolsoCierreAx != undefined && IdLiquidacionReembolsoCierreAsientoAx != undefined && valdiacionPasoDetallesAdicionales == 0">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="CreacionCierreDatosAdicionales()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 != undefined && lstArchivoDetallesDistribucionContable == 0 && IdLiquidacionReembolsoCierreAx != undefined && IdLiquidacionReembolsoCierreAsientoAx != undefined && valdiacionPasoDetallesAdicionales == 1 && (listaCR.length == 0 || listaCR.length != 0) && NumeroAsientoAdicionalAx == undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="CreacionCierreDatosAdicionales()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="caso == 2 && IdCierreLiquidacionAx2 == undefined && IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 != undefined && lstArchivoDetallesDistribucionContable == 0 && IdLiquidacionReembolsoCierreAx != undefined && IdLiquidacionReembolsoCierreAsientoAx != undefined && valdiacionPasoDetallesAdicionales == 1 && (listaCR.length == 0 || listaCR.length != 0) && NumeroAsientoAdicionalAx != undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="DatosCabeceraViaticosPendientes()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="caso == 3 && IdCierreAcreditacionAx == undefined && IdLiquidacionReembolsoCabeceraAx != undefined && IdLiquidacionReembolsoCreditoAx1 != undefined && lstArchivoDetallesDistribucionContable == 0 && IdLiquidacionReembolsoCierreAx != undefined && IdLiquidacionReembolsoCierreAsientoAx != undefined && valdiacionPasoDetallesAdicionales == 1 && (listaCR.length == 0 || listaCR.length != 0) && NumeroAsientoAdicionalAx != undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="CrearDiario()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+            </div>
+
+            <div *ngIf="vistaContableFinal && caso == 4" class="col-3">
+
+              <div *ngIf="IdLiquidacionDevolucionCabeceraAx == undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="ValidarEstadoSolicitudViajeCuatro()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="IdLiquidacionDevolucionCabeceraAx != undefined && IdLiquidacionDevolucionCreditoAx == undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="LineaProveedorLiquidaAnticipoCuatro()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="IdLiquidacionDevolucionCabeceraAx != undefined && IdLiquidacionDevolucionCreditoAx != undefined && IdLiquidacionDevolucionDebitoAx == undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="LineaLiquidacionCuatro()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+              <div *ngIf="IdLiquidacionDevolucionCabeceraAx != undefined && IdLiquidacionDevolucionCreditoAx != undefined && IdLiquidacionDevolucionDebitoAx != undefined && IdLiquidacionDevolucionCierreAx == undefined">
+                <button type="button" class="btn btn-outline-primary btn-block" (click)="RegistraDiarioCuatro()"><em class="far fa-save mr-1"></em>Finalizar Contabilización</button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Contabilización de Facturas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-md-12">
+              <div id="accordion">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                        Datos Factura
+                      </button>
+                    </h5>
+                  </div>
+
+                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div>
+                            <label class="label-text"><b>Tipo Factura</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text blank" id="">
+                                  <span class="las la-building form-icon"></span>
+                                </span>
+                              </div>
+                              <kendo-dropdownlist [data]="lstTipoFactura" [textField]="'nombre'" [valueField]="'codigo'"
+                                [(ngModel)]="tipoFactura" [valuePrimitive]="true" class="form-control regular-font"
+                                [readonly]="true">
+                              </kendo-dropdownlist>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div>
+                            <label class="label-text"><b>Categoría</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text blank" id="">
+                                  <span class="las la-building form-icon"></span>
+                                </span>
+                              </div>
+                              <kendo-dropdownlist [data]="lstCategorias" [textField]="'Nombre'" [valueField]="'Codigo'"
+                                [(ngModel)]="frmFactura.categorias" [valuePrimitive]="true"
+                                class="form-control regular-font" (ngModelChange)="CambiarCategoria()">
+                              </kendo-dropdownlist>
+                            </div>
+                          </div>
+
+                          <div>
+                            <label class="label-text"><b>Tipo de Documento</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text blank" id="">
+                                  <span class="las la-building form-icon"></span>
+                                </span>
+                              </div>
+                              <kendo-dropdownlist [data]="lstTiposDocumentos" [textField]="'Nombre'"
+                                [valueField]="'Codigo'" [(ngModel)]="frmFactura.TipoDocumento" [valuePrimitive]="true"
+                                class="form-control regular-font" (ngModelChange)="CambiarTipoDocumentoValores()"
+                                [readonly]="bloqueoElectronica">
+                              </kendo-dropdownlist>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-md-12">
+
+                          <div>
+                            <label class="label-text"><b>Proveedor</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text blank" id="">
+                                  <span class="las la-building form-icon"></span>
+                                </span>
+                              </div>
+                              <kendo-dropdownlist [data]="lstTipoProveedores" [textField]="'nombre'"
+                                [valueField]="'codigo'" [(ngModel)]="tipoProveedor" [valuePrimitive]="true"
+                                class="form-control regular-font" [readonly]="bloqueoElectronica">
+                              </kendo-dropdownlist>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div *ngIf="tipoProveedor == 1" class="col-md-12">
+                          <div>
+                            <label class="label-text"><b>R.U.C</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend " style="cursor: pointer;" (click)="BuscarProveedor(1)">
+                                <span class="input-group-text blank" id=""
+                                  style="background-color: #104B89 !important; color: #fff !important;">
+                                  <span class="las la-search form-icon"></span>
+                                </span>
+                              </div>
+                              <input type="text" [(ngModel)]="frmFiltroProveedor.identificacion"
+                                (keyup)="frmFiltroProveedor.identificacion = global.FormatearCampo(frmFiltroProveedor.identificacion, '0123456789', 13 , 2)"
+                                class="form-control regular-font" placeholder="R.U.C" aria-describedby=""
+                                [readonly]="bloqueoElectronica">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div *ngIf="tipoProveedor == 2" class="col-md-12">
+                          <div>
+                            <label class="label-text"><b>Nombre Proveedor</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend" style="cursor: pointer;" (click)="BuscarProveedor(2)">
+                                <span class="input-group-text blank" id=""
+                                  style="background-color: #104B89 !important; color: #fff !important;">
+                                  <span class="las la-search form-icon"></span>
+                                </span>
+                              </div>
+                              <input type="text" [(ngModel)]="frmFiltroProveedor.nombre" class="form-control regular-font"
+                                placeholder="Nombre Proveedor" aria-describedby="" [readonly]="bloqueoElectronica">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div>
+                                <label class="label-text"><b>Identificación</b></label><br>
+                                <label>{{ dtProovedor.Identificacion }}</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div>
+                                <label class="label-text"><b>Nombre</b></label><br>
+                                <label>{{ dtProovedor.Nombre }}</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div *ngIf="agregarProveedor == 2" class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div>
+                                <label class="label-text"><b>Identificación</b></label><br>
+                                <label>{{ dtProveedor.identificacion }}</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div>
+                                <label class="label-text"><b>Nombre</b></label><br>
+                                <label>{{ dtProveedor.nombre }}</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div>
+                            <label class="label-text"><b>Número de Factura</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text blank" id="">
+                                  <span class="las la-building form-icon"></span>
+                                </span>
+                              </div>
+                              <input type="text" [mask]="'000-000-000000000'" [(ngModel)]="frmFactura.numeroFactura"
+                                class="form-control regular-font" placeholder="Número de Factura" aria-describedby=""
+                                [readonly]="bloqueoElectronica">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div>
+                            <label class="label-text"><b>Fecha de Emisión</b></label>
+                            <input type="date" [(ngModel)]="frmFactura.fechaEmision" class="form-control regular-font"
+                              [min]="dtViaje.FechaInicioViaje" [max]="this.dtViaje.RegresoFecha"
+                              [readonly]="facturaElectronicaBloqueo" onkeydown="return false">
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div>
+                            <label class="label-text"><b>Número de Autorización</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text blank" id="">
+                                  <span class="las la-building form-icon"></span>
+                                </span>
+                              </div>
+                              <input type="text" [(ngModel)]="frmFactura.numeroAutorizacion"
+                                class="form-control regular-font" placeholder="Número de Autorización"
+                                (keyup)="frmFactura.numeroAutorizacion = global.FormatearCampo(frmFactura.numeroAutorizacion, '0123456789', tipoFactura == 1 ? 200 : 10 , 2)"
+                                aria-describedby="" [readonly]="bloqueoElectronica">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div>
+                            <label class="label-text"><b>Fecha de Vencimiento</b></label>
+                            <input type="date" [(ngModel)]="frmFactura.fechaVencimiento" class="form-control regular-font"
+                              placeholder="Número de Vencimiento" aria-describedby="" [readonly]="bloqueoElectronica">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                        aria-expanded="false" aria-controls="collapseTwo">
+                        Detalle Factura
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+
+                      <div style="text-align: right;">
+                        <span>Agregar Concepto</span>
+                        <button (click)="GenerarVectorDinamico()" class="btn btn-primary">
+                          <i class="las la-plus-square"></i>
+                        </button>
+                      </div>
+                      <br>
+
+                      <div>
+                        <table id="tbConceptos" class="table">
+                          <thead>
+                            <tr>
+                              <th id="descripcion">Descripción</th>
+                              <th id="base_imponible">Base Imponible</th>
+                              <th id="tipo_impuesto">Tipo Impuesto</th>
+                              <th id="valor_impuesto">Valor Impuesto</th>
+                              <th id="total">Total</th>
+                              <th id="vacio"></th>
+                              <th id="vacio"></th>
+                            </tr>
+                          </thead>
+                          <tbody id="tbBodyConceptos">
+                            <tr *ngFor="let concepto of lstArchivoDetalles">
+                              <td>
+                                <input type="text" class="form-control regular-font" placeholder="Descripción"
+                                  [(ngModel)]="concepto.Descripcion">
+                              </td>
+                              <td>
+                                <input currencyMask [(ngModel)]="concepto.BaseImponible"
+                                  (ngModelChange)="CalcularConceptoLinea(concepto.IdArchivoDetalle)"
+                                  class="form-control regular-font" placeholder="Ingresar Valor ($)" />
+                              </td>
+                              <td>
+                                <select [(ngModel)]="concepto.TipoImpuesto" class="form-control regular-font"
+                                  (ngModelChange)="CalcularConceptoLinea(concepto.IdArchivoDetalle)">
+                                  <option value="0">0 %</option>
+                                  <option value="12" *ngIf="visualizacionTipoImpuesto">12 %</option> 
+                                </select>
+                              </td>
+                              <td>
+                                <input currencyMask [(ngModel)]="concepto.ValorImpuesto"
+                                  class="form-control regular-font" placeholder="Valor Impuesto" disabled>
+                              </td>
+                              <td>
+                                <input currencyMask [(ngModel)]="concepto.Total" class="form-control regular-font"
+                                  disabled>
+                              </td>
+                              <td>
+                                <button class="btn btn-danger" (click)="EliminarConcepto(concepto.IdArchivoDetalle)">
+                                  <i class="las la-trash-alt"></i>
+                                </button>
+                              </td>
+                              <td>
+                                <button class="btn btn-primary" (click)="AgregarDistribucionContable(concepto)">
+                                  <i class="las la-chevron-circle-right"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" (click)="Verificar()">
+                        Valores Factura
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-12">
+
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label class="label-text"><b>SubTotal Iva 12</b></label>
+                                  <div [ngClass]="'input-group mb-3'">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text blank" id="">
+                                        <span class="las la-building form-icon"></span>
+                                      </span>
+                                    </div>
+                                    <input type="text" [(ngModel)]="cantidadBaseDoce" class="form-control regular-font"
+                                      placeholder="SubTotal" aria-describedby="" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <label class="label-text"><b>Tipo Impuesto</b></label>
+                                  <div [ngClass]="'input-group mb-3'">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text blank" id="">
+                                        <span class="las la-building form-icon"></span>
+                                      </span>
+                                    </div>
+                                    <input type="text" class="form-control regular-font" value="12%"
+                                      placeholder="Impuesto" aria-describedby="" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <label class="label-text"><b>Total</b></label>
+                                  <div [ngClass]="'input-group mb-3'">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text blank" id="">
+                                        <span class="las la-building form-icon"></span>
+                                      </span>
+                                    </div>
+                                    <input type="text" [(ngModel)]="cantidadTotalDoce" class="form-control regular-font"
+                                      placeholder="Impuesto" aria-describedby="" disabled>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div>
+
+                              </div>
+                            </div>
+
+                            <div class="col-md-12">
+
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label class="label-text"><b>SubTotal Iva 0</b></label>
+                                  <div [ngClass]="'input-group mb-3'">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text blank" id="">
+                                        <span class="las la-building form-icon"></span>
+                                      </span>
+                                    </div>
+                                    <input type="text" [(ngModel)]="cantidadBaseCero" class="form-control regular-font"
+                                      placeholder="SubTotal" aria-describedby="" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <label class="label-text"><b>Tipo Impuesto</b></label>
+                                  <div [ngClass]="'input-group mb-3'">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text blank" id="">
+                                        <span class="las la-building form-icon"></span>
+                                      </span>
+                                    </div>
+                                    <input type="text" class="form-control regular-font" value="0%"
+                                      placeholder="Impuesto" aria-describedby="" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <label class="label-text"><b>Total</b></label>
+                                  <div [ngClass]="'input-group mb-3'">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text blank" id="">
+                                        <span class="las la-building form-icon"></span>
+                                      </span>
+                                    </div>
+                                    <input type="text" [(ngModel)]="cantidadTotalCero" class="form-control regular-font"
+                                      placeholder="Impuesto" aria-describedby="" disabled>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div>
+
+                              </div>
+                            </div>
+
+                            <div class="col-md-12">
+                              <div>
+                                <label class="label-text"><b>Total</b></label>
+                                <div [ngClass]="'input-group mb-3'">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text blank" id="">
+                                      <span class="las la-building form-icon"></span>
+                                    </span>
+                                  </div>
+
+                                  <input currencyMask [(ngModel)]="frmFactura.total" class="form-control regular-font"
+                                    placeholder="Ingresar Valor ($)" (ngModelChange)="CalcularValores()"
+                                    [readonly]="true" />
+
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-12">
+                              <div>
+                                <label class="label-text"><b>Valor a Adicionar (+)</b></label>
+                                <div [ngClass]="'input-group mb-3'">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text blank" id="">
+                                      <span class="las la-building form-icon"></span>
+                                    </span>
+                                  </div>
+
+                                  <input currencyMask [(ngModel)]="frmFactura.valorAdicional"
+                                    class="form-control regular-font" (ngModelChange)="CalcularValores()"
+                                    placeholder="Ingresar Valor ($)" />
+
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-12">
+                              <div>
+                                <label class="label-text"><b>Total a Liquidar</b></label>
+                                <div [ngClass]="'input-group mb-3'">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text blank" id="">
+                                      <span class="las la-building form-icon"></span>
+                                    </span>
+                                  </div>
+
+                                  <input currencyMask [(ngModel)]="frmFactura.liquidacionTotal"
+                                    class="form-control regular-font" placeholder="Ingresar Valor ($)"
+                                    [readonly]="true" />
+
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-12">
+                              <div>
+                                <label class="label-text"><b>Valor a Recortar</b></label>
+                                <div [ngClass]="'input-group mb-3'">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text blank" id="">
+                                      <span class="las la-building form-icon"></span>
+                                    </span>
+                                  </div>
+
+                                  <input currencyMask [(ngModel)]="frmFactura.trim" class="form-control regular-font"
+                                    placeholder="Ingresar Valor ($)" (change)="RecortarValor()" />
+
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="theme-btn" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="theme-btn" (click)="ValidarMaximoLiquidacion()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="DistribucionContableModal" role="dialog" aria-labelledby="DistribucionContableModalTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Distribución Contable</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-sm table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col" class="col-form-label col-form-label-sm"><b>Descripción</b></th>
+                    <th scope="col" class="col-form-label col-form-label-sm"><b>Base Imponible</b></th>
+                    <th scope="col" class="col-form-label col-form-label-sm"><b>T Impuesto</b></th>
+                    <th scope="col" class="col-form-label col-form-label-sm"><b>V Impuesto</b></th>
+                    <th scope="col" class="col-form-label col-form-label-sm"><b>Total</b></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{informacionContable.Descripcion}}</td>
+                    <td>{{informacionContable.BaseImponible}}</td>
+                    <td>{{informacionContable.TipoImpuesto}}</td>
+                    <td>{{informacionContable.ValorImpuesto}}</td>
+                    <td>{{informacionContable.Total}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <label class="label-text"><b>Grupo Impuesto</b></label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text blank" id="Empresa">
+                    <span class="las la-building form-icon"></span>
+                  </span>
+                </div>
+                <kendo-dropdownlist [filterable]="true" [(ngModel)]="dtContabilidad.grupoImpuesto"
+                  class="form-control regular-font" [data]="lstGrupoImpuestos" [textField]="'Descripcion'"
+                  [valueField]="'Codigo'" (ngModelChange)="LimpiarValoresDistribucionContable()"
+                  (filterChange)="FiltroCombo($event, 1)">
+                  <ng-template kendoDropDownListItemTemplate let-dataItem>
+                    <span>{{ dataItem.Descripcion }}</span>
+                  </ng-template>
+                </kendo-dropdownlist>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <label class="label-text"><b>Grupo Impuesto Artículo</b></label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text blank" id="Grupo Impuesto Artículo">
+                    <span class="las la-building form-icon"></span>
+                  </span>
+                </div>
+
+                <kendo-dropdownlist [filterable]="true" [(ngModel)]="dtContabilidad.grupoImpuestoArticulo"
+                  class="form-control regular-font" [data]="lstGrupoImpuestoElementos" [textField]="'Descripcion'"
+                  [valueField]="'Codigo'" (ngModelChange)="ObtenerGrupoImpuestoRenta()"
+                  (filterChange)="FiltroCombo($event, 2)">
+                  <ng-template kendoDropDownListItemTemplate let-dataItem>
+                    <span>{{ dataItem.Codigo }} - {{ dataItem.Descripcion }}</span>
+                  </ng-template>
+                </kendo-dropdownlist>
+
+              </div>
+            </div>
+
+
+            <div class="col-md-12">
+              <label class="label-text"><b>Impuesto Renta</b></label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text blank" id="Grupo Impuesto Artículo">
+                    <span class="las la-building form-icon"></span>
+                  </span>
+                </div>
+
+                <kendo-dropdownlist [filterable]="true" [(ngModel)]="dtContabilidad.grupoImpuestoRenta"
+                  class="form-control regular-font" [data]="lstGrupoImpuestosRenta" [textField]="'Descripcion'"
+                  [valueField]="'Codigo'" (filterChange)="FiltroCombo($event, 3)">
+                  <ng-template kendoDropDownListItemTemplate let-dataItem>
+                    <span>{{ dataItem.Codigo }} - {{ dataItem.Descripcion }}</span>
+                  </ng-template>
+                </kendo-dropdownlist>
+
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <label class="label-text"><b>Impuesto IVA</b></label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text blank" id="Grupo Impuesto Artículo">
+                    <span class="las la-building form-icon"></span>
+                  </span>
+                </div>
+
+                <kendo-dropdownlist [filterable]="true" [(ngModel)]="dtContabilidad.impuestoIva"
+                  class="form-control regular-font" [data]="lstGrupoImpuestosIva" [textField]="'Descripcion'"
+                  [valueField]="'Codigo'" (filterChange)="FiltroCombo($event, 4)">
+                  <ng-template kendoDropDownListItemTemplate let-dataItem>
+                    <span>{{ dataItem.Codigo }} - {{ dataItem.Descripcion }}</span>
+                  </ng-template>
+                </kendo-dropdownlist>
+
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <label class="label-text"><b>Sustento Tributario</b></label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text blank" id="Grupo Impuesto Artículo">
+                    <span class="las la-building form-icon"></span>
+                  </span>
+                </div>
+
+                <kendo-dropdownlist [filterable]="true" [(ngModel)]="dtContabilidad.sustentoTributario"
+                  class="form-control regular-font" [data]="lstApoyoFiscal" [textField]="'Descripcion'"
+                  [valueField]="'Codigo'" (filterChange)="FiltroCombo($event, 5)">
+                  <ng-template kendoDropDownListItemTemplate let-dataItem>
+                    <span>{{ dataItem.Codigo }} - {{ dataItem.Descripcion }}</span>
+                  </ng-template>
+                </kendo-dropdownlist>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="theme-btn" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="theme-btn" (click)="GestionDistribucionContable()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalActualizarEmailProveedor" tabindex="-1" role="dialog"
+  aria-labelledby="modalActualizarEmailProveedorTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Actualizar Datos Proveedor</h5>
+      </div>
+      <div class="row" style="padding: 20px;">
+        <div class="col-md-12">
+          <label class="label-text"><b>Correo Electrónico</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Correo Electrónico">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Correo Electrónico"
+              aria-describedby="Email" [(ngModel)]="dtProveedor.correoActualizar">
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="CerrarModalActualizaInfoProveedor()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="ActualizarCorreoProveedor()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalCorregirLiquidacion" tabindex="-1" role="dialog"
+  aria-labelledby="modalCorregirLiquidacion" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Enviar a Modificar Liquidación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label-text"><b>Observación</b></label>
+          <textarea rows="6" class="form-control" [(ngModel)]="justificacion"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-block" data-dismiss="modal"
+          style="width: 150px !important;"><i class="fas fa-times mr-1"></i>Cerrar</button>
+        <button type="button" class="btn btn-outline-warning btn-block" (click)="ModificarSolicitudContabilidad()"
+          style="width: 150px !important;"><i class="fas fa-pencil-alt mr-1"></i>Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalCrearProveedor" tabindex="-1" role="dialog" aria-labelledby="modalCrearProveedorTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Registrar Nuevo Proveedor</h5>
+      </div>
+
+      <div class="row" style="padding: 20px;">
+        <div class="col-md-6">
+          <label class="label-text"><b>Tipo Identificación</b></label>
+          <div
+            [ngClass]="vlProveedor.tipoIdentificacion == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Tipo Identificacion">
+                <span class="las la-hotel form-icon"></span>
+              </span>
+            </div>
+            <kendo-dropdownlist [(ngModel)]="dtProveedor.tipoIdentificacion" class="form-control regular-font"
+              [data]="lstTipoIdentificacion" (ngModelChange)="CambiarTipoId()"
+              (keyup)="dtProveedor.tipoIdentificacion = global.FormatearCampo(dtProveedor.tipoIdentificacion, '0123456789', 13 , 2)">
+            </kendo-dropdownlist>
+          </div>
+          <div *ngIf="vlProveedor.tipoIdentificacion == true">
+            <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este campo es
+              requerido</span>
+          </div>
+        </div>
+
+        <div *ngIf="this.dtProveedor.tipoIdentificacion == 'CÉDULA'" class="col-md-6">
+          <label class="label-text"><b>Identificación</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Identificacion">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Identificacion"
+              aria-describedby="Identificacion" [(ngModel)]="dtProveedor.identificacion"
+              (keyup)="dtProveedor.identificacion = global.FormatearCampo(dtProveedor.identificacion, '1234567890', this.frmFiltroProveedor.identificacion.length == 10 ? 10 : 13, 2)">
+          </div>
+        </div>
+
+        <div *ngIf="this.dtProveedor.tipoIdentificacion == 'R.U.C'" class="col-md-6">
+          <label class="label-text"><b>Identificación</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Identificacion">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Identificacion"
+              aria-describedby="Identificacion" [(ngModel)]="dtProveedor.identificacion"
+              (keyup)="dtProveedor.identificacion = global.FormatearCampo(dtProveedor.identificacion, '1234567890', 13, 2)">
+          </div>
+
+          <div *ngIf="validarIdentificacion == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion }}
+            </span>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="label-text"><b>Razón Social</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Razon Social">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Razón Social"
+              aria-describedby="Razón Social  " [(ngModel)]="dtProveedor.nombre">
+          </div>
+          <div *ngIf="validarNombre == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion }}
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="label-text"><b>Correo Electrónico</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Correo Electronico">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Correo Electrónico"
+              aria-describedby="Email" [(ngModel)]="dtProveedor.correo">
+          </div>
+          <div *ngIf="validarCorreo == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion }}
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="label-text"><b>Dirección</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Dirección">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Dirección" aria-describedby="Dirección"
+              [(ngModel)]="dtProveedor.direccion">
+          </div>
+          <div *ngIf="validarDireccion == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion }}
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="label-text"><b>Telófono</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Telefono">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Teléfono" aria-describedby="Teléfono"
+              [(ngModel)]="dtProveedor.telefono"
+              (keyup)="dtProveedor.telefono = global.FormatearCampo(dtProveedor.telefono, '1234567890', 10, 2)">
+          </div>
+          <div *ngIf="validarTelefono == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion }}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="CerrarModalProveedor()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="ValidacionDatosProveedor()">Guardar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ArchivoModal" tabindex="-1" role="dialog" aria-labelledby="ArchivoModalTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Archivo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9">
+              <input type="text" value="{{ nombreArchivo }}" class="form-control" disabled>
+            </div>
+            <div class="col-md-3">
+              <a class="theme-btn theme-btn-small mr-2" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Archivo" [href]="ConvertirArchivo()" download="{{nombreArchivo}}"
+                style="color: #fff !important;">
+                <i class="la la-file"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,143 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin" [fullScreen]="true"></ngx-spinner>
+
+<app-componment-header></app-componment-header>
+<app-componente-menu-global [tipo]="tipoMenu"></app-componente-menu-global>
+
+<section class="breadcrumb-area bread-bg-7 py-0">
+  <div class="breadcrumb-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb-btn">
+            <div class="btn-box">
+              <div class="breadcrumb-list text-right">
+                <ul class="list-items">
+                  <li><a href="index.html">SaludSA</a></li>
+                  <li>Registro</li>
+                  <li>Actividades</li>
+                </ul>
+              </div>
+            </div>
+            <a class="d-none" data-fancybox="gallery" data-src="images/img2.jpg" data-caption="Showing image - 02"
+              data-speed="700"></a>
+            <a class="d-none" data-fancybox="gallery" data-src="images/img3.jpg" data-caption="Showing image - 03"
+              data-speed="700"></a>
+            <a class="d-none" data-fancybox="gallery" data-src="images/img4.jpg" data-caption="Showing image - 04"
+              data-speed="700"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tour-detail-area padding-bottom-90px">
+
+  <div class="single-content-box">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="single-content-wrap padding-top-60px">
+            <div class="table-responsive">
+
+              <kendo-grid [data]="gridData" [pageSize]="state.take" [skip]="state.skip" [sort]="state.sort"
+                [sortable]="true" [resizable]="true" [pageable]="true" filterable="menu"
+                (dataStateChange)="dataStateChange($event)">
+
+                <kendo-grid-column headerClass="text-center" class="text-center" field="IdViaje" title="Solicitud"
+                  width="130" [headerStyle]="{
+                      'background-color': 'rgb(5, 58, 99)',
+                      'color':'#FFF',
+                      'font-weight': 'bold'
+                    }">
+                </kendo-grid-column>
+
+                <kendo-grid-column headerClass="text-center" class="text-center" field="FechaSolicitudViaje"
+                  title="Fecha Solicitud" [filterable]="false" [headerStyle]="{
+                      'background-color': 'rgb(5, 58, 99)',
+                      'color':'#FFF',
+                      'font-weight': 'bold'
+                    }">
+                </kendo-grid-column>
+
+                <kendo-grid-column headerClass="text-center" class="text-center" field="NombreViaje" title="Solicitante"
+                    [headerStyle]="{
+                      'background-color': 'rgb(5, 58, 99)',
+                      'color':'#FFF',
+                      'font-weight': 'bold'
+                    }">
+                </kendo-grid-column>
+
+                <kendo-grid-column headerClass="text-center" class="text-center" field="Estado.DescripcionEstado"
+                  title="Estado Solicitud" width="200" [headerStyle]="{
+                      'background-color': 'rgb(5, 58, 99)',
+                      'color':'#FFF',
+                      'font-weight': 'bold'
+                    }">
+                </kendo-grid-column>
+
+                <kendo-grid-column headerClass="text-center" class="text-center" title="Fecha Inicio Viaje"
+                  [filterable]="false" [headerStyle]="{
+                      'background-color': 'rgb(5, 58, 99)',
+                      'color':'#FFF',
+                      'font-weight': 'bold'
+                    }">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <span>{{ dataItem.FechaInicioViaje }} {{
+                      dataItem.HoraInicioViaje }}</span>
+                  </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column headerClass="text-center" class="text-center" title="Fecha Finalización Viaje"
+                  [filterable]="false" [headerStyle]="{
+                      'background-color': 'rgb(5, 58, 99)',
+                      'color':'#FFF',
+                      'font-weight': 'bold'
+                    }">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <span>{{ dataItem.FechaFinViaje }} {{ dataItem.HoraFinViaje }}</span>
+                  </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column headerClass="text-center" class="text-center" field="TipoViaje" title="Tipo Viaje"
+                  width="150" [headerStyle]="{
+                      'background-color': 'rgb(5, 58, 99)',
+                      'color':'#FFF',
+                      'font-weight': 'bold'
+                    }">
+                </kendo-grid-column>
+
+                <kendo-grid-column headerClass="text-center" class="text-center" title=""
+                  [filterable]="false" width="80" [headerStyle]="{
+                      'background-color': 'rgb(5, 58, 99)',
+                      'color':'#FFF',
+                      'font-weight': 'bold'
+                    }">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <button class="btn btn-info" (click)="CargarHistorialActividades(dataItem.IdViaje)"><i class="fas fa-eye"></i></button>
+                  </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-messages groupPanelEmpty="Arrastra aquí para agrupar"
+                  noRecords="No hay elementos que mostrar." pagerPage="Página" pagerOf="de" pagerItems="registros"
+                  pagerItemsPerPage="regiatros por página" filterClearButton="Limpiar" filterFilterButton="Buscar"
+                  filterAndLogic="Y" filterOrLogic="O" filterEqOperator="Es igual a" filterNotEqOperator="No es igual a"
+                  filterContainsOperator="Contiene" filterNotContainsOperator="No contiene"
+                  filterStartsWithOperator="Comienza con" filterEndsWithOperator="Termina con"
+                  filterIsNullOperator="Es nulo (null)" filterIsNotNullOperator="No es nulo (null)"
+                  filterIsEmptyOperator="Esta vacio" filterIsNotEmptyOperator="No está vacío"
+                  filterAfterOperator="Es posterior a" filterAfterOrEqualOperator="Es posterior o igual a"
+                  filterBeforeOrEqualOperator="Es anterior o igual a" filterBeforeOperator="Es antes">
+                </kendo-grid-messages>
+
+              </kendo-grid>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </div>
+</section>

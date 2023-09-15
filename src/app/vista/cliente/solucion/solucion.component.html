@@ -1,0 +1,1218 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin"
+  [fullScreen]="true"></ngx-spinner>
+
+<app-componment-header></app-componment-header>
+<app-componente-menu-global [tipo]="tipoMenu"></app-componente-menu-global>
+
+<section class="breadcrumb-area bread-bg-7">
+  <div class="breadcrumb-wrap">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="breadcrumb-content">
+            <div class="section-heading">
+              <h2 class="sec__title text-white">Liquidación Viaje</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="breadcrumb-list text-right">
+            <ul class="list-items">
+              <li><a href="index.html">SaludSA</a></li>
+              <li>Viajes</li>
+              <li>Liquidación</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bread-svg-box">
+    <svg class="bread-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none">
+      <polygon points="100 0 50 10 0 0 0 10 100 10"></polygon>
+    </svg>
+  </div>
+</section>
+
+<section class="listing-form section--padding">
+  <div class="">
+    <div class="row">
+      <div class="col-lg-9 mx-auto">
+
+        <div class="form-box">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-title-wrap">
+                <div>
+                  <h4 class="title" style="font-size: 16px !important;">NÚMERO DE SOLICITUD: <b>{{ dtViaje.IdViaje
+                      }}</b></h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-title-wrap">
+                <div>
+                  <h3 class="title">Lista de Facturas</h3>
+                  <p class="font-size-14">N° Facturas {{ lstArchivos.length }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 text-right" style="padding-right: 40px;">
+              <div *ngIf="visualizacionEdicionLiquidacion && viajeHecho == 1" class="btn-box pt-3">
+                <button type="submit" class="theme-btn" (click)="AbrirModalFactura()">Agregar
+                  Factura <i class="la la-arrow-right ml-1"></i></button>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+            <div class="col-md-6" style="padding-left: 35px; padding-right: 35px;">
+              <div class="form-group">
+                <label class="label-text"><b>¿Realizó el viaje?</b></label><br>
+                <kendo-dropdownlist [ngStyle]="{'pointer-events': visualizacionEdicionLiquidacion ? 'auto': 'none'}"
+                  [data]="lstViajeHecho" [textField]="'nombre'" [valueField]="'codigo'" [(ngModel)]="viajeHecho"
+                  [valuePrimitive]="true" class="form-control regular-font"
+                  (ngModelChange)="GestionSolicitudPagoViaje()" style="width: 100% !important;">
+                </kendo-dropdownlist>
+              </div>
+            </div>
+            <div *ngIf="viajeHecho == 1" class="col-md-6" style="padding-right: 35px; padding-left: 35px;">
+              <div class="form-group">
+                <label class="label-text"><b>¿Regresó en la fecha establecida?</b></label><br>
+                <kendo-dropdownlist [ngStyle]="{'pointer-events': visualizacionEdicionLiquidacion ? 'auto': 'none'}"
+                  [data]="lstRetorno" [textField]="'nombre'" [valueField]="'codigo'" [(ngModel)]="_retorno"
+                  [valuePrimitive]="true" class="form-control regular-font"
+                  (ngModelChange)="GestionSolicitudPagoViaje()" style="width: 100% !important;">
+                </kendo-dropdownlist>
+              </div>
+            </div>
+            <div class="col-md-6" style="padding-right: 35px; padding-left: 35px;"></div>
+            <div *ngIf="_retorno == 2" class="col-md-6" style="padding-right: 35px; padding-left: 35px;">
+              <div class="form-group">
+                <label class="label-text"><b>Fecha de finalización</b></label>
+                <input type="date" class="form-control" [(ngModel)]="finFechaViaje" [min]="dtViaje.FechaFinViaje"
+                  [ngStyle]="{'pointer-events': visualizacionEdicionLiquidacion ? 'auto': 'none'}"
+                  (ngModelChange)="GestionSolicitudPagoViaje()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-content">
+            <div class="table-form table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Proveedor</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Total Liquidar</th>
+                    <th scope="col">Concepto</th>
+                    <th scope="col" colspan="3"></th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="lstArchivos.length == 0">
+                  <td colspan="11" style="text-align: center;">
+                    Sin Facturas
+                  </td>
+                </tbody>
+                <tbody *ngIf="lstArchivos.length != 0">
+                  <tr *ngFor="let file_ of lstArchivos; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>
+                      {{ file_.TipoDocumento.Nombre }} <br>
+                      {{ file_.NumeroFactura }}
+                    </td>
+                    <td>
+                      <span>{{ global.cadenaAJson(file_.DatosProveedor).Identificacion }}</span><br>
+                      <span>{{ global.cadenaAJson(file_.DatosProveedor).RazonSocial }}</span>
+                    </td>
+                    <td>{{ file_.FechaEmision }}</td>
+                    <td>$ {{ global.FormatearNumero(file_.TotalFactura, 2) }}</td>
+                    <td>$ {{ global.FormatearNumero(file_.TotalLiquidar, 2) }}</td>
+                    <td>{{ file_.Categorias.Nombre }}</td>
+                    <td *ngIf="visualizacionEdicionLiquidacion" style="cursor: pointer;"
+                      (click)="DescargarArchivo(file_)">
+                      <i style="color: #104B89; font-size: 22px;" class="las la-edit" data-toggle="tooltip"
+                        data-placement="top" title="Editar Factura"></i>
+                    </td>
+                    <td *ngIf="file_.DocumentoEstado == 2">
+                      <i style="color: #29cf53; font-size: 20px;" class="las la-check-circle"></i>
+                    </td>
+                    <td *ngIf="file_.DocumentoEstado == 1"></td>
+                    <td *ngIf="visualizacionEdicionLiquidacion" (click)="EliminarArchivo(file_.IdArchivo)"
+                      style="cursor: pointer; text-align:  right !important;" data-toggle="tooltip" data-placement="top"
+                      title="Eliminar Factura">
+                      <i style="color: #e03d3d; font-size: 20px;" class="las la-trash"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="form-content">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="form-title-wrap">
+                      <h3 class="title">Detalle de Viáticos</h3>
+                    </div>
+                    <div style="padding: 20px;">
+                      <table class="tabla table-bordered">
+                        <thead style="background-color: #104B89; color: #fff;">
+                          <tr class="tabla-web">
+                            <th id="descripcion" class="tabla-i">Descripción</th>
+                            <th id="cantidad">Cantidad</th>
+                            <th id="valor" c class="tabla-d">Valor $</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ng-container *ngFor="let viatic of lstViaticos">
+
+                            <tr
+                              *ngIf="viatic.Tipo != 'Subtotal' && viatic.Tipo != 'Total' && viatic.Tipo != 'Hospedaje' && viatic.Tipo != 'Kilometros'"
+                              class="tabla-bordes">
+                              <td><b>{{ viatic.Tipo }}</b></td>
+                              <td>{{ viatic.Cantidad }}</td>
+                              <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                            </tr>
+
+                            <tr *ngIf="viatic.Tipo == 'Subtotal'" class="tabla-bordes"
+                              style="background-color: #416c99d5;">
+                              <td style="color: #fff !important;"><b>Subtotal (Noches + Días)</b></td>
+                              <td>{{ viatic.Cantidad }}</td>
+                              <td style="color: #fff !important;">$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                            </tr>
+
+                            <tr *ngIf="viatic.Tipo == 'Kilometros'" class="tabla-bordes">
+                              <td><b>Kilómetros</b></td>
+                              <td>{{ viatic.Cantidad }}</td>
+                              <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                            </tr>
+
+                            <tr *ngIf="viatic.Tipo == 'Otros' && viatic.Cantidad == 'Sí'" class="tabla-bordes">
+                              <td></td>
+                              <td style="text-align: right !important;"><b>Justificación:</b></td>
+                              <td>
+                                {{ viatic.Justificacion }}
+                              </td>
+                            </tr>
+
+                            <tr *ngIf="viatic.Tipo == 'Total'" class="tabla-bordes"
+                              style="background-color: #416c99d5;">
+                              <td style="color: #fff !important;"><b>Viáticos a Entregar</b></td>
+                              <td>{{ viatic.Cantidad }}</td>
+                              <td style="color: #fff !important;">$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                            </tr>
+
+                            <tr *ngIf="viatic.Tipo == 'Hospedaje' && viatic.Valor != 0" class="tabla-bordes">
+                              <td><b>{{ viatic.Tipo }}</b></td>
+                              <td>Sí</td>
+                              <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                            </tr>
+
+                            <tr *ngIf="viatic.Tipo == 'Hospedaje' && viatic.Valor == 0" class="tabla-bordes">
+                              <td><b>Hospedaje</b></td>
+                              <td><b>No</b></td>
+                              <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                            </tr>
+
+                          </ng-container>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-title-wrap">
+                      <h3 class="title">Valores de Consideración</h3>
+                    </div>
+                    <div style="padding: 20px;">
+                      <table class="tabla table-bordered">
+                        <thead style="background-color: #104B89; color: #fff;">
+                          <tr class="tabla-web">
+                            <th id="descripcion" class="tabla-i">Descripción</th>
+                            <th id="valor" class="tabla-d" style="text-align: center !important;">Valor</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ng-container>
+
+                            <tr class="tabla-bordes">
+                              <td><b>Cantidad de Viáticos Entregados</b></td>
+                              <td style="text-align: center !important;">$ {{
+                                global.FormatearNumero(fmrDetalles.viaticos, 2) }} </td>
+                            </tr>
+
+                            <tr class="tabla-bordes">
+                              <td><b>Cantidad de Viáticos Pendientes por Acreditar</b></td>
+                              <td style="text-align: center !important;">$ {{
+                                global.FormatearNumero(valorAdicionalAcreditacion, 2) }}</td>
+                            </tr>
+
+                            <tr class="tabla-bordes">
+                              <td><b>Total Viáticos a Justificar</b></td>
+                              <td style="text-align: center !important;"><strong class="title">$ {{
+                                  global.FormatearNumero(valorTotalLiquidacion, 2) }}</strong></td>
+                            </tr>
+
+                          </ng-container>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-12">
+                    <div class="form-title-wrap">
+                      <h3 class="title"><b>Detalle de Liquidación</b></h3>
+                    </div>
+
+                    <div class="form-row" style="padding: 20px;">
+                      <div class="form-group col-md-12">
+                        <label>Valor justificado total facturas</label>
+                        <input type="text" currencyMask class="form-control" [(ngModel)]="fmrDetalles.justificacion"
+                          disabled>
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Pendiente</label>
+                        <input type="text" currencyMask class="form-control" [(ngModel)]="fmrDetalles.creditoPendiente"
+                          disabled>
+                        <div *ngIf="VerificarCreditoPendiente() == -1">
+                          <span class="form-text text-muted">
+                            <b style="color: #cf3c22 !important;"> Descuento a Rol</b>
+                          </span>
+                        </div>
+
+                        <div *ngIf="VerificarCreditoPendiente() == 1">
+                          <span class="form-text text-muted">
+                            <b style="color: #2db33e !important;">Valor a acreditar</b>
+                          </span>
+                        </div>
+
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label>Adicionales</label>
+                        <input currencyMask type="text" class="form-control" [(ngModel)]="fmrDetalles.diferencia"
+                          disabled>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-box">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-content">
+                <div class="row">
+                  <div class="col-md-4"></div>
+                  <div class="col-md-4">
+                  </div>
+                  <div class="col-md-4">
+                    <button type="submit" class="theme-btn btn-block" (click)="ValidarEstadoSolicitudViaje()">
+                      Finalizar <i class="la la-arrow-right ml-1"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="ArchivoModal" tabindex="-1" role="dialog" aria-labelledby="ArchivoModalTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Archivo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9">
+              <input type="text" value="{{ nombreArchivo }}" class="form-control" disabled>
+            </div>
+            <div class="col-md-3">
+              <a class="theme-btn theme-btn-small mr-2" data-toggle="tooltip" data-placement="top" title=""
+                data-original-title="Archivo" [href]="ConvertirArchivo()" download="{{nombreArchivo}}"
+                style="color: #fff !important;">
+                <i class="la la-file"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalRegistroFactura" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-hidden="true" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Registro de Facturas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div>
+                <label class="label-text"><b>Tipo Factura</b></label>
+                <div [ngClass]="'input-group mb-3'">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text blank" id="">
+                      <span class="las la-building form-icon"></span>
+                    </span>
+                  </div>
+                  <kendo-dropdownlist [data]="lstTipoFactura" [textField]="'nombre'" [valueField]="'codigo'"
+                    [(ngModel)]="tipoFactura" [valuePrimitive]="true" (valueChange)="CambiarValor()"
+                    class="form-control regular-font">
+                  </kendo-dropdownlist>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="tipoFactura == 1" class="row">
+            <div class="col-md-12">
+              <div>
+                <label class="label-text"><b>Seleccione el criterio para la búsqueda de facturas
+                    electrónicas</b></label>
+                <div [ngClass]="'input-group mb-3'">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text blank" id="">
+                      <span class="las la-building form-icon"></span>
+                    </span>
+                  </div>
+                  <kendo-dropdownlist [data]="lstTipoBusqueda" [textField]="'nombre'" [valueField]="'codigo'"
+                    [(ngModel)]="tipoBusqueda" [valuePrimitive]="true" (valueChange)="ValidarTipoBusqueda()"
+                    class="form-control regular-font">
+                  </kendo-dropdownlist>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="busquedaAutorizacion" class="row">
+            <div class="col-md-12">
+              <div>
+                <label class="label-text"><b>Búsqueda por número de autorización</b></label>
+                <div [ngClass]="'input-group mb-3'">
+                  <div class="input-group-prepend " style="cursor: pointer;" (click)="BusquedaFacturasElectronicas()">
+                    <span class="input-group-text blank" id=""
+                      style="background-color: #104B89 !important; color: #fff !important;">
+                      <span class="las la-search form-icon"></span>
+                    </span>
+                  </div>
+                  <input type="text" [(ngModel)]="numeroAutorizacion" class="form-control regular-font"
+                    placeholder="Ingrese el número de autorización de la factura" aria-describedby="">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="accordion">
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                    aria-controls="collapseOne">
+                    Datos Factura
+                  </button>
+                </h5>
+              </div>
+
+              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div>
+                        <label class="label-text"><b>Categoría</b></label>
+                        <div [ngClass]="'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <kendo-dropdownlist [data]="lstCategorias" [textField]="'Nombre'" [valueField]="'Codigo'"
+                            [(ngModel)]="frmFactura.categorias" [valuePrimitive]="true"
+                            class="form-control regular-font" (ngModelChange)="CambiarCategorias()">
+                          </kendo-dropdownlist><br>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label class="label-text"><b>Tipo de Documento</b></label>
+                        <div [ngClass]="'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <kendo-dropdownlist [data]="lstTiposDocumentos" [textField]="'Nombre'" [valueField]="'Codigo'"
+                            [(ngModel)]="frmFactura.TipoDocumento" [valuePrimitive]="true"
+                            class="form-control regular-font" [readonly]="facturaElectronicaBloqueo"
+                            (ngModelChange)="CambiarTipoDocumentoValores()">
+                          </kendo-dropdownlist>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-12">
+
+                      <div>
+                        <label class="label-text"><b>Proveedor</b></label>
+                        <div [ngClass]="'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <kendo-dropdownlist [data]="lstTipoProveedores" [textField]="'nombre'" [valueField]="'codigo'"
+                            [(ngModel)]="tipoProveedor" [valuePrimitive]="true" class="form-control regular-font"
+                            [readonly]="facturaElectronicaBloqueo" [disabled]="bloqueoGenerico">
+                          </kendo-dropdownlist>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div *ngIf="tipoProveedor == 1" class="col-md-12">
+                      <div>
+                        <label class="label-text"><b>R.U.C</b></label>
+                        <div [ngClass]="'input-group mb-3'">
+                          <div class="input-group-prepend " style="cursor: pointer;" (click)="BuscarProveedor(1)">
+                            <span class="input-group-text blank" id=""
+                              style="background-color: #104B89 !important; color: #fff !important;">
+                              <span class="las la-search form-icon"></span>
+                            </span>
+                          </div>
+                          <input type="text" [(ngModel)]="frmFiltroProveedor.identificacion"
+                            [readonly]="facturaElectronicaBloqueo" [disabled]="bloqueoGenerico"
+                            class="form-control regular-font" placeholder="R.U.C" aria-describedby=""
+                            (keyup)="frmFiltroProveedor.identificacion = global.FormatearCampo(frmFiltroProveedor.identificacion, '0123456789', 13 , 2)">
+                        </div>
+                        <div *ngIf="validaRuc == true">
+                          <i class="las la-info-circle validation-icon"></i>
+                          <span class="validation-text">
+                            Ingrese los 13 dígitos del RUC
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="tipoProveedor == 2" class="col-md-12">
+                      <div>
+                        <label class="label-text"><b>Nombre Proveedor</b></label>
+                        <div [ngClass]="'input-group mb-3'">
+                          <div class="input-group-prepend" style="cursor: pointer;" (click)="BuscarProveedor(2)">
+                            <span class="input-group-text blank" id=""
+                              style="background-color: #104B89 !important; color: #fff !important;">
+                              <span class="las la-search form-icon"></span>
+                            </span>
+                          </div>
+                          <input type="text" [(ngModel)]="frmFiltroProveedor.nombre" class="form-control regular-font"
+                            placeholder="Nombre Proveedor" aria-describedby="" [readonly]="facturaElectronicaBloqueo"
+                            [disabled]="bloqueoGenerico">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="agregarProveedor == 1" class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div>
+                            <label class="label-text"><b>Identificación</b></label><br>
+                            <label>{{ dtProovedor.Identificacion }}</label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div>
+                            <label class="label-text"><b>Nombre</b></label><br>
+                            <label>{{ dtProovedor.Nombre }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="agregarProveedor == 2" class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div>
+                            <label class="label-text"><b>Identificación</b></label><br>
+                            <label>{{ dtProveedor.identificacion }}</label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div>
+                            <label class="label-text"><b>Nombre</b></label><br>
+                            <label>{{ dtProveedor.nombre }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div>
+                        <label class="label-text"><b>Número de Factura</b></label>
+                        <div [ngClass]="'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <input type="text" [mask]="'000-000-000000000'" [(ngModel)]="frmFactura.numeroFactura"
+                            class="form-control regular-font" placeholder="Número de Factura"
+                            [readonly]="facturaElectronicaBloqueo" [disabled]="bloqueoGenerico">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+                      <div>
+                        <label class="label-text"><b>Fecha de Emisión</b></label>
+                        <input type="date" [(ngModel)]="frmFactura.fechaEmision" class="form-control regular-font"
+                          [min]="dtViaje.FechaInicioViaje" [max]="this.dtViaje.RegresoFecha"
+                          [readonly]="facturaElectronicaBloqueo" onkeydown="return false">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div>
+                        <label class="label-text"><b>Número de Autorización</b></label>
+                        <div [ngClass]="'input-group mb-3'">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text blank" id="">
+                              <span class="las la-building form-icon"></span>
+                            </span>
+                          </div>
+                          <input type="text" [(ngModel)]="frmFactura.numeroAutorizacion"
+                            class="form-control regular-font" placeholder="Número de Autorización" aria-describedby=""
+                            [readonly]="facturaElectronicaBloqueo" [disabled]="bloqueoGenerico"
+                            (keyup)="frmFactura.numeroAutorizacion = global.FormatearCampo(frmFactura.numeroAutorizacion, '0123456789', tipoFactura == 1 ? 200 : 10 , 2)">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div>
+                        <label class="label-text"><b>Fecha de Vencimiento</b></label>
+                        <input type="date" [(ngModel)]="frmFactura.fechaVencimiento" class="form-control regular-font"
+                          placeholder="Número de Vencimiento" aria-describedby="" [readonly]="facturaElectronicaBloqueo"
+                          [disabled]="bloqueoGenerico">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">
+                    Detalle Factura
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                  <div *ngIf="tipoFactura != 1" style="text-align: right;">
+                    <span>Agregar Concepto</span>
+                    <button (click)="GenerarVectorDinamico()" class="btn btn-primary">
+                      <i class="las la-plus-square"></i>
+                    </button>
+                  </div>
+                  <br>
+                  <div>
+                    <table id="tbConceptos" class="table">
+                      <thead>
+                        <tr>
+                          <th id="descripcion">Descripción</th>
+                          <th id="base_imponible">Base Imponible</th>
+                          <th id="tipo-impuesto">Tipo Impuesto</th>
+                          <th id="valor.impuesto">Valor Impuesto</th>
+                          <th id="total">Total</th>
+                        </tr>
+                      </thead>
+
+                      <tbody id="tbBodyConceptos">
+                        <tr *ngFor="let concepto of lstFacturaConceptos">
+                          <td>
+                            <input type="text" class="form-control regular-font" placeholder="Descripción"
+                              [(ngModel)]="concepto.Descripcion">
+                          </td>
+                          <td style="width: 150px !important;">
+                            <input currencyMask class="form-control regular-font" placeholder="Base Imponible"
+                              [(ngModel)]="concepto.BaseImponible" (ngModelChange)="CalcularConceptoLinea(concepto.Id)">
+                          </td>
+                          <td style="width: 150px !important;">
+                            <select [(ngModel)]="concepto.TipoImpuesto" class="form-control regular-font"
+                              (ngModelChange)="CalcularConceptoLinea(concepto.Id)"
+                              [disabled]="facturaElectronicaBloqueo">
+                              <option value="0">0 %</option>
+                              <option value="12" *ngIf="visualizacionTipoImpuesto">12 %</option>
+                            </select>
+                          </td>
+                          <td style="width: 150px !important;">
+                            <input type="text" currencyMask class="form-control regular-font"
+                              placeholder="Valor Impuesto" disabled [(ngModel)]="concepto.ValorImpuesto">
+                          </td>
+                          <td style="width: 150px !important;">
+                            <input type="text" currencyMask class="form-control regular-font" placeholder="Total"
+                              disabled [(ngModel)]="concepto.Total">
+                          </td>
+                          <td *ngIf="tipoFactura != 1">
+                            <button class="btn btn-danger" (click)="EliminarConcepto(concepto)">
+                              <i class="las la-trash-alt"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="card">
+              <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                  <button class="btn btn-link collapsed" (click)="Verificar()">
+                    Valores Factura
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-12">
+
+                          <div class="row">
+                            <div class="col-md-4">
+                              <label class="label-text"><b>SubTotal Iva 12 %</b></label>
+                              <div [ngClass]="'input-group mb-3'">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text blank" id="">
+                                    <span class="las la-building form-icon"></span>
+                                  </span>
+                                </div>
+                                <input type="text" currencyMask [(ngModel)]="cantidadBaseDoce"
+                                  class="form-control regular-font" placeholder="SubTotal" disabled>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="label-text"><b>Tipo Impuesto</b></label>
+                              <div [ngClass]="'input-group mb-3'">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text blank" id="">
+                                    <span class="las la-building form-icon"></span>
+                                  </span>
+                                </div>
+                                <input type="text" class="form-control regular-font" value="12 %" placeholder="Impuesto"
+                                  aria-describedby="" disabled>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="label-text"><b>Total</b></label>
+                              <div [ngClass]="'input-group mb-3'">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text blank" id="">
+                                    <span class="las la-building form-icon"></span>
+                                  </span>
+                                </div>
+                                <input type="text" currencyMask [(ngModel)]="cantidadTotalDoce"
+                                  class="form-control regular-font" placeholder="Impuesto" aria-describedby="" disabled>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div>
+
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+
+                          <div class="row">
+                            <div class="col-md-4">
+                              <label class="label-text"><b>SubTotal Iva 0 %</b></label>
+                              <div [ngClass]="'input-group mb-3'">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text blank" id="">
+                                    <span class="las la-building form-icon"></span>
+                                  </span>
+                                </div>
+                                <input type="text" currencyMask [(ngModel)]="cantidadBaseCero"
+                                  class="form-control regular-font" placeholder="SubTotal" aria-describedby="" disabled>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="label-text"><b>Tipo Impuesto</b></label>
+                              <div [ngClass]="'input-group mb-3'">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text blank" id="">
+                                    <span class="las la-building form-icon"></span>
+                                  </span>
+                                </div>
+                                <input type="text" class="form-control regular-font" value="0 %" placeholder="Impuesto"
+                                  aria-describedby="" disabled>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="label-text"><b>Total</b></label>
+                              <div [ngClass]="'input-group mb-3'">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text blank" id="">
+                                    <span class="las la-building form-icon"></span>
+                                  </span>
+                                </div>
+                                <input type="text" currencyMask [(ngModel)]="cantidadTotalCero"
+                                  class="form-control regular-font" placeholder="Impuesto" aria-describedby="" disabled>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div>
+
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div>
+                            <label class="label-text"><b>Total de factura</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text blank" id="">
+                                  <span class="las la-building form-icon"></span>
+                                </span>
+                              </div>
+                              <input type="text" currencyMask [(ngModel)]="frmFactura.total"
+                                class="form-control regular-font" placeholder="Total" aria-describedby="" disabled>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div>
+                            <label class="label-text"><b>Valor a adicionar (+)</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text blank" id="">
+                                  <span class="las la-building form-icon"></span>
+                                </span>
+                              </div>
+                              <kendo-numerictextbox class="form-control regular-font"
+                                [(ngModel)]="frmFactura.valorAdicional" [autoCorrect]="true" [step]="0.01" [min]="0"
+                                [decimals]="2" (ngModelChange)="CalcularValores()" [spinners]="false">
+                              </kendo-numerictextbox>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div>
+                            <label class="label-text"><b>Total a liquidar</b></label>
+                            <div [ngClass]="'input-group mb-3'">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text blank" id="">
+                                  <span class="las la-building form-icon"></span>
+                                </span>
+                              </div>
+
+                              <kendo-numerictextbox class="form-control regular-font" [readonly]="true"
+                                [(ngModel)]="frmFactura.liquidacionTotal" [autoCorrect]="true" [decimals]="2"
+                                [step]="0.01" [min]="0" [spinners]="false">
+                              </kendo-numerictextbox>
+
+                            </div>
+
+                            <div>
+                              <i class="las la-info-circle validation-icon"></i>
+                              <span class="validation-text" style="font-size: 18px !important;">
+                                Valor máximo pendiente a liquidar es: $ {{ valorAdicional.toFixed(2) }}
+                              </span>
+                            </div>
+
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="col-md-5">
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row" *ngIf="!facturaElectronicaBloqueo">
+            <div class="col-md-12">
+              <div>
+                <label class="label-text"><b>Archivo</b></label>
+                <div [ngClass]="'input-group mb-3'">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text blank" id="">
+                      <span class="las la-building form-icon"></span>
+                    </span>
+                  </div>
+                  <input type="file" id="Archivo" class="form-control regular-font" (change)="ObtenerImagen()"
+                    aria-describedby="">
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="IdArchivo != 0" class="col-md-12">
+              <div>
+                <label class="label-text"><b>Archivo Cargado</b></label>
+                <div [ngClass]="'input-group mb-3'">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text blank" id="" style="background: #104B89;">
+                      <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Archivo"
+                        [href]="ConvertirArchivo()" download="{{nombreArchivo}}">
+                        <i class="las la-cloud-download-alt" style="color: #fff;"></i>
+                      </a>
+                    </span>
+                  </div>
+                  <input type="text" value="{{ nombreArchivo }}" class="form-control" disabled>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="theme-btn" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="theme-btn" (click)="ValidarMaximoLiquidacion()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalCrearProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Registrar Nuevo Proveedor</h5>
+      </div>
+
+      <div class="row" style="padding: 20px;">
+        <div class="col-md-6">
+          <label class="label-text"><b>Tipo Identificación</b></label>
+          <div
+            [ngClass]="vlProveedor.tipoIdentificacion == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Tipo Identificacion">
+                <span class="las la-hotel form-icon"></span>
+              </span>
+            </div>
+            <kendo-dropdownlist [(ngModel)]="dtProveedor.tipoIdentificacion" class="form-control regular-font"
+              [data]="lstTipoIdentificacion" (ngModelChange)="CambiarTipoId()"
+              (keyup)="dtProveedor.tipoIdentificacion = global.FormatearCampo(dtProveedor.tipoIdentificacion, '0123456789', 13 , 2)">
+            </kendo-dropdownlist>
+          </div>
+          <div *ngIf="vlProveedor.tipoIdentificacion == true">
+            <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este campo es
+              requerido</span>
+          </div>
+        </div>
+
+        <div *ngIf="this.dtProveedor.tipoIdentificacion == 'CÉDULA'" class="col-md-6">
+          <label class="label-text"><b>Identificación</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Identificacion">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Identificacion"
+              aria-describedby="Identificacion" [(ngModel)]="dtProveedor.identificacion"
+              (keyup)="dtProveedor.identificacion = global.FormatearCampo(dtProveedor.identificacion, '1234567890', this.frmFiltroProveedor.identificacion.length == 10 ? 10 : 13, 2)">
+          </div>
+        </div>
+
+        <div *ngIf="this.dtProveedor.tipoIdentificacion == 'R.U.C'" class="col-md-6">
+          <label class="label-text"><b>Identificación</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Identificacion">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Identificacion"
+              aria-describedby="Identificacion" [(ngModel)]="dtProveedor.identificacion"
+              (keyup)="dtProveedor.identificacion = global.FormatearCampo(dtProveedor.identificacion, '1234567890', 13, 2)"
+              (keyup)="ValidaEntradas()">
+          </div>
+
+          <div *ngIf="validarIdentificacion == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion1 }}
+            </span>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="label-text"><b>Razón Social</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Razón Social">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Razón Social"
+              aria-describedby="Razón Social  " [(ngModel)]="dtProveedor.nombre" (change)="ValidaEntrada2()">
+          </div>
+          <div *ngIf="validarNombre == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion2 }}
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="label-text"><b>Correo Electrónico</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Correo Electrónico">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Correo Electrónico"
+              aria-describedby="Email" [(ngModel)]="dtProveedor.correo" (keyup)="ValidaEntrada3()">
+          </div>
+          <div *ngIf="validarCorreo == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion3 }}
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="label-text"><b>Dirección</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Dirección">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Dirección" aria-describedby="Dirección"
+              [(ngModel)]="dtProveedor.direccion" (change)="ValidaEntrada4()">
+          </div>
+          <div *ngIf="validarDireccion == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion4 }}
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="label-text"><b>Teléfono</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Teléfono">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Teléfono" aria-describedby="Teléfono"
+              [(ngModel)]="dtProveedor.telefono"
+              (keyup)="dtProveedor.telefono = global.FormatearCampo(dtProveedor.telefono, '1234567890', 10, 2)"
+              (keyup)="ValidaEntrada5()">
+          </div>
+          <div *ngIf="validarTelefono == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion5 }}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="CerrarModalProveedor()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="ValidacionDatosProveedor()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalActualizarEmailProveedor" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Actualizar Datos Proveedor</h5>
+      </div>
+      <div class="row" style="padding: 20px;">
+        <div class="col-md-12">
+          <label class="label-text"><b>Correo Electrónico</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="Correo Electrónico">
+                <span class="las la-envelope form-icon"></span>
+              </span>
+            </div>
+            <input type="text" class="form-control regular-font" placeholder="Correo Electrónico"
+              aria-describedby="Email" [(ngModel)]="dtProveedor.correoActualizar">
+          </div>
+          <div *ngIf="validarCorreo == true">
+            <i class="las la-info-circle validation-icon"></i>
+            <span class="validation-text">
+              {{ textoValidacion }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="CerrarModalActualizaInfoProveedor()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="ActualizarCorreoProveedor()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalBusquedaFactura" tabindex="-1" role="dialog" data-backdrop="static"
+  data-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="label-text">Búsqueda de Facturas Electrónicas</h5>
+        <button type="button" class="close" (click)="CerrarModalBusqueda()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="col-form-label col-form-label-sm"><b>Número de RUC</b></label>
+                <input type="text" [mask]="'0000000000000'" [(ngModel)]="numeroRuc"
+                  class="form-control form-control-sm regular-font" placeholder="Ingrese el ruc.">
+              </div>
+              <div class="form-group col-md-6">
+                <label class="col-form-label col-form-label-sm"><b>Número de Factura</b></label>
+                <input type="text" [mask]="'000-000-000000000'" [(ngModel)]="numeroFactura"
+                  class="form-control form-control-sm regular-font" placeholder="Ingrese el número de la factura.">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group row">
+                  <label class="col-sm-6 col-form-label col-form-label-sm"><b>Fecha Inicio Búsqueda: </b></label>
+                  <div class="col-sm-6">
+                    <span class="form-control form-control-plaintext form-control-sm regular-font">{{
+                      dtViaje.FechaInicioViaje }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group row">
+                  <label class="col-sm-6 col-form-label col-form-label-sm"><b>Fecha Fin Búsqueda: </b></label>
+                  <div class="col-sm-6">
+                    <span class="form-control form-control-plaintext form-control-sm regular-font">{{
+                      dtViaje.RegresoFecha }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-block" (click)="BusquedaFacturasElectronicas()">
+              <strong><span class="las la-search form-icon"></span> Buscar Facturas</strong>
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="row" style="padding-top: 10px !important;" *ngIf="visualizarFacturasELectronicas">
+          <div class="col-md-12">
+            <br>
+            <h6>Listado de facturas encontradas</h6>
+            <br>
+          </div>
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm">
+                <thead class="table-info">
+                  <tr style="text-align: center !important;">
+                    <th scope="col">#</th>
+                    <th scope="col">RUC</th>
+                    <th scope="col">Razón Social</th>
+                    <th scope="col">Número Factura</th>
+                    <th scope="col">Valor Total</th>
+                    <th scope="col">Seleccionar</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let factura of lstFacturasElectronicas; let i = index">
+                  <tr style="text-align: center !important;">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ factura.Ruc }}</td>
+                    <td>{{ factura.RazonSocial }}</td>
+                    <td>{{ factura.NumeroDocumento }}</td>
+                    <td>{{ factura.ValorTotal }} $</td>
+                    <td>
+                      <button class="btn btn-success" (click)="SeleccionarFacturaElectronica(factura)">
+                        <em class="far fa-check-square"></em>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,339 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin" [fullScreen]="true"></ngx-spinner>
+
+<div class="section-bg">
+
+  <app-administrator-side-bar></app-administrator-side-bar>
+
+  <section class="dashboard-area">
+
+    <app-administrator-top-bar></app-administrator-top-bar>
+
+    <div class="dashboard-content-wrap">
+      <div class="dashboard-bread dashboard--bread dashboard-bread-2">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="breadcrumb-content">
+                <div class="section-heading">
+                  <h2 class="sec__title font-size-30 text-white">Agencias</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="breadcrumb-list text-right">
+                <ul class="list-items">
+                  <li><a class="text-white">Administrador</a></li>
+                  <li>Viajes</li>
+                  <li>Agencias</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-main-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-box">
+
+                <div class="form-title-wrap">
+                  <h3 class="title">Listado de Agencias</h3>
+                </div>
+
+                <div class="form-content">
+                  <div class="form-row">
+                    <div class="col-8"></div>
+                    <div class="col-4">
+                      <button class="btn btn-primary btn-block" (click)="AbrirModalCrear()">
+                        <b>Crear Agencia</b>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-content">
+                  <kendo-grid [data]="gridData" [pageSize]="state.take" [skip]="state.skip" [sort]="state.sort" [sortable]="true"
+                    [resizable]="true" [pageable]="true" filterable="menu" (dataStateChange)="dataStateChange($event)">
+
+                      <kendo-grid-column title="#" headerClass="text-center" class="text-center" width="50"
+                      [filterable]="false">
+                      <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        {{rowIndex + 1}}
+                      </ng-template>
+                    </kendo-grid-column>
+
+                      <kendo-grid-column headerClass="text-center" field="NombreAgencia" title="Nombre">
+                      </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="DireccionAgencia" title="Dirección">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="NombreContactoAgencia" title="Contacto">
+                    </kendo-grid-column>
+
+
+                    <kendo-grid-column headerClass="text-center" width="90" title="Detalles">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button class="btn btn-info" (click)="AbrirModalDetalles(dataItem)">
+                          <i class="far fa-list-alt fa-lg"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" width="80" title="Editar">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button class="btn btn-warning" (click)="AbrirModalEditar(dataItem)">
+                          <i class="fas fa-pencil-alt fa-lg"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-messages groupPanelEmpty="Arrastra aquí para agrupar"
+                    noRecords="No hay elementos que mostrar." pagerPage="Página" pagerOf="de" pagerItems="Registros"
+                    pagerItemsPerPage="regiatros por página" filterClearButton="Limpiar" filterFilterButton="Buscar"
+                    filterAndLogic="Y" filterOrLogic="O" filterEqOperator="Es igual a" filterNotEqOperator="No es igual a"
+                    filterContainsOperator="Contiene" filterNotContainsOperator="No contiene"
+                    filterStartsWithOperator="Comienza con" filterEndsWithOperator="Termina con"
+                    filterIsNullOperator="Es nulo (null)" filterIsNotNullOperator="No es nulo (null)"
+                    filterIsEmptyOperator="Esta vacio" filterIsNotEmptyOperator="No está vacío"
+                    filterAfterOperator="Es posterior a" filterAfterOrEqualOperator="Es posterior o igual a"
+                    filterBeforeOrEqualOperator="Es anterior o igual a" filterBeforeOperator="Es antes">
+                  </kendo-grid-messages>
+                  </kendo-grid>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-top mt-5"></div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="back-to-top"><i class="la la-angle-up" title="Subir"></i>
+  </div>
+
+</div>
+
+<div class="modal fade" id="modalCrearAgencia" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="modalCrearAgencia" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crear Agencia</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+          <div class="col-md-4">
+            <label for="ruc"><b>RUC</b></label>
+            <input type="text" class="form-control" id="ruc" placeholder="Ingrese el ruc de la agencia"
+              [(ngModel)]="agencia.RucAgencia" name="agencia.RucAgencia" (keyup)="agencia.RucAgencia = global.FormatearCampo(agencia.RucAgencia, '0123456789', 13, 2)">
+          </div>
+
+          <div class="col-md-8">
+            <label for="nombre"><b>Nombre</b> </label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre de la agencia"
+            [(ngModel)]="agencia.NombreAgencia" name="agencia.NombreAgencia" (keyup)="agencia.NombreAgencia = global.FormatearCampo(agencia.NombreAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-12">
+            <label for="descripcion"><b>Descripción</b> </label>
+            <input type="text" class="form-control" id="descripcion" placeholder="Ingrese una descripción de la agencia"
+              [(ngModel)]="agencia.DescripcionAgencia" name="agencia.DescripcionAgencia" (keyup)="agencia.DescripcionAgencia = global.FormatearCampo(agencia.DescripcionAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-6">
+            <label for="email"><b>Email</b> </label>
+            <input type="email" class="form-control" id="email" placeholder="Ingrese el email de la agencia"
+              [(ngModel)]="agencia.EmailAgencia" name="agencia.EmailAgencia">
+          </div>
+
+          <div class="col-md-6">
+            <label for="telefono"><b>Teléfono</b> </label>
+            <input type="text" class="form-control" id="telefono" placeholder="Ingrese el teléfono de la agencia"
+              [(ngModel)]="agencia.TelefonoAgencia" name="agencia.TelefonoAgencia" (keyup)="agencia.TelefonoAgencia = global.FormatearCampo(agencia.TelefonoAgencia, '0123456789', 10, 2)">
+          </div>
+
+          <div class="col-md-12">
+            <label for="contacto"><b>Contacto Agencia</b> </label>
+            <input type="text" class="form-control" id="contacto" placeholder="Ingrese el nombre del contacto de la agencia"
+              [(ngModel)]="agencia.NombreContactoAgencia" name="agencia.NombreContactoAgencia" (keyup)="agencia.NombreContactoAgencia = global.FormatearCampo(agencia.NombreContactoAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-12">
+            <label for="direccion"><b>Dirección</b> </label>
+            <input type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección de la agencia"
+              [(ngModel)]="agencia.DireccionAgencia" name="agencia.DireccionAgencia" (keyup)="agencia.DireccionAgencia = global.FormatearCampo(agencia.DireccionAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789-. ', 100, 1)">
+          </div>
+
+        </div>
+
+        <br><br>
+
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cancelar</button>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-primary btn-block" (click)="GuardarAgencia()">Guardar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDetalleAgencia" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+  aria-labelledby="modalDetalleAgencia" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalle Agencia</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+          <div class="col-md-4">
+            <label for="ruc"><b>RUC</b></label>
+            <input type="text" class="form-control" id="ruc" placeholder="Ingrese el ruc de la agencia"
+              [(ngModel)]="agencia.RucAgencia" name="agencia.RucAgencia" (keyup)="agencia.RucAgencia = global.FormatearCampo(agencia.RucAgencia, '0123456789', 13, 2)"
+              readonly>
+          </div>
+
+          <div class="col-md-8">
+            <label for="nombre"><b>Nombre</b> </label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre de la agencia"
+            [(ngModel)]="agencia.NombreAgencia" name="agencia.NombreAgencia" (keyup)="agencia.NombreAgencia = global.FormatearCampo(agencia.NombreAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)"
+            readonly>
+          </div>
+
+          <div class="col-md-12">
+            <label for="descripcion"><b>Descripción</b> </label>
+            <input type="text" class="form-control" id="descripcion" placeholder="Ingrese una descripción de la agencia"
+              [(ngModel)]="agencia.DescripcionAgencia" name="agencia.DescripcionAgencia" (keyup)="agencia.DescripcionAgencia = global.FormatearCampo(agencia.DescripcionAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)"
+              readonly>
+          </div>
+
+          <div class="col-md-6">
+            <label for="email"><b>Email</b> </label>
+            <input type="email" class="form-control" id="email" placeholder="Ingrese el email de la agencia"
+              [(ngModel)]="agencia.EmailAgencia" name="agencia.EmailAgencia"
+              readonly>
+          </div>
+
+          <div class="col-md-6">
+            <label for="telefono"><b>Teléfono</b> </label>
+            <input type="text" class="form-control" id="telefono" placeholder="Ingrese el teléfono de la agencia"
+              [(ngModel)]="agencia.TelefonoAgencia" name="agencia.TelefonoAgencia" (keyup)="agencia.TelefonoAgencia = global.FormatearCampo(agencia.TelefonoAgencia, '0123456789', 10, 2)"
+              readonly>
+          </div>
+
+          <div class="col-md-12">
+            <label for="contacto"><b>Contacto Agencia</b> </label>
+            <input type="text" class="form-control" id="contacto" placeholder="Ingrese el nombre del contacto de la agencia"
+              [(ngModel)]="agencia.NombreContactoAgencia" name="agencia.NombreContactoAgencia" (keyup)="agencia.NombreContactoAgencia = global.FormatearCampo(agencia.NombreContactoAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)"
+              readonly>
+          </div>
+
+          <div class="col-md-12">
+            <label for="direccion"><b>Dirección</b> </label>
+            <input type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección de la agencia"
+              [(ngModel)]="agencia.DireccionAgencia" name="agencia.DireccionAgencia" (keyup)="agencia.DireccionAgencia = global.FormatearCampo(agencia.DireccionAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789-. ', 100, 1)"
+              readonly>
+          </div>
+
+        </div>
+
+        <br><br>
+
+        <div class="row">
+          <div class="col-md-9"></div>
+          <div class="col-md-3">
+            <button type="button" class="btn btn-info btn-block" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEditarAgencia" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+  aria-labelledby="modalEditarAgencia" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Agencia</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+          <div class="col-md-4">
+            <label for="ruc"><b>RUC</b></label>
+            <input type="text" class="form-control" id="ruc" placeholder="Ingrese el ruc de la agencia"
+              [(ngModel)]="agencia.RucAgencia" name="agencia.RucAgencia" (keyup)="agencia.RucAgencia = global.FormatearCampo(agencia.RucAgencia, '0123456789', 13, 2)">
+          </div>
+
+          <div class="col-md-8">
+            <label for="nombre"><b>Nombre</b> </label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre de la agencia"
+            [(ngModel)]="agencia.NombreAgencia" name="agencia.NombreAgencia" (keyup)="agencia.NombreAgencia = global.FormatearCampo(agencia.NombreAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-12">
+            <label for="descripcion"><b>Descripción</b> </label>
+            <input type="text" class="form-control" id="descripcion" placeholder="Ingrese una descripción de la agencia"
+              [(ngModel)]="agencia.DescripcionAgencia" name="agencia.DescripcionAgencia" (keyup)="agencia.DescripcionAgencia = global.FormatearCampo(agencia.DescripcionAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-6">
+            <label for="email"><b>Email</b> </label>
+            <input type="email" class="form-control" id="email" placeholder="Ingrese el email de la agencia"
+              [(ngModel)]="agencia.EmailAgencia" name="agencia.EmailAgencia">
+          </div>
+
+          <div class="col-md-6">
+            <label for="telefono"><b>Teléfono</b> </label>
+            <input type="text" class="form-control" id="telefono" placeholder="Ingrese el teléfono de la agencia"
+              [(ngModel)]="agencia.TelefonoAgencia" name="agencia.TelefonoAgencia" (keyup)="agencia.TelefonoAgencia = global.FormatearCampo(agencia.TelefonoAgencia, '0123456789', 10, 2)">
+          </div>
+
+          <div class="col-md-12">
+            <label for="contacto"><b>Contacto Agencia</b> </label>
+            <input type="text" class="form-control" id="contacto" placeholder="Ingrese el nombre del contacto de la agencia"
+              [(ngModel)]="agencia.NombreContactoAgencia" name="agencia.NombreContactoAgencia" (keyup)="agencia.NombreContactoAgencia = global.FormatearCampo(agencia.NombreContactoAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-12">
+            <label for="direccion"><b>Dirección</b> </label>
+            <input type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección de la agencia"
+              [(ngModel)]="agencia.DireccionAgencia" name="agencia.DireccionAgencia" (keyup)="agencia.DireccionAgencia = global.FormatearCampo(agencia.DireccionAgencia, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789-. ', 100, 1)">
+          </div>
+
+        </div>
+
+        <br><br>
+
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-info btn-block" data-dismiss="modal">Cancelar</button>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-warning btn-block" (click)="ActualizarAgencia()">Actualizar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

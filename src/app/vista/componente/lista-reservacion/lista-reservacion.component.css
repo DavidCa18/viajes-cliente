@@ -1,0 +1,19 @@
+
+a{
+  text-decoration: none !important;
+  color: #000;
+}
+
+.paginacion /deep/ .ngx-pagination .current {
+  background: #104B89;
+}
+#Solicitud{
+  text-align: right;
+}
+@media  (min-width: 468px){ 
+
+  .alignText{
+    text-align: left !important;
+  }
+
+}

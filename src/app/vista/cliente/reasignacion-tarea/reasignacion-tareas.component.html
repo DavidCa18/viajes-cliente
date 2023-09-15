@@ -1,0 +1,62 @@
+<app-componment-header></app-componment-header>
+
+<app-componente-menu-global [tipo]="tipoMenu"></app-componente-menu-global>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin" [fullScreen]="true"></ngx-spinner>
+
+<section class="listing-form section--padding">
+  <div class="row">
+    <div class="col-lg-11 mx-auto mt-3">
+
+      <div class="row">
+        <div class="col-lg-12 form-group">
+
+          <div class="card border-primary">
+            <div class="card-body">
+              <div class="row justify-content-center" style="text-align: center !important;">
+                <div class="col-md-6">
+                  <input type="radio" value="1" id="contactChoice1" [(ngModel)]="radioOficina"
+                    (click)="CambioTipo()">
+                  <label for="contactChoice1">En la Oficina</label>
+                </div>
+                <div class="col-md-6">
+                  <input type="radio" value="0" id="contactChoice2" [(ngModel)]="radioOficina"
+                    (click)="CambioTipo()">
+                  <label for="contactChoice2">Fuera de la Oficina</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+        <div class="col-lg-12 mt-4" *ngIf="seleccionActiva" style="text-align: center !important;">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card border-primary">
+                <div class="card-header bg-primary text-white">Reasginar todas las tareas a </div>
+                <div class="card-body">
+                  <div class="form-row">
+                    <div class="col-12">
+                      <kendo-dropdownlist [data]="lstUsuariosGrupo" [textField]="'NombreCompleto'"
+                        [valueField]="'Usuario'" [filterable]="true" class="form-control regular-font"
+                        [(ngModel)]="nuevoResponsableActual"
+                        (filterChange)="handleFilter($event)" style="width: 100% !important;">
+                      </kendo-dropdownlist>
+                    </div>
+                    <div class="col-12 mt-3" style="text-align: center;">
+                      <button type="button" class="btn btn-primary" style="width: 250px !important;" (click)="AsignarFueraOficina()">
+                        <b><i class="far fa-save mr-2"></i> Guardar</b>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

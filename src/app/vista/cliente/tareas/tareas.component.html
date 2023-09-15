@@ -1,0 +1,157 @@
+<app-componment-header></app-componment-header>
+
+<app-componente-menu-global [tipo]="tipoMenu"></app-componente-menu-global>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin" [fullScreen]="true"></ngx-spinner>
+
+<section class="listing-form section--padding">
+  <div class="row">
+    <div class="col-lg-11 mx-auto mt-3">
+
+      <div class="row">
+
+        <div class="col-lg-12" style="text-align: center !important;">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card border-primary">
+                <div class="card-header bg-primary text-white"><b>REASIGNACIÓN DE TAREAS</b></div>
+                <div class="card-body">
+                  <div class="form-row">
+
+                    <div class="col-6">
+
+                      <div style="text-align: left !important;">
+                        <span class="text-primary"><b>Responsable Actual</b></span>
+                      </div>
+
+                      <kendo-dropdownlist [data]="lstUsuariosGrupo" [textField]="'NombreCompleto'"
+                        [valueField]="'Usuario'" [filterable]="true" class="form-control regular-font"
+                        [(ngModel)]="responsableActual" (ngModelChange)="SeleccionarResponsableActualR()"
+                        (filterChange)="handleFilter($event)" style="width: 100% !important;">
+                      </kendo-dropdownlist>
+
+                    </div>
+
+                    <div class="col-6">
+
+                      <div style="text-align: left !important;">
+                        <span class="text-primary"><b>Responsable Nuevo</b></span>
+                      </div>
+
+                      <kendo-dropdownlist [data]="lstUsuariosGrupo" [textField]="'NombreCompleto'"
+                        [valueField]="'Usuario'" [filterable]="true" class="form-control regular-font"
+                        [(ngModel)]="responsableNuevo"
+                        (filterChange)="handleFilter($event)" style="width: 100% !important;">
+                      </kendo-dropdownlist>
+
+                    </div>
+
+                    <div class="col-12 mt-3" style="text-align: center;">
+                      <button type="button" class="btn btn-primary" style="width: 250px !important;"
+                        (click)="Cargando()">
+                        <b><i class="far fa-save mr-2"></i> Guardar</b>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-12 mt-4 form-group">
+
+          <div class="card border-primary">
+            <div class="card-header text-primary"><b>Listado de tareas pendientes</b></div>
+            <div class="card-body" style="padding: 0px !important;">
+              <div class="table-responsive">
+
+                <kendo-grid [data]="gridData" [pageSize]="state.take" [skip]="state.skip" [sort]="state.sort"
+                  [sortable]="true" kendoGridSelectBy="IdViaje" [selectedKeys]="tareasSeleccionadas" [resizable]="true"
+                  [pageable]="true" filterable="menu" (dataStateChange)="dataStateChange($event)">
+
+                  <kendo-grid-checkbox-column headerClass="text-center" class="text-center" [width]="45"
+                    [resizable]="false" [columnMenu]="false" showSelectAll="true"
+                    [headerStyle]="{ 'background-color': 'rgb(5, 58, 99)', 'color':'#FFF', 'font-weight': 'bold' }">
+                  </kendo-grid-checkbox-column>
+
+                  <kendo-grid-column headerClass="text-center" class="text-center" field="IdViaje"
+                    title="Solicitud" [filterable]="false" [width]="150"
+                    [headerStyle]="{ 'background-color': 'rgb(5, 58, 99)', 'color':'#FFF', 'font-weight': 'bold' }">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column headerClass="text-center" class="text-center" field="FechaSolicitudViaje"
+                    title="Fecha Solicitud" [filterable]="false"
+                    [headerStyle]="{ 'background-color': 'rgb(5, 58, 99)', 'color':'#FFF', 'font-weight': 'bold' }">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column headerClass="text-center" class="text-center" field="NombreViaje"
+                    title="Solicitante"
+                    [headerStyle]="{ 'background-color': 'rgb(5, 58, 99)', 'color':'#FFF', 'font-weight': 'bold' }">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column headerClass="text-center" class="text-center" field="Estado.DescripcionEstado"
+                    title="Estado" width="200"
+                    [headerStyle]="{ 'background-color': 'rgb(5, 58, 99)', 'color':'#FFF', 'font-weight': 'bold' }">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column headerClass="text-center" class="text-center" title="Fecha Inicio Viaje"
+                    [filterable]="false"
+                    [headerStyle]="{ 'background-color': 'rgb(5, 58, 99)', 'color':'#FFF', 'font-weight': 'bold' }">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <span>{{ dataItem.FechaInicioViaje }} {{
+                        dataItem.HoraInicioViaje }}</span>
+                    </ng-template>
+                  </kendo-grid-column>
+
+                  <kendo-grid-column headerClass="text-center" class="text-center" title="Fecha Finalización Viaje"
+                    [filterable]="false" [width]="280"
+                    [headerStyle]="{ 'background-color': 'rgb(5, 58, 99)', 'color':'#FFF', 'font-weight': 'bold' }">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <span>{{ dataItem.FechaFinViaje }} {{ dataItem.HoraFinViaje }}</span>
+                    </ng-template>
+                  </kendo-grid-column>
+
+                  <kendo-grid-column headerClass="text-center" class="text-center" field="TipoViaje" title="Tipo Viaje"
+                    width="150"
+                    [headerStyle]="{ 'background-color': 'rgb(5, 58, 99)', 'color':'#FFF', 'font-weight': 'bold' }">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column headerClass="text-center" class="text-center" title=""
+                  [filterable]="false" width="80" [headerStyle]="{
+                      'background-color': 'rgb(5, 58, 99)',
+                      'color':'#FFF',
+                      'font-weight': 'bold'
+                    }">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <button class="btn btn-info" (click)="CargarHistorialActividades(dataItem.IdViaje)"><i class="fas fa-eye"></i></button>
+                  </ng-template>
+                </kendo-grid-column>
+
+                  <kendo-grid-messages groupPanelEmpty="Arrastra aquí para agrupar"
+                    noRecords="No hay elementos que mostrar." pagerPage="Página" pagerOf="de" pagerItems="Registros"
+                    pagerItemsPerPage="regiatros por página" filterClearButton="Limpiar" filterFilterButton="Buscar"
+                    filterAndLogic="Y" filterOrLogic="O" filterEqOperator="Es igual a"
+                    filterNotEqOperator="No es igual a" filterContainsOperator="Contiene"
+                    filterNotContainsOperator="No contiene" filterStartsWithOperator="Comienza con"
+                    filterEndsWithOperator="Termina con" filterIsNullOperator="Es nulo (null)"
+                    filterIsNotNullOperator="No es nulo (null)" filterIsEmptyOperator="Esta vacio"
+                    filterIsNotEmptyOperator="No está vacío" filterAfterOperator="Es posterior a"
+                    filterAfterOrEqualOperator="Es posterior o igual a"
+                    filterBeforeOrEqualOperator="Es anterior o igual a" filterBeforeOperator="Es antes">
+                  </kendo-grid-messages>
+
+                </kendo-grid>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>

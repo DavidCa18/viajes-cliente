@@ -1,0 +1,12 @@
+.center-box {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+.nombreUsuario {
+  color: #9999;
+  font-size: 12px;
+}
+.padd {
+  padding: 60px 0px;
+}

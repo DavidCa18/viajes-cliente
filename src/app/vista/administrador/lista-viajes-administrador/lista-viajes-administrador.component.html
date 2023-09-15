@@ -1,0 +1,569 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin" [fullScreen]="true"></ngx-spinner>
+
+<div class="section-bg">
+  <app-administrator-side-bar></app-administrator-side-bar>
+
+  <section class="dashboard-area">
+    <app-administrator-top-bar></app-administrator-top-bar>
+
+    <div class="dashboard-content-wrap">
+      <div class="dashboard-bread dashboard--bread dashboard-bread-2">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="breadcrumb-content">
+                <div class="section-heading">
+                  <h2 class="sec__title font-size-30 text-white">Viajes</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="breadcrumb-list text-right">
+                <ul class="list-items">
+                  <li><a class="text-white">Administrador</a></li>
+                  <li>Listado</li>
+                  <li>Viajes</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-main-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-box">
+
+                <div class="form-title-wrap">
+                  <h3 class="title">Listado de Viajes</h3>
+                </div>
+
+
+                <div class="form-content">
+
+                  <kendo-grid [data]="gridData" [pageSize]="state.take" [skip]="state.skip" [sort]="state.sort"
+                    [sortable]="true" [resizable]="true" [pageable]="true" filterable="menu"
+                    (dataStateChange)="dataStateChange($event)">
+
+                    <ng-template kendoGridToolbarTemplate>
+                      <div style="padding: 20px !important; text-align: right !important; align-items: right !important;">
+                        <button type="button"  class="btn btn-primary" icon="file-excel" (click)="DescargarExcel()">Exportar a Excel</button>
+                      </div>
+                    </ng-template>
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" field="IdViaje" title="Solicitud"
+                      width="130" [headerStyle]="{
+                          'background-color': 'rgb(5, 58, 99)',
+                          'color':'#FFF',
+                          'font-weight': 'bold'
+                        }">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" field="FechaSolicitudViaje"
+                      title="Fecha Solicitud" [filterable]="false" [headerStyle]="{
+                          'background-color': 'rgb(5, 58, 99)',
+                          'color':'#FFF',
+                          'font-weight': 'bold'
+                        }">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" field="NombreViaje" title="Solicitante"
+                        [headerStyle]="{
+                          'background-color': 'rgb(5, 58, 99)',
+                          'color':'#FFF',
+                          'font-weight': 'bold'
+                        }">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" field="Estado.DescripcionEstado"
+                      title="Estado Solicitud" width="200" [headerStyle]="{
+                          'background-color': 'rgb(5, 58, 99)',
+                          'color':'#FFF',
+                          'font-weight': 'bold'
+                        }">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" title="Fecha Inicio Viaje"
+                      [filterable]="false" [headerStyle]="{
+                          'background-color': 'rgb(5, 58, 99)',
+                          'color':'#FFF',
+                          'font-weight': 'bold'
+                        }">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <span>{{ dataItem.FechaInicioViaje }} {{ dataItem.HoraInicioViaje }}</span>
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" title="Fecha Finalización Viaje"
+                      [filterable]="false" [headerStyle]="{
+                          'background-color': 'rgb(5, 58, 99)',
+                          'color':'#FFF',
+                          'font-weight': 'bold'
+                        }">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <span>{{ dataItem.FechaFinViaje }} {{ dataItem.HoraFinViaje }}</span>
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" field="TipoViaje" title="Tipo Viaje"
+                      width="150" [headerStyle]="{
+                          'background-color': 'rgb(5, 58, 99)',
+                          'color':'#FFF',
+                          'font-weight': 'bold'
+                        }">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" title=""
+                      [filterable]="false" width="80" [headerStyle]="{
+                          'background-color': 'rgb(5, 58, 99)',
+                          'color':'#FFF',
+                          'font-weight': 'bold'
+                        }">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button class="btn btn-info" (click)="CargarHistorialActividades(dataItem.IdViaje)"><i class="fas fa-eye"></i></button>
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-messages groupPanelEmpty="Arrastra aquí para agrupar"
+                      noRecords="No hay elementos que mostrar." pagerPage="Página" pagerOf="de" pagerItems="Registros"
+                      pagerItemsPerPage="regiatros por página" filterClearButton="Limpiar" filterFilterButton="Buscar"
+                      filterAndLogic="Y" filterOrLogic="O" filterEqOperator="Es igual a" filterNotEqOperator="No es igual a"
+                      filterContainsOperator="Contiene" filterNotContainsOperator="No contiene"
+                      filterStartsWithOperator="Comienza con" filterEndsWithOperator="Termina con"
+                      filterIsNullOperator="Es nulo (null)" filterIsNotNullOperator="No es nulo (null)"
+                      filterIsEmptyOperator="Esta vacio" filterIsNotEmptyOperator="No está vacío"
+                      filterAfterOperator="Es posterior a" filterAfterOrEqualOperator="Es posterior o igual a"
+                      filterBeforeOrEqualOperator="Es anterior o igual a" filterBeforeOperator="Es antes">
+                    </kendo-grid-messages>
+
+                    <kendo-grid-excel fileName="Products.xlsx"></kendo-grid-excel>
+
+                    <kendo-grid-pdf fileName="Listado Viajes.pdf" [repeatHeaders]="true">
+
+                      <kendo-grid-pdf-margin top="1cm" left="1cm" right="1cm" bottom="1cm"></kendo-grid-pdf-margin>
+
+                      <kendo-grid-column headerClass="text-center" class="text-center" field="FechaSolicitudViaje"
+                        title="Fecha Solicitud" width="200">
+                      </kendo-grid-column>
+
+                      <kendo-grid-column headerClass="text-center" class="text-center" field="NombreViaje"
+                        title="Solicitante">
+                      </kendo-grid-column>
+
+                      <kendo-grid-column headerClass="text-center" class="text-center" field="FechaInicioViaje"
+                        title="Fecha Inicio" width="200">
+                      </kendo-grid-column>
+
+                      <kendo-grid-column headerClass="text-center" class="text-center" field="FechaFinViaje"
+                        title="Fecha Fin" width="200">
+                      </kendo-grid-column>
+
+                      <kendo-grid-column headerClass="text-center" class="text-center" field="MotivoViaje"
+                        title="Motivo Viaje">
+                      </kendo-grid-column>
+
+                      <kendo-grid-column headerClass="text-center" class="text-center" field="Estado.DescripcionEstado"
+                        title="Estado Viaje">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <span *ngIf="dataItem.Estado.IdEstado == 1" class="text-color"><b><i
+                                class="fas fa-minus-circle">&nbsp;&nbsp;</i>{{ dataItem.Estado.DescripcionEstado
+                              }}</b></span>
+                          <span *ngIf="dataItem.Estado.IdEstado == 2" class="text-color-2"><b><i
+                                class="fas fa-check">&nbsp;&nbsp;</i>{{ dataItem.Estado.DescripcionEstado }}</b></span>
+                          <span *ngIf="dataItem.Estado.IdEstado == 3" class="text-color-10"><b><i
+                                class="fas fa-times">&nbsp;&nbsp;</i>{{ dataItem.Estado.DescripcionEstado }}</b></span>
+                          <span *ngIf="dataItem.Estado.IdEstado == 4" class="text-color-6"><b><i
+                                class="fas fa-exclamation">&nbsp;&nbsp;</i>{{ dataItem.Estado.DescripcionEstado
+                              }}</b></span>
+                          <span *ngIf="dataItem.Estado.IdEstado == 5" class="text-color-11"><b><i
+                                class="fas fa-check-circle">&nbsp;&nbsp;</i>{{ dataItem.Estado.DescripcionEstado
+                              }}</b></span>
+                          <span *ngIf="dataItem.Estado.IdEstado == 6" class="text-color-7"><b><i
+                                class="fas fa-clipboard-check">&nbsp;&nbsp;</i>{{ dataItem.Estado.DescripcionEstado
+                              }}</b></span>
+                          <span *ngIf="dataItem.Estado.IdEstado == 7" class="text-color-8"><b><i
+                                class="fas fa-file-invoice-dollar">&nbsp;&nbsp;</i>{{ dataItem.Estado.DescripcionEstado
+                              }}</b></span>
+                          <span *ngIf="dataItem.Estado.IdEstado == 8" class="text-color-9"><b><i
+                                class="fas fa-hand-holding-usd">&nbsp;&nbsp;</i>{{ dataItem.Estado.DescripcionEstado
+                              }}</b></span>
+                          <span *ngIf="dataItem.Estado.IdEstado == 9" class="text-gray"><b><i
+                                class="fas fa-archive">&nbsp;&nbsp;</i>{{ dataItem.Estado.DescripcionEstado
+                              }}</b></span>
+                        </ng-template>
+                      </kendo-grid-column>
+                    </kendo-grid-pdf>
+
+                  </kendo-grid>
+
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="border-top mt-5"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="back-to-top"><i class="la la-angle-up" title="Subir"></i></div>
+</div>
+
+<div class="modal fade" id="modalDetalleViaje" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="modalDetalleViaje" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="staticBackdropLabel">
+          <b>DETALLES DEL VIAJE</b>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="min-height: 650px !important">
+        <div class="form-row">
+          <div class="col-md-12 text-color-9" style="margin-top: 5px !important; margin-bottom: 15px !important">
+            <h6><b>INFORMACIÓN DEL VIAJE</b></h6>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="fechaSolicitud" class="col-md-5 col-form-label col-form-label-sm"><b>Fecha Solicitud
+                  Viaje</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="fechaSolicitud"
+                  [(ngModel)]="viaje.FechaSolicitudViaje" name="viaje.FechaSolicitudViaje" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group row">
+              <label for="solicitante" class="col-md-5 col-form-label col-form-label-sm"><b>Solicitante</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="solicitante"
+                  [(ngModel)]="viaje.NombreViaje" name="viaje.NombreViaje" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group row">
+              <label for="id" class="col-md-7 col-form-label col-form-label-sm"><b>Id Viaje</b></label>
+              <div class="col-md-5">
+                <input type="text" class="form-control-sm form-control-plaintext" id="id" [(ngModel)]="viaje.IdViaje"
+                  name="viaje.IdViaje" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="fechaInicio" class="col-md-5 col-form-label col-form-label-sm"><b>Fecha Inicio
+                  Viaje</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="fechaInicio"
+                  [(ngModel)]="viaje.FechaInicioViaje" name="viaje.FechaInicioViaje" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group row">
+              <label for="fechaFin" class="col-md-5 col-form-label col-form-label-sm"><b>Fecha Fin Viaje</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="fechaFin"
+                  [(ngModel)]="viaje.FechaFinViaje" name="viaje.FechaFinViaje" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group row">
+              <label for="numeroNoches" class="col-md-7 col-form-label col-form-label-sm"><b># Noches</b></label>
+              <div class="col-md-5">
+                <input type="text" class="form-control-sm form-control-plaintext" id="numeroNoches"
+                  [(ngModel)]="viaje.NumeroNochesViaje" name="viaje.NumeroNochesViaje" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="hospedaje" class="col-md-5 col-form-label col-form-label-sm"><b>Requiere Hospedaje</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="hospedaje"
+                  [(ngModel)]="viaje.RequiereHospedajeViaje" name="viaje.RequiereHospedajeViaje" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group row">
+              <label for="motivo" class="col-md-5 col-form-label col-form-label-sm"><b>Motivo Viaje</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="motivo"
+                  [(ngModel)]="viaje.MotivoViaje" name="viaje.MotivoViaje" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="tipoViaje" class="col-md-5 col-form-label col-form-label-sm"><b>Tipo Viaje</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="tipoViaje"
+                  [(ngModel)]="viaje.TipoViaje" name="viaje.TipoViaje" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group row">
+              <label for="capacitacion" class="col-md-5 col-form-label col-form-label-sm"><b>Viaje por
+                  Capacitación</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="capacitacion"
+                  [(ngModel)]="viaje.ViajeCapacitacion" name="viaje.ViajeCapacitacion" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group row">
+              <label for="estadoViaje" class="col-md-5 col-form-label col-form-label-sm"><b>Estado</b></label>
+              <div class="col-md-7">
+                <input type="text" [ngClass]="viaje.Estado.IdEstado == '1' ? 'form-control-sm form-control-plaintext text-color'
+                                            : viaje.Estado.IdEstado == '2' ? 'form-control-sm form-control-plaintext text-color-2'
+                                            : viaje.Estado.IdEstado == '3' ? 'form-control-sm form-control-plaintext text-color-10'
+                                            : viaje.Estado.IdEstado == '4' ? 'form-control-sm form-control-plaintext text-color-6'
+                                            : viaje.Estado.IdEstado == '5' ? 'form-control-sm form-control-plaintext text-color-11'
+                                            : viaje.Estado.IdEstado == '6' ? 'form-control-sm form-control-plaintext text-color-7'
+                                            : viaje.Estado.IdEstado == '7' ? 'form-control-sm form-control-plaintext text-color-8'
+                                            : viaje.Estado.IdEstado == '8' ? 'form-control-sm form-control-plaintext text-color-9'
+                                            : viaje.Estado.IdEstado == '9' ? 'form-control-sm form-control-plaintext text-gray'
+                                            : 'form-control-sm form-control-plaintext'" style="font-weight: bold"
+                  id="estadoViaje" [(ngModel)]="viaje.Estado.DescripcionEstado" name="viaje.Estado.DescripcionEstado"
+                  readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 text-color-9" style="margin-top: 5px !important; margin-bottom: 15px !important">
+            <h6><b>INFORMACIÓN DEL HOTEL</b></h6>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="nombreHotel" class="col-md-5 col-form-label col-form-label-sm"><b>Nombre</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="nombreHotel"
+                  [(ngModel)]="viaje.Hotel.NombreHotel" name="viaje.Hotel.NombreHotel" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="tarifaHotel" class="col-md-5 col-form-label col-form-label-sm"><b>Tarifa</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="tarifaHotel"
+                  [(ngModel)]="viaje.Hotel.TarifaHotel" name="viaje.Hotel.TarifaHotel" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-11">
+            <div class="form-group row">
+              <label for="direccionHotel" class="col-md-2 col-form-label col-form-label-sm"><b>Dirección
+                  Hotel</b></label>
+              <div class="col-md-10">
+                <input type="text" class="form-control-sm form-control-plaintext" id="direccionHotel" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 text-color-9" style="margin-top: 5px !important; margin-bottom: 15px !important">
+            <h6><b>INFORMACIÓN DEL REGISTRADOR</b></h6>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="empresa" class="col-md-5 col-form-label col-form-label-sm"><b>Empresa</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="empresa"
+                  [(ngModel)]="viaje.Registrador.NombreEmpresa" name="viaje.Registrador.NombreEmpresa" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="codigoEmpresa" class="col-md-5 col-form-label col-form-label-sm"><b>Código Empresa</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="codigoEmpresa"
+                  [(ngModel)]="viaje.Registrador.CodigoEmpresa" name="viaje.Registrador.CodigoEmpresa" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4"></div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="ciudad" class="col-md-5 col-form-label col-form-label-sm"><b>Ciudad</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="ciudad"
+                  [(ngModel)]="viaje.Registrador.Ciudad" name="viaje.Registrador.Ciudad" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="departamento" class="col-md-5 col-form-label col-form-label-sm"><b>Departamento</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="departamento"
+                  [(ngModel)]="viaje.Registrador.Departamento" name="viaje.Registrador.Departamento" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="cargo" class="col-md-3 col-form-label col-form-label-sm"><b>Cargo</b></label>
+              <div class="col-md-9">
+                <input type="text" class="form-control-sm form-control-plaintext" id="cargo"
+                  [(ngModel)]="viaje.Registrador.Cargo" name="viaje.Registrador.Cargo" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="usuario" class="col-md-5 col-form-label col-form-label-sm"><b>Usuario</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="usuario"
+                  [(ngModel)]="viaje.Registrador.Usuario" name="viaje.Registrador.Usuario" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="identificacion"
+                class="col-md-5 col-form-label col-form-label-sm"><b>Identificación</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="identificacion"
+                  [(ngModel)]="viaje.Registrador.Identificacion" name="viaje.Registrador.Identificacion" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="email" class="col-md-3 col-form-label col-form-label-sm"><b>Email</b></label>
+              <div class="col-md-9">
+                <input type="text" class="form-control-sm form-control-plaintext" id="email"
+                  [(ngModel)]="viaje.Registrador.Email" name="viaje.Registrador.Email" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 text-color-9" style="margin-top: 5px !important; margin-bottom: 15px !important">
+            <h6><b>INFORMACIÓN DEL APROBADOR</b></h6>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="usuarioAprobador" class="col-md-5 col-form-label col-form-label-sm"><b>Usuario</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="usuarioAprobador"
+                  [(ngModel)]="viaje.Aprobador.Usuario" name="viaje.Aprobador.Usuario" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label for="nombreAprobador" class="col-md-5 col-form-label col-form-label-sm"><b>Nombre</b></label>
+              <div class="col-md-7">
+                <input type="text" class="form-control-sm form-control-plaintext" id="nombreAprobador"
+                  [(ngModel)]="viaje.Aprobador.Nombre" name="viaje.Aprobador.Nombre" readonly />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer form-row">
+        <div class="col-md-3">
+          <button type="button" class="btn btn-info btn-block" data-dismiss="modal">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="registroActividadModal" tabindex="-1" aria-labelledby="registroActividadModal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registroActividadModal">
+          Registro Actividad
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-sm table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Responsable</th>
+                  <th scope="col">Actividad</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Observaciones</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let actividad of lstRegistroActividades; let i = index">
+                <tr>
+                  <th scope="col">
+                    <b>{{ i + 1 }}</b>
+                  </th>
+                  <td>
+                    <span>{{ actividad.FechaActividad }}</span>
+                  </td>
+                  <td>
+                    <span>{{ actividad.Responsable }}</span>
+                  </td>
+                  <td>
+                    <span>{{ actividad.NombreActividad }}</span>
+                  </td>
+                  <td>
+                    <span>{{ actividad.DescripcionEstado }}</span>
+                  </td>
+                  <td>
+                    <span>{{ actividad.Observaciones }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

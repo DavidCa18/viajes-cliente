@@ -1,0 +1,12 @@
+.link {
+    background-color: #104B89 !important;
+    color: #FAFAFA !important;
+    border-radius: 1px;
+    align-items: center;
+    align-self: center;
+    padding: 10px !important;
+}
+
+.nopadd {
+    padding-top: 0px !important;
+}

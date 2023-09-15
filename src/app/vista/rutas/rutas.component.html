@@ -1,0 +1,31 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin" [fullScreen]="true"></ngx-spinner>
+
+<div class="modal fade" id="modalRolesUsuario" tabindex="-1" role="dialog" aria-labelledby="modalRolesUsuario"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Perfiles</h5>
+                <button type="button" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" [(ngModel)]="fmrPerfiles.usuario" class="form-control regular-font" readonly>
+
+                </div>
+                <div class="form-group">
+                    <label>Perfil</label>
+                    <kendo-dropdownlist [(ngModel)]="fmrPerfiles.rol" class="form-control regular-font"
+                        [data]="lstPerfiles">
+                    </kendo-dropdownlist>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="GestionarPerfiles()">Ingresar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1011 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="Mensaje | async" type="ball-spin"
+  [fullScreen]="true">
+  <p style="color: white">Procesando Información, espere por favor... </p>
+</ngx-spinner>
+
+<app-componment-header></app-componment-header>
+<app-componente-menu-global [tipo]="tipoMenu"></app-componente-menu-global>
+
+<section class="breadcrumb-area bread-bg-7 py-0">
+  <div class="breadcrumb-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb-btn">
+            <div class="btn-box">
+              <div class="breadcrumb-list text-right">
+                <ul class="list-items">
+                  <li><a href="index.html">SaludSA</a></li>
+                  <li>Viaje</li>
+                  <li>Detalle</li>
+                </ul>
+              </div>
+            </div>
+            <a class="d-none" data-fancybox="gallery" data-src="images/img2.jpg" data-caption="Showing image - 02"
+              data-speed="700"></a>
+            <a class="d-none" data-fancybox="gallery" data-src="images/img3.jpg" data-caption="Showing image - 03"
+              data-speed="700"></a>
+            <a class="d-none" data-fancybox="gallery" data-src="images/img4.jpg" data-caption="Showing image - 04"
+              data-speed="700"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tour-detail-area padding-bottom-90px">
+
+  <div class="single-content-box">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="single-content-wrap padding-top-60px">
+
+            <div class="card" style="margin-bottom: 20px !important;">
+              <div class="card-header">
+                <div class="form-row">
+                  <div class="col-md-6 col-9">
+                    <span class="title font-weight-medium"><b>NÚMERO DE SOLICITUD</b></span>
+                  </div>
+                  <div class="col-md-6 col-3" style="text-align: right !important;">
+                    <span class="title" style="font-size: 25px !important;"><strong>{{ dtViaje.IdViaje }}</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="description" class="page-scroll">
+
+              <div style="background-color: #104B89; padding: 20px;">
+                <h3 class="title font-size-16" style="color: #ffffff !important">REGISTRADOR</h3>
+              </div>
+
+              <div class="section-block"></div>
+
+              <div class="single-content-item py-4">
+                <div class="row">
+
+                  <div class="col-lg-6 responsive-column">
+                    <div class="single-tour-feature d-flex align-items-center mb-3">
+                      <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                        <i class="las la-building"></i>
+                      </div>
+                      <div class="single-feature-titles">
+                        <h3 class="title font-size-15 font-weight-medium">Empresa</h3>
+                        <span class="font-size-13">{{ dtViaje.Registrador.NombreEmpresa }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 responsive-column">
+                    <div class="single-tour-feature d-flex align-items-center mb-3">
+                      <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                        <i class="las la-city"></i>
+                      </div>
+                      <div class="single-feature-titles">
+                        <h3 class="title font-size-15 font-weight-medium">Departamento</h3>
+                        <span class="font-size-13">{{ dtViaje.Registrador.Departamento }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 responsive-column">
+                    <div class="single-tour-feature d-flex align-items-center mb-3">
+                      <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                        <i class="las la-user-check"></i>
+                      </div>
+                      <div class="single-feature-titles">
+                        <h3 class="title font-size-15 font-weight-medium">Nombre</h3>
+                        <span class="font-size-13">{{ dtViaje.NombreViaje }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 responsive-column">
+                    <div class="single-tour-feature d-flex align-items-center mb-3">
+                      <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                        <i class="las la-vote-yea"></i>
+                      </div>
+                      <div class="single-feature-titles">
+                        <h3 class="title font-size-15 font-weight-medium">Cargo</h3>
+                        <span class="font-size-13">{{ dtViaje.Registrador.Cargo }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 responsive-column">
+                    <div class="single-tour-feature d-flex align-items-center mb-3">
+                      <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                        <i class="las la-id-card-alt"></i>
+                      </div>
+                      <div class="single-feature-titles">
+                        <h3 class="title font-size-15 font-weight-medium">Identificación</h3>
+                        <span class="font-size-13">{{ dtViaje.Registrador.Identificacion }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 responsive-column">
+                    <div class="single-tour-feature d-flex align-items-center mb-3">
+                      <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                        <i class="la la-map-marker"></i>
+                      </div>
+                      <div class="single-feature-titles">
+                        <h3 class="title font-size-15 font-weight-medium">Ciudad</h3>
+                        <span class="font-size-13">{{ dtViaje.Registrador.Ciudad }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 responsive-column">
+                    <div class="single-tour-feature d-flex align-items-center mb-3">
+                      <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                        <i class="las la-envelope"></i>
+                      </div>
+                      <div class="single-feature-titles">
+                        <h3 class="title font-size-15 font-weight-medium">Correo Electrónico</h3>
+                        <span class="font-size-13">{{ dtViaje.Registrador.Email }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div id="availability" class="page-scroll">
+              <div class="single-content-item">
+                <div style="background-color: #104B89; padding: 20px;">
+                  <h3 class="title font-size-16" style="color: #ffffff !important">VIAJE</h3>
+                </div>
+                <div class="section-block"></div>
+                <div class="single-content-item py-4">
+                  <div>
+                    <div class="row">
+
+                      <div class="col-lg-6">
+                        <div>
+                          <label class="label-text"><b>Fecha de Inicio</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-calendar form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.FechaInicioViaje }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div>
+                          <label class="label-text"><b>Hora de Inicio</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-clock form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.HoraInicioViaje }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div>
+                          <label class="label-text"><b>Fecha de Finalización</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-calendar form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.FechaFinViaje }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div>
+                          <label class="label-text"><b>Hora de Finalización</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-clock form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.HoraFinViaje }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div>
+                          <label class="label-text"><b>Nombre Corto</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-user-circle form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.NombreViaje }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div>
+                          <label class="label-text"><b>Tipo de Viaje</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-globe form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.TipoViaje }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div>
+                          <label class="label-text"><b>¿Requiere Hospedaje?</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-hotel form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.RequiereHospedajeViaje }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div>
+                          <label class="label-text"><b>Número de Noches</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-moon form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.NumeroNochesViaje }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div>
+                          <label class="label-text"><b>¿Es viaje por capacitación?</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-pen form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.ViajeCapacitacion }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-12">
+
+                        <div>
+                          <label class="label-text"><b>Motivo del Viaje</b></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text blank">
+                                <span class="las la-file-alt form-icon"></span>
+                              </span>
+                            </div>
+                            <span class="form-control regular-font">
+                              {{ dtViaje.MotivoViaje }}
+                            </span>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="section-block"></div>
+            </div>
+
+            <div id="amenities" class="page-scroll">
+              <div class="single-content-item ">
+
+                <div style="background-color: #104B89; padding: 20px;">
+                  <h3 class="title font-size-16" style="color: #ffffff !important">TRANSPORTE {{
+                    dtViaje.Transporte.Tipo | uppercase }}</h3>
+                </div>
+                <div class="section-block"></div>
+                <div *ngIf="dtViaje.Transporte.Tipo == 'Terrestre'" class="single-content-item py-4">
+                  <div>
+                    <div class="row">
+
+                      <div class="col-lg-4 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-map-marked-alt"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Destino - Ruta</h3>
+                            <span>{{ dtViaje.Transporte.Ruta.NombreRuta }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="la la-television"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Tiene Movilización Propia</h3>
+                            <span>{{ dtViaje.Transporte.MovilizacionTerrestre }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-4 responsive-column" *ngIf="dtViaje.Transporte.MovilizacionTerrestre == 'No'">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-dolly"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Empresa Contrata Movilización</h3>
+                            <span>{{ dtViaje.Transporte.MovilizacionTerrestreContratada }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'Sí'" class="col-md-12">
+                        <div class="col-md-12" style="background-color: #104a8981; padding: 10px;">
+                          <h3 class="title font-size-14" style="color: #ffffff !important">DATOS DE MOVILIZACIÓN</h3>
+                        </div>
+                      </div>
+
+                      <div *ngIf="dtViaje.Transporte.MovilizacionTerrestre == 'Sí'" class="col-lg-4 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="la la-coffee"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Kilómetros (ida y vuelta)</h3>
+                            <span>{{ dtViaje.Transporte.KilometrosTerrestre }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="dtViaje.Transporte.MovilizacionTerrestre == 'Sí'" class="col-lg-4 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="la la-tree"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Valor</h3>
+                            <span>$ {{ dtViaje.Transporte.ValorTerrestre }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="dtViaje.Transporte.Tipo == 'Aéreo'" class="single-content-item py-4">
+                  <div>
+                    <div class="row">
+                      <div class="col-lg-6 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="la la-check"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Destino - Ruta</h3>
+                            <span>{{ dtViaje.Transporte.Ruta.NombreRuta }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="la la-television"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">¿Requiere Pasaje?</h3>
+                            <span>{{ dtViaje.Transporte.RequierePasajeAereo }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'No'" class="col-md-12">
+                        <div class="col-md-12" style="background-color: #104a8981; padding: 10px;">
+                          <h3 class="title font-size-14" style="color: #ffffff !important">DATOS DEL PASAJE AÉREO</h3>
+                        </div>
+                      </div>
+
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'No'" class="col-lg-6 responsive-column"
+                        style="padding-top: 20px !important;">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-calendar-alt"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Fecha de Emisión</h3>
+                            <span>{{ dtViaje.Transporte.FechaEmisionAereo }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'No'" class="col-lg-6 responsive-column"
+                        style="padding-top: 20px !important;">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-broadcast-tower"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Nombre Aerolinea</h3>
+                            <span>{{ dtViaje.Transporte.NombreAerolineaAereo }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'No'" class="col-lg-6 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-ticket-alt"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Número de Pasaje</h3>
+                            <span>{{ dtViaje.Transporte.NumeroPasajeAereo }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'No'" class="col-lg-6 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-passport"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Referencia de pago</h3>
+                            <span>{{ dtViaje.Transporte.ReferenciaAereo }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'No'" class="col-lg-6 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-hand-holding-usd"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Valor</h3>
+                            <span>$ {{ dtViaje.Transporte.ValorAereo }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'No'" class="col-lg-6 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-plane-arrival"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Impuesto Aéreo</h3>
+                            <span>$ {{ dtViaje.Transporte.ImpuestoAereo }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'No'" class="col-lg-6 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-file-invoice-dollar"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Impuesto</h3>
+                            <span>{{ (dtViaje.Transporte.ImpuestoPorcentajeAereo) * 100 }} % </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="dtViaje.Transporte.RequierePasajeAereo == 'No'" class="col-lg-6 responsive-column">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="las la-dollar-sign"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Pasaje Total</h3>
+                            <span>$ {{ dtViaje.Transporte.TotalAereo }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="section-block"></div>
+            </div>
+
+            <div id="faq" *ngIf="dtViaje.Hotel.IdHotel != 23" class="page-scroll">
+
+              <div class="single-content-item ">
+
+                <div style="background-color: #104B89; padding: 20px;">
+                  <h3 class="title font-size-16" style="color: #ffffff !important">HOSPEDAJE</h3>
+                </div>
+
+                <div class="section-block"></div>
+
+                <div class="single-content-item py-4">
+
+                  <div>
+                    <div class="row">
+
+                      <div class="col-lg-12">
+
+                        <div class="row">
+
+                          <div class="col-lg-6 col-sm-6">
+                            <div class="single-tour-feature d-flex align-items-center mb-3">
+                              <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                                <i class="las la-hotel"></i>
+                              </div>
+                              <div class="single-feature-titles">
+                                <h3 class="title font-size-15 font-weight-medium">
+                                  <b>Hotel</b>
+                                </h3>
+                                <span>{{ dtViaje.Hotel.NombreHotel }}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6 col-sm-6">
+                            <div class="single-tour-feature d-flex align-items-center mb-3">
+                              <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                                <i class="las la-hand-holding-usd"></i>
+                              </div>
+                              <div class="single-feature-titles">
+                                <h3 class="title font-size-15 font-weight-medium">
+                                  <b>Tarifa</b>
+                                </h3>
+                                <span>{{ dtViaje.Hotel.TarifaHotel }}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="row">
+
+                          <div class="col-lg-6">
+                            <div class="form-row">
+                              <div class="col-12">
+                                <h3 class="title font-size-15 font-weight-medium"><b>Imagen Referencial</b></h3>
+                              </div>
+                              <div class="col-12">
+                                <img alt="imagen hotel" src="{{ dtViaje.Hotel.Imagen }}" class="img-fluid"
+                                  style="width: 100% !important; height: 100% !important;">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="form-row">
+                              <div class="col-12">
+                                <h3 class="title font-size-15 font-weight-medium"><b>Ubicación</b></h3>
+                              </div>
+                            </div>
+                            <div class="col-12" id="mapa" style="height: 100%; width: 100%;"></div>
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div id="reviews" class="page-scroll">
+              <div class="single-content-item ">
+                <div style="background-color: #104B89; padding: 20px;">
+                  <h3 class="title font-size-16" style="color: #ffffff !important">VIÁTICOS</h3>
+                </div>
+                <div class="section-block"></div>
+                <div class="single-content-item py-4">
+                  <div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div>
+                          <table class="tabla">
+                            <thead style="background-color: #104B89; color: #fff;">
+                              <tr class="tabla-web">
+                                <th id="descripcion" class="tabla-i">Descripción</th>
+                                <th id="cantidad">Cantidad</th>
+                                <th id="valor" class="tabla-d">Valor $</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <ng-container *ngFor="let viatic of lstViaticos">
+
+                                <tr
+                                  *ngIf="viatic.Tipo != 'Subtotal' && viatic.Tipo != 'Total' && viatic.Tipo != 'Hospedaje' && viatic.Tipo != 'Kilometros'"
+                                  class="tabla-bordes">
+                                  <td><b>{{ viatic.Tipo }}</b></td>
+                                  <td>{{ viatic.Cantidad }}</td>
+                                  <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                                </tr>
+
+                                <tr *ngIf="viatic.Tipo == 'Subtotal'" class="tabla-bordes"
+                                  style="background-color: #416c99d5;">
+                                  <td style="color: #fff !important;"><b>Subtotal (Noches + Días)</b></td>
+                                  <td>{{ viatic.Cantidad }}</td>
+                                  <td style="color: #fff !important;">$ {{ global.FormatearNumero(viatic.Valor, 2) }}
+                                  </td>
+                                </tr>
+
+                                <tr *ngIf="viatic.Tipo == 'Kilometros'" class="tabla-bordes">
+                                  <td><b>Kilómetros</b></td>
+                                  <td>{{ viatic.Cantidad }}</td>
+                                  <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                                </tr>
+
+                                <tr *ngIf="viatic.Tipo == 'Otros' && viatic.Cantidad == 'Sí'" class="tabla-bordes">
+                                  <td></td>
+                                  <td style="text-align: right !important;"><b>Justificación:</b></td>
+                                  <td>
+                                    {{ viatic.Justificacion }}
+                                  </td>
+                                </tr>
+
+                                <tr *ngIf="viatic.Tipo == 'Total'" class="tabla-bordes"
+                                  style="background-color: #416c99d5;">
+                                  <td style="color: #fff !important;"><b>Viáticos a Entregar</b></td>
+                                  <td>{{ viatic.Cantidad }}</td>
+                                  <td style="color: #fff !important;">$ {{ global.FormatearNumero(viatic.Valor, 2) }}
+                                  </td>
+                                </tr>
+
+                                <tr *ngIf="viatic.Tipo == 'Hospedaje' && viatic.Valor != 0" class="tabla-bordes">
+                                  <td><b>{{ viatic.Tipo }}</b></td>
+                                  <td>Sí</td>
+                                  <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                                </tr>
+
+                                <tr *ngIf="viatic.Tipo == 'Hospedaje' && viatic.Valor == 0" class="tabla-bordes">
+                                  <td><b>Hospedaje</b></td>
+                                  <td><b>No</b></td>
+                                  <td>$ {{ global.FormatearNumero(viatic.Valor, 2) }}</td>
+                                </tr>
+
+                              </ng-container>
+
+                            </tbody>
+                            <tfoot>
+                              <tr>
+                                <td colspan="3" class="tabla-i-d"></td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="section-block"></div>
+            </div>
+
+            <div class="review-box">
+
+              <div class="single-content-item ">
+                <div style="background-color: #104B89; padding: 20px;">
+                  <h3 class="title font-size-16" style="color: #ffffff !important">APROBADOR</h3>
+                </div>
+                <div class="section-block"></div>
+                <div class="single-content-item py-4">
+                  <div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="single-tour-feature d-flex align-items-center mb-3">
+                          <div class="single-feature-icon icon-element ml-0 flex-shrink-0 mr-3">
+                            <i class="la la-check"></i>
+                          </div>
+                          <div class="single-feature-titles">
+                            <h3 class="title font-size-15 font-weight-medium">Nombre</h3>
+                            <span>{{ dtViaje.Aprobador.Nombre }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-block"></div>
+
+              <div class="single-content-item ">
+                <div style="background-color: #104B89; padding: 20px;">
+                  <h3 class="title font-size-16" style="color: #ffffff !important">CONTABILIDAD</h3>
+                </div>
+                <div class="section-block"></div>
+                <div class="single-content-item py-4">
+                  <div>
+                    <div class="row">
+                      <div class="col-lg-12">
+
+
+                        <div style="padding: 20px;">
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div>
+                                <label class="label-text"><b>Tipo de Cuenta</b></label>
+                                <div
+                                  [ngClass]="vlContabilidad.tipoContabilidad == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text blank" id="Tipo de Cuenta">
+                                      <span class="las la-book"></span>
+                                    </span>
+                                  </div>
+                                  <kendo-dropdownlist [(ngModel)]="dtContabilidad.tipoContabilidad"
+                                    class="form-control regular-font" [data]="lstTipoCuenta" disabled="'true'">
+                                  </kendo-dropdownlist>
+                                </div>
+                                <div *ngIf="vlContabilidad.tipoContabilidad == true">
+                                  <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este
+                                    campo es
+                                    requerido</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="label-text"><b>Departamento</b></label>
+                              <div
+                                [ngClass]="vlContabilidad.departamento1 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text blank" id="Departamento">
+                                    <span class="las la-building form-icon"></span>
+                                  </span>
+                                </div>
+                                <kendo-dropdownlist class="form-control regular-font" [data]="lstDepartamento1"
+                                  [(ngModel)]="dtDepartamento1" textField="CodigoDescripcion" valueField="Codigo"
+                                  (ngModelChange)="ColocarDepartamento1()" disabled="'true'">
+                                  <ng-template kendoDropDownListItemTemplate let-dataItem>
+                                    <span>{{ dataItem.CodigoDescripcion }}</span>
+                                  </ng-template>
+                                </kendo-dropdownlist>
+                              </div>
+                              <div *ngIf="vlContabilidad.departamento1 == true">
+                                <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este
+                                  campo es
+                                  requerido</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div>
+                                <label class="label-text"><b>Departamento</b></label>
+                                <div
+                                  [ngClass]="vlContabilidad.departamento2 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text blank" id="Departamento">
+                                      <span class="las la-building form-icon"></span>
+                                    </span>
+                                  </div>
+                                  <kendo-dropdownlist class="form-control regular-font" [data]="lstDepartamento2"
+                                    [(ngModel)]="dtDepartamento2" textField="CodigoDescripcion" valueField="Codigo"
+                                    (ngModelChange)="ColocarDepartamento2()" disabled="'true'">
+                                    <ng-template kendoDropDownListItemTemplate let-dataItem>
+                                      <span>{{ dataItem.CodigoDescripcion }}</span>
+                                    </ng-template>
+                                  </kendo-dropdownlist>
+                                </div>
+                                <div *ngIf="vlContabilidad.departamento2 == true">
+                                  <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este
+                                    campo es
+                                    requerido</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div>
+                                <label class="label-text"><b>Centro de Costos</b></label>
+                                <div
+                                  [ngClass]="vlContabilidad.departamento2 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text blank" id="Departamento">
+                                      <span class="las la-building form-icon"></span>
+                                    </span>
+                                  </div>
+                                  <kendo-dropdownlist class="form-control regular-font" [data]="lstCostoCentroFiltro"
+                                    [(ngModel)]="dtCostoCentro" [filterable]="true" [textField]="'CodigoDescripcion'"
+                                    [valueField]="'Codigo'" (filterChange)="FiltrarCentroCosto($event)"
+                                    (ngModelChange)="ColocarCentroCosto()" disabled="'true'">
+                                  </kendo-dropdownlist>
+
+
+                                </div>
+                                <div *ngIf="vlContabilidad.departamento2 == true">
+                                  <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este
+                                    campo es
+                                    requerido</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row" *ngIf="dtContabilidad.departamento1Codigo != null">
+
+                            <div class="col-md-6">
+
+
+
+
+                              <div>
+                                <label class="label-text"><b>Propósito</b></label>
+                                <div
+                                  [ngClass]="vlContabilidad.departamento2 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text blank" id="Proposito">
+                                      <span class="las la-building form-icon"></span>
+                                    </span>
+                                  </div>
+                                  <kendo-dropdownlist class="form-control regular-font" [data]="lstProposito"
+                                    [(ngModel)]="dtProposito" textField="CodigoDescripcion" valueField="Codigo"
+                                    (ngModelChange)="ColocarProposito()" disabled="'true'">
+                                    <ng-template kendoDropDownListItemTemplate let-dataItem>
+                                      <span>{{ dataItem.CodigoDescripcion }}</span>
+                                    </ng-template>
+                                  </kendo-dropdownlist>
+                                </div>
+                                <div *ngIf="vlContabilidad.departamento2 == true">
+                                  <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este
+                                    campo es
+                                    requerido</span>
+                                </div>
+                              </div>
+
+
+                            </div>
+
+                            <div class="col-md-6">
+
+
+                              <div>
+                                <label class="label-text"><b>Tipo de Gasto</b></label>
+                                <div
+                                  [ngClass]="vlContabilidad.departamento2 == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text blank" id="Departamento">
+                                      <span class="las la-building form-icon"></span>
+                                    </span>
+                                  </div>
+
+                                  <input type="text" [(ngModel)]="dtTipoGasto" class="form-control regular-font"
+                                    placeholder="Tipo Gasto" readonly>
+
+                                </div>
+                                <div *ngIf="vlContabilidad.departamento2 == true">
+                                  <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este
+                                    campo es
+                                    requerido</span>
+                                </div>
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-block"></div>
+
+              <div *ngIf="estadoVista == 'CONFIRMADO'" class="row">
+                <div class="col-md-12 text-right">
+                  <div class="btn-box pt-3">
+                    <div class="form-row" *ngIf="!estadoAdicional">
+                      <div class="col-md-3"></div>
+                      <div class="col-md-3">
+                        <button type="submit" class="btn btn-success btn-block" (click)="ObtenerCuentasDiariosAX()"><em class="fas fa-check mr-1"></em>Aprobar Solicitud</button>
+                      </div>
+                      <div class="col-md-3">
+                        <button type="submit" class="btn btn-warning btn-block" data-target="#exampleModalCenter"
+                          (click)="AbrirModalModificar()"><em class="fas fa-pencil-alt mr-1"></em>Modificar
+                          Solicitud</button>
+                      </div>
+                      <div class="col-md-3">
+                        <button type="submit" class="btn btn-danger btn-block" (click)="AbrirModalNegar()"><em
+                            class="fas fa-times mr-1"></em>Negar Solicitud</button>
+                      </div>
+                    </div>
+                    <div class="form-row" *ngIf="estadoAdicional">
+                      <div class="col-md-9"></div>
+                      <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary btn-block" (click)="VerificacionProcesoMovilizacionHospedaje()"><em class="fas fa-check mr-1"></em>Finalizar Aprobación</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modificar Solicitud</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label-text"><b>Justificación</b></label>
+          <textarea rows="6" class="form-control" [(ngModel)]="comentario"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-block" data-dismiss="modal"
+          style="width: 150px !important;"><i class="fas fa-times mr-1"></i>Cerrar</button>
+        <button type="button" class="btn btn-outline-warning btn-block" (click)="ModificarSolicitud()"
+          style="width: 150px !important;"><i class="fas fa-pencil-alt mr-1"></i>Modificar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleNegarSolicitud" tabindex="-1" role="dialog" aria-labelledby="exampleNegarSolicitud"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Negar Solicitud</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="label-text"><b>Justificación</b></label>
+          <textarea rows="6" class="form-control" [(ngModel)]="comentario"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-block" data-dismiss="modal"
+          style="width: 150px !important;"><i class="fas fa-times mr-1"></i>Cerrar</button>
+        <button type="button" class="btn btn-outline-danger btn-block" (click)="NegarSolicitud()"
+          style="width: 150px !important;"><i class="fas fa-times mr-1"></i>Negar</button>
+      </div>
+    </div>
+  </div>
+</div>

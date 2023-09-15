@@ -1,0 +1,453 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin"
+  [fullScreen]="true"></ngx-spinner>
+
+<div class="section-bg">
+  <app-administrator-side-bar></app-administrator-side-bar>
+
+  <section class="dashboard-area">
+
+    <app-administrator-top-bar></app-administrator-top-bar>
+
+    <div class="dashboard-content-wrap">
+      <div class="dashboard-bread dashboard--bread dashboard-bread-2">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="breadcrumb-content">
+                <div class="section-heading">
+                  <h2 class="sec__title font-size-30 text-white">Hoteles</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="breadcrumb-list text-right">
+                <ul class="list-items">
+                  <li><a class="text-white">Administrador</a></li>
+                  <li>Viajes</li>
+                  <li>Hoteles</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-main-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-box">
+
+                <div class="form-title-wrap">
+                  <h3 class="title">Listado de Hoteles</h3>
+                </div>
+
+                <div class="form-content">
+                  <div class="form-row">
+                    <div class="col-9"></div>
+                    <div class="col-3">
+                      <button class="btn btn-primary btn-block" (click)="AbrirModalCrear()"><strong>Crear Hotel</strong></button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-content">
+
+                  <div class="collapse" id="collapseCrear">
+
+                    <div class="card">
+                      <div class="card-header"><b>Crear Hotel</b></div>
+
+                      <div class="card-body">
+
+                        <div class="form-row">
+
+                          <div class="col-md-6">
+                            <label for="nombre"><b>Nombre</b></label>
+                            <input type="text" class="form-control" id="nombre"
+                              placeholder="Ingrese el nombre del hotel" [(ngModel)]="hotel.NombreHotel"
+                              name="hotel.NombreHotel"
+                              (keyup)="hotel.NombreHotel = global.FormatearCampo(hotel.NombreHotel, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+                          </div>
+
+                          <div class="col-md-6">
+                            <label for="descripcion"><b>Descripción</b></label>
+                            <input type="text" class="form-control" id="descripcion"
+                              placeholder="Ingrese una descripción del hotel" [(ngModel)]="hotel.DescripcionHotel"
+                              name="hotel.DescripcionHotel"
+                              (keyup)="hotel.DescripcionHotel = global.FormatearCampo(hotel.DescripcionHotel, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+                          </div>
+
+                          <div class="col-md-6">
+                            <label for="email"><b>Email</b></label>
+                            <input type="email" class="form-control" id="email" placeholder="Ingrese el email del hotel"
+                              [(ngModel)]="hotel.EmailHotel" name="hotel.EmailHotel">
+                          </div>
+
+                          <div class="col-md-3">
+                            <label for="ciudad"><b>Ciudad</b></label>
+                            <kendo-dropdownlist [data]="lstCiudadesViajes" [textField]="'Nombre'" [valueField]="'Id'"
+                              class="form-control regular-font" [(ngModel)]="ciudadSeleccion"
+                              style="width: 100% !important;"></kendo-dropdownlist>
+                          </div>
+
+                          <div class="col-md-3">
+                            <label for="tarifa"><b>Tarifa</b></label>
+                            <input currencyMask [(ngModel)]="hotel.TarifaHotel" class="form-control" />
+                          </div>
+
+                          <div class="col-md-12">
+                            <label for="direccion"><b>Dirección</b></label>
+                            <input type="text" class="form-control" id="input-direccion"
+                              placeholder="Ingrese la dirección del hotel">
+                          </div>
+
+                          <div class="col-md-12">
+                            <label for="direccion"><b>Imágen del Hotel</b></label>
+                            <input type="file" accept="image/*" id="Imagen" class="form-control"
+                              (change)="ObtenerImagen('Imagen')" />
+                          </div>
+
+                          <div class="col-md-12" style="margin-top: 30px !important; margin-bottom: 30px !important;">
+
+                            <div class="form-row">
+
+                              <div class="col-md-6"></div>
+                              <div class="col-md-3">
+                                <button class="btn btn-secondary btn-block" (click)="CerrarCollapse()">Cancelar</button>
+                              </div>
+                              <div class="col-md-3">
+                                <button class="btn btn-success btn-block" (click)="GuardarHotel()">Crear Hotel</button>
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="collapse" id="collapseEditar">
+
+                    <div class="card">
+                      <div class="card-header"><b>Editar Hotel</b></div>
+
+                      <div class="card-body">
+
+                        <div class="form-row">
+
+                          <div class="col-md-6">
+                            <label for="nombre"><b>Nombre</b></label>
+                            <input type="text" class="form-control" id="nombre"
+                              placeholder="Ingrese el nombre del hotel" [(ngModel)]="hotel.NombreHotel"
+                              name="hotel.NombreHotel"
+                              (keyup)="hotel.NombreHotel = global.FormatearCampo(hotel.NombreHotel, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+                          </div>
+
+                          <div class="col-md-6">
+                            <label for="descripcion"><b>Descripción</b></label>
+                            <input type="text" class="form-control" id="descripcion"
+                              placeholder="Ingrese una descripción del hotel" [(ngModel)]="hotel.DescripcionHotel"
+                              name="hotel.DescripcionHotel"
+                              (keyup)="hotel.DescripcionHotel = global.FormatearCampo(hotel.DescripcionHotel, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+                          </div>
+
+                          <div class="col-md-6">
+                            <label for="email"><b>Email</b></label>
+                            <input type="email" class="form-control" id="email" placeholder="Ingrese el email del hotel"
+                              [(ngModel)]="hotel.EmailHotel" name="hotel.EmailHotel">
+                          </div>
+
+                          <div class="col-md-3">
+                            <label for="ciudad"><b>Ciudad</b></label>
+                            <kendo-dropdownlist [data]="lstCiudadesViajes" [textField]="'Nombre'" [valueField]="'Id'"
+                              class="form-control regular-font" [(ngModel)]="ciudadSeleccion"
+                              style="width: 100% !important;"></kendo-dropdownlist>
+                          </div>
+
+                          <div class="col-md-3">
+                            <label for="tarifa"><b>Tarifa</b></label>
+                            <input currencyMask [(ngModel)]="hotel.TarifaHotel" class="form-control" />
+                          </div>
+
+                          <div class="col-md-12">
+                            <label for="direccion"><b>Dirección</b></label>
+                            <input type="text" class="form-control" id="input-direccion2"
+                              placeholder="Ingrese la dirección del hotel">
+                          </div>
+
+                          <div class="col-md-12">
+
+                          </div>
+
+                          <div class="col-md-12" style="margin-top: 30px !important; margin-bottom: 30px !important;">
+
+                            <div class="form-row">
+
+                              <div class="col-md-5" style="text-align: center;">
+                                <img src="{{ hotel.Imagen }}" alt="Imagen" width="60%">
+                              </div>
+                              <div class="col-md-7">
+                                <label for="direccion"><b>Imágen del Hotel</b></label>
+                                <input type="file" accept="image/*" id="Imagen2" class="form-control"
+                                  (change)="ObtenerImagen('Imagen2')" />
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                          <div class="col-md-12" style="margin-top: 30px !important; margin-bottom: 30px !important;">
+
+                            <div class="form-row">
+
+                              <div class="col-md-6"></div>
+                              <div class="col-md-3">
+                                <button class="btn btn-secondary btn-block" (click)="CerrarCollapse()">Cancelar</button>
+                              </div>
+                              <div class="col-md-3">
+                                <button class="btn btn-warning btn-block"
+                                  (click)="ActualizarHotel()">Actualizar</button>
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <br>
+
+                  <kendo-grid *ngIf="tabla" [data]="gridData" [pageSize]="state.take" [skip]="state.skip"
+                    [sort]="state.sort" [sortable]="true" [resizable]="true" [pageable]="true" filterable="menu"
+                    (dataStateChange)="dataStateChange($event)">
+
+                    <kendo-grid-column title="#" headerClass="text-center" class="text-center" width="50"
+                      [filterable]="false">
+                      <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        {{rowIndex + 1}}
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="NombreHotel" title="Nombre">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="CiudadHotel" title="Ciudad" width="120"
+                      [class]="{ 'text-center': true }">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="EmailHotel" title="Email">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" title="Tarifa" width="120"
+                      [class]="{ 'text-center': true }">
+
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <span> $ {{ global.FormatearNumero(dataItem.TarifaHotel, 2) }} </span>
+
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" title="Estado" width="120"
+                      [class]="{ 'text-center': true }">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <span *ngIf="dataItem.EstadoHotel == 0" style="color: darkred;"><em
+                            class="fas fa-times mr-2"></em> Inactivo</span>
+                        <span *ngIf="dataItem.EstadoHotel == 1" style="color: darkgreen;"><em
+                            class="fas fa-check mr-2"></em> Activo</span>
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" width="120" title="Detalles"
+                      [class]="{ 'text-center': true }">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button class="btn btn-outline-info" (click)="AbrirModalDetalles(dataItem)">
+                          <i class="far fa-list-alt fa-lg"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" width="120" title="Editar"
+                      [class]="{ 'text-center': true }">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button class="btn btn-outline-warning" (click)="AbrirModalEditar(dataItem)">
+                          <i class="fas fa-pencil-alt fa-lg"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" width="120" title="Gestión"
+                      [class]="{ 'text-center': true }">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button *ngIf="dataItem.EstadoHotel == 1" class="btn btn-outline-danger"
+                          (click)="AbrirModalEliminar(dataItem)">
+                          <em class="fas fa-times fa-lg"></em>
+                        </button>
+                        <button *ngIf="dataItem.EstadoHotel == 0" class="btn btn-outline-success"
+                          (click)="AbrirModalActivar(dataItem)">
+                          <em class="fas fa-check fa-lg"></em>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-messages groupPanelEmpty="Arrastra aquí para agrupar"
+                      noRecords="No hay elementos que mostrar." pagerPage="Página" pagerOf="de" pagerItems="Registros"
+                      pagerItemsPerPage="regiatros por página" filterClearButton="Limpiar" filterFilterButton="Buscar"
+                      filterAndLogic="Y" filterOrLogic="O" filterEqOperator="Es igual a"
+                      filterNotEqOperator="No es igual a" filterContainsOperator="Contiene"
+                      filterNotContainsOperator="No contiene" filterStartsWithOperator="Comienza con"
+                      filterEndsWithOperator="Termina con" filterIsNullOperator="Es nulo (null)"
+                      filterIsNotNullOperator="No es nulo (null)" filterIsEmptyOperator="Esta vacio"
+                      filterIsNotEmptyOperator="No está vacío" filterAfterOperator="Es posterior a"
+                      filterAfterOrEqualOperator="Es posterior o igual a"
+                      filterBeforeOrEqualOperator="Es anterior o igual a" filterBeforeOperator="Es antes">
+                    </kendo-grid-messages>
+                  </kendo-grid>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-top mt-5"></div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div id="back-to-top"><i class="la la-angle-up" title="Subir"></i></div>
+
+</div>
+
+<div class="modal fade" id="modalDetalleHotel" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+  aria-labelledby="modalDetalleHotel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalle Hotel</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-row">
+
+          <div class="col-md-6">
+
+            <div class="card bg-light border-light">
+              <br>
+              <div class="card-body">
+                <h5 class="card-title">Imagen</h5>
+                <img src="{{ hotel.Imagen }}" class="img-fluid" alt="Hotel Image">
+              </div>
+              <br>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+
+            <div class="card bg-light border-light">
+              <div class="card-body">
+
+                <div class="form-row">
+
+                  <div class="col-md-12">
+                    <label for="nombre"><b>Nombre</b></label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del hotel"
+                      [(ngModel)]="hotel.NombreHotel" name="hotel.NombreHotel"
+                      (keyup)="hotel.NombreHotel = global.FormatearCampo(hotel.NombreHotel, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)"
+                      readonly>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label for="descripcion"><b>Descripción</b></label>
+                    <input type="text" class="form-control" id="descripcion"
+                      placeholder="Ingrese una descripción del hotel" [(ngModel)]="hotel.DescripcionHotel"
+                      name="hotel.DescripcionHotel"
+                      (keyup)="hotel.DescripcionHotel = global.FormatearCampo(hotel.DescripcionHotel, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)"
+                      readonly>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label for="ciudad"><b>Ciudad</b></label>
+                    <input type="text" class="form-control" id="ciudad" placeholder="Ingrese la ciudad del hotel"
+                      [(ngModel)]="hotel.CiudadHotel" name="hotel.CiudadHotel"
+                      (keyup)="hotel.CiudadHotel = global.FormatearCampo(hotel.CiudadHotel, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)"
+                      readonly>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label for="tarifa"><b>Tarifa</b></label>
+                    <input currencyMask [(ngModel)]="hotel.TarifaHotel" class="form-control" readonly />
+                  </div>
+
+                  <div class="col-md-12">
+                    <label for="email"><b>Email</b></label>
+                    <input type="email" class="form-control" id="email" placeholder="Ingrese el email del hotel"
+                      [(ngModel)]="hotel.EmailHotel" name="hotel.EmailHotel" readonly>
+                  </div>
+
+                  <br>
+
+                  <div class="col-md-12">
+                    <label for="direccion"><b>Ver Ubicación</b></label>
+                    <br>
+                    <a (click)="VerMapa(hotel)" style="color: green; cursor: pointer;"> <strong>Abrir Mapa</strong>
+                    </a>
+                  </div>
+
+                </div>
+                <br><br><br>
+                <div class="form-row">
+                  <div class="col-8"></div>
+                  <div class="col-4">
+                    <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalMapa" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+  aria-labelledby="modalEditarHotel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ver Ubicación del Hotel</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-row">
+          <div id="mapa" style="height: 500px; width: 100%;"></div>
+        </div>
+
+        <br><br>
+
+        <div class="row">
+          <div class="col-md-8"></div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-info btn-block" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

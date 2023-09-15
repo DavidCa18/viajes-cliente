@@ -1,0 +1,9 @@
+.vista{
+    border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 2px solid #8a878a;
+background-color: #d4e5ff;
+text-align: center;
+padding: 30px;
+}

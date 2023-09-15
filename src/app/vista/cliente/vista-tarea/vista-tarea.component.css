@@ -1,0 +1,9 @@
+.size {
+  width: 180px;
+}
+
+@media only screen and (max-width: 1254px) {
+  .size {
+    width: 50000px !important;
+  }
+}

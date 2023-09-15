@@ -1,0 +1,78 @@
+<div style="padding: 20px;">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div>
+        <table class="tabla">
+          <thead style="background-color: #104B89; color: #fff;">
+            <tr class="tabla-web">
+              <th id="descripcion" class="tabla-i">Descripción</th>
+              <th id="cantidad">Cantidad</th>
+              <th id="valor"class="tabla-d">Valor $</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="tabla-bordes">
+              <td>N° Noches</td>
+              <td>{{ dtViaje.numeroNoches }}</td>
+              <td>$ {{ global.FormatearNumero(dtDinero.dineroNoches, 2) }}</td>
+            </tr>
+            <tr class="tabla-bordes">
+              <td>N° Días</td>
+              <td>{{ dtDinero.dias }}</td>
+              <td>$ {{ global.FormatearNumero(dtDinero.dineroDias, 2) }}</td>
+            </tr>
+            <tr class="tabla-bordes" style="background-color: #416c99d5;">
+              <td style="color: #fff !important;">Subtotal (Noches + Días)</td>
+              <td></td>
+              <td style="color: #fff !important;">$ {{ global.FormatearNumero(dtDinero.totalDineroDiasNoches, 2) }}</td>
+            </tr>
+            <tr class="tabla-bordes">
+              <td>N° Kilómetros</td>
+              <td>{{ dtDinero.numeroKilometros }}</td>
+              <td>$ {{ global.FormatearNumero(dtDinero.valorKilometros, 2) }}</td>
+            </tr>
+            <tr class="tabla-bordes">
+              <td style="width: 300px !important;">Otros Viáticos</td>
+              <td style="width: 150px !important;">
+                <kendo-dropdownlist [(ngModel)]="dtDinero.otroDinero" class="form-control regular-font"
+                  [data]="lstOtroDinero" (ngModelChange)="ObtenerVistaOtroDinero()">
+                </kendo-dropdownlist>
+              </td>
+              <td style="width: 200px !important;">
+                <span *ngIf="!estadoOtroDinero">
+                  $ {{ global.FormatearNumero(dtDinero.valorOtroDinero, 2) }}
+                </span>
+                 <input *ngIf="estadoOtroDinero" currencyMask [(ngModel)]="dtDinero.valorOtroDinero" class="form-control regular-font" placeholder="Ingresar Valor ($)" (ngModelChange)="ObtenerCalculos()"/>
+              </td>
+            </tr>
+            <tr *ngIf="estadoOtroDinero" class="tabla-bordes">
+              <td></td>
+              <td colspan="2">
+                <input type="text" [(ngModel)]="dtDinero.justificarDinero" class="form-control regular-font"
+                  placeholder="Ingresar Justificación">
+              </td>
+            </tr>
+            <tr class="tabla-bordes" style="background-color: #416c99d5;">
+              <td style="color: #fff !important;">Viáticos a Entregar</td>
+              <td></td>
+              <td style="color: #fff !important;">$ {{ global.FormatearNumero(dtDinero.total, 2) }}</td>
+            </tr>
+            <tr class="tabla-bordes">
+              <td>Hospedaje</td>
+              <td [ngClass]="dtViaje.requiereHospedaje == 'Sí' ? 'ver' : dtViaje.requiereHospedaje == 'No' ? 'ocultar' : 'ver'">Sí</td>
+              <td [ngClass]="dtViaje.requiereHospedaje == 'No' ? 'ver' : dtViaje.requiereHospedaje == 'Sí' ? 'ocultar' : 'ver'">No</td>
+              <td>$ {{ global.FormatearNumero(dtDinero.totalHotel, 2) }}</td>
+            </tr>
+          </tbody>
+          <tfoot style="background-color: #104B89; color: #fff;">
+            <tr>
+              <td colspan="3" class="tabla-i-d"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>

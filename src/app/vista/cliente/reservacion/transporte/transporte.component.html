@@ -1,0 +1,304 @@
+<div style="padding: 20px;">
+  <div class="row">
+    <div class="col-md-12">
+      <div style="background-color: #104B89; color: #ffffff; border-radius: 5px; padding: 10px;">
+        <i class="las la-plane"></i> Viaje {{ dtViaje.tipoViaje }}
+      </div>
+    </div>
+    <div class="col-md-12">&nbsp;</div>
+    <div class="col-md-6">
+      <div>
+        <label class="label-text"><b>Destino - Ruta</b></label>
+        <div
+          [ngClass]="vlTransporte.destino == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+          <div class="input-group-prepend">
+            <span class="input-group-text blank" id="Destino">
+              <span class="las la-plane-departure form-icon"></span>
+            </span>
+          </div>
+          <kendo-dropdownlist [data]="lstRutas" [textField]="'NombreRuta'" [valueField]="'IdRuta'"
+            [(ngModel)]="dtListaRutaSeleccionada" class="form-control regular-font"
+            (ngModelChange)="SeleccionData()">
+          </kendo-dropdownlist>
+        </div>
+        <div *ngIf="vlTransporte.destino == true">
+          <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es
+            requerido</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="dtViaje.tipoViaje == 'Aéreo'" class="col-md-6">
+      <div>
+        <label class="label-text"><b>¿Requiere Pasaje?</b></label>
+        <div  [ngClass]="vlTransporte.requierePasaje == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+          <div class="input-group-prepend">
+            <span class="input-group-text blank" id="Requiere Pasaje">
+              <span class="las la-ticket-alt form-icon"></span>
+            </span>
+          </div>
+          <kendo-dropdownlist [(ngModel)]="dtTransporte.requierePasaje" class="form-control regular-font"
+            [data]="lstRequierePasaje" (ngModelChange)="SeleccionData()" >
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div *ngIf="vlTransporte.requierePasaje == true">
+        <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es
+          requerido</span>
+      </div>
+    </div>
+
+
+    <div *ngIf="dtViaje.tipoViaje == 'Terrestre'" class="col-md-6">
+      <div>
+        <label class="label-text"><b>Tiene Movilización Propia</b></label>
+        <div [ngClass]="vlTransporte.requiereMovilizacion == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+          <div class="input-group-prepend">
+            <span class="input-group-text blank" id="Requiere Pasaje">
+              <span class="las la-ticket-alt form-icon"></span>
+            </span>
+          </div>
+          <kendo-dropdownlist [(ngModel)]="dtTransporte.requiereMovilizacion" class="form-control regular-font"
+            [data]="lstRequierePasaje" (ngModelChange)="SeleccionRequiereMovilizacion()">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div *ngIf="vlTransporte.requiereMovilizacion == true">
+        <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es
+          requerido</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="dtViaje.tipoViaje == 'Aéreo'" class="row">
+    <div class="col-md-6"></div>
+    <div *ngIf="dtTransporte.requierePasaje == 'No'" class="col-md-6">
+
+      <div
+        style="border-radius: 10px 10px 0px 0px; background-color: #104B89; width: 100%; color: #ffffff; padding-left: 20px; padding-right: 20px; padding-top: 8px; padding-bottom: 8px;">
+        Datos Pasaje Aéreo
+      </div>
+      <div style="border-radius: 0px 0px 10px 10px; border: 2px solid #104B89; padding: 20px;  width: 100%;">
+
+        <div>
+          <div class="form-group">
+            <label class="label-text"><b>Fecha de Emisión</b></label>
+            <div [ngClass]="vlTransporte.fechaEmision == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+              <input type="date" class="form-control" [(ngModel)]="dtTransporte.fechaEmision"
+                (ngModelChange)="Validaciones()" onkeydown="return false">
+            </div>
+            <div *ngIf="vlTransporte.fechaEmision == true">
+              <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es requerido</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="label-text"><b>Nombre Aerolinea</b></label>
+          <div
+            [ngClass]="vlTransporte.nombreAereolinea == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="">
+                <span class="las la-file-alt form-icon"></span>
+              </span>
+            </div>
+            <input type="text" [(ngModel)]="dtTransporte.nombreAereolinea" class="form-control regular-font"
+              placeholder="Nombre Aerolinea" aria-describedby="" (ngModelChange)="Validaciones()"
+              (keyup)="dtTransporte.nombreAereolinea = global.FormatearCampo(dtTransporte.nombreAereolinea, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ ', 100, 1)">
+           </div>
+           <div *ngIf="vlTransporte.nombreAereolinea == true">
+            <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es requerido</span>
+          </div>
+        </div> 
+
+        <div>
+          <label class="label-text"><b>Número de Pasaje</b></label>
+          <div
+            [ngClass]="vlTransporte.numeroPasaje == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="">
+                <span class="las la-file-alt form-icon"></span>
+              </span>
+            </div>
+            <input type="text" [(ngModel)]="dtTransporte.numeroPasaje" class="form-control regular-font"
+              placeholder="Número de Pasaje" aria-describedby="" (ngModelChange)="Validaciones()"
+              (keyup)="dtTransporte.numeroPasaje = global.FormatearCampo(dtTransporte.numeroPasaje, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ0987654321-., ', 100, 1)">
+            </div>
+            <div *ngIf="vlTransporte.numeroPasaje == true">
+              <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es requerido</span>
+            </div>
+        </div>
+
+        <div>
+          <label class="label-text"><b>Referencia de pago / Autorización tarjeta de crédito</b></label>
+          <div
+            [ngClass]="vlTransporte.referenciaPago == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="">
+                <span class="las la-file-alt form-icon"></span>
+              </span>
+            </div>
+            <input type="text" [(ngModel)]="dtTransporte.referenciaPago" class="form-control regular-font"
+              placeholder="Referencia de pago / Autorización tarjeta de crédito" aria-describedby=""
+              (ngModelChange)="Validaciones()"
+              (keyup)="dtTransporte.referenciaPago = global.FormatearCampo(dtTransporte.referenciaPago, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ0987654321-., ', 100, 1)">
+          </div>
+          <div *ngIf="vlTransporte.referenciaPago == true">
+            <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es requerido</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="label-text"><b>Valor</b></label>
+          <div
+            [ngClass]="vlTransporte.valorPago == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="">
+                <span class="las la-file-alt form-icon"></span>
+              </span>
+            </div>
+              <input currencyMask [(ngModel)]="dtTransporte.valorPago" class="form-control regular-font" (ngModelChange)="CalcularImpuesto()"/>
+          </div>
+          <div *ngIf="vlTransporte.valorPago == true">
+            <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es requerido</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="label-text"><b>Impuesto Aéreo</b></label>
+          <div
+            [ngClass]="vlTransporte.impuestoAereo == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="">
+                <span class="las la-file-alt form-icon"></span>
+              </span>
+            </div>
+              <input currencyMask [(ngModel)]="dtTransporte.impuestoAereo" class="form-control regular-font" (ngModelChange)="CalcularImpuesto()"/>
+          </div>
+          <div *ngIf="vlTransporte.impuestoAereo == true">
+            <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es requerido</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div>
+              <label class="label-text"><b>Impuesto</b></label>
+              <div [ngClass]="vlTransporte.impuesto == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+                <div class="input-group-prepend">
+                  <span class="input-group-text blank" id="Requiere Pasaje">
+                    <span class="las la-ticket-alt form-icon"></span>
+                  </span>
+                </div>
+                <kendo-dropdownlist [(ngModel)]="dtTransporte.impuesto" class="form-control regular-font"
+                [textField]="'name'" [valueField]="'value'"
+                [valuePrimitive]="true" [data]="lstTiposImpuestos" (ngModelChange)="CalcularImpuesto()">
+                </kendo-dropdownlist>
+              </div>
+            </div>
+            <div *ngIf="vlTransporte.impuesto == true">
+              <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es requerido</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <label class="label-text"><b>&nbsp;</b></label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text blank" id="">
+                    <span class="las la-file-alt form-icon"></span>
+                  </span>
+                </div>
+                <input type="text" [(ngModel)]="dtTransporte.valorImpuesto" class="form-control regular-font"
+                  placeholder="Impuesto" aria-describedby="" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="label-text"><b>Pasaje Total</b></label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text blank" id="">
+                <span class="las la-file-alt form-icon"></span>
+              </span>
+            </div>
+            <input type="text" [(ngModel)]="dtTransporte.valorPasaje" class="form-control regular-font"
+              placeholder="Pasaje Total" aria-describedby="" disabled>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngIf="dtViaje.tipoViaje == 'Terrestre'" class="row">
+    <div class="col-md-6"></div>
+    <div *ngIf="dtTransporte.requiereMovilizacion == 'Sí'" class="col-md-6">
+      <div
+        style="border-radius: 10px 10px 0px 0px; background-color: #104B89; width: 100%; color: #ffffff; padding-left: 20px; padding-right: 20px; padding-top: 8px; padding-bottom: 8px;">
+        Datos movilización
+      </div>
+      <div style="border-radius: 0px 0px 10px 10px; border: 2px solid #104B89; padding: 20px;  width: 100%;">
+      <div>
+        <label class="label-text"><b>Kilómetros (ida y vuelta)</b></label>
+        <div
+          [ngClass]="vlTransporte.numeroKilometros == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+          <div class="input-group-prepend">
+            <span class="input-group-text blank" id="">
+              <span class="las la-file-alt form-icon"></span>
+            </span>
+          </div>
+          <input [(ngModel)]="dtTransporte.numeroKilometros" mask="separator.2" class="form-control regular-font"
+            placeholder="Número Kilómetros" (ngModelChange)="Validaciones(); CalculaValorKilometraje(dtTransporte.numeroKilometros)">
+        </div>
+        <div *ngIf="vlTransporte.numeroKilometros == true">
+          <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es requerido</span>
+        </div>
+      </div>
+
+      <div>
+        <label class="label-text"><b>Valor</b></label>
+        <div
+          [ngClass]="vlTransporte.valorKilometros == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+          <div class="input-group-prepend">
+            <span class="input-group-text blank" id="">
+              <span class="las la-file-alt form-icon"></span>
+            </span>
+          </div>
+          <input [(ngModel)]="dtTransporte.valorKilometros" mask="separator.2" class="form-control regular-font" disabled placeholder="Valor">
+        </div>
+      </div>
+    </div>
+    </div>
+    <div *ngIf="dtTransporte.requiereMovilizacion == 'No'" class="col-md-6">
+      <div
+        style="border-radius: 10px 10px 0px 0px; background-color: #104B89; width: 100%; color: #ffffff; padding-left: 20px; padding-right: 20px; padding-top: 8px; padding-bottom: 8px;">
+        La movilización es contratada por la empresa
+      </div>
+      <div style="border-radius: 0px 0px 10px 10px; border: 2px solid #104B89; padding: 20px;  width: 100%;">
+
+        <div [ngClass]="vlTransporte.requiereMovilizacionContratada == true ? 'input-group mb-3 validation-conta validation-control': 'input-group mb-3'">
+          <div class="input-group-prepend">
+            <span class="input-group-text blank" id="Requiere Pasaje">
+              <span class="las la-ticket-alt form-icon"></span>
+            </span>
+          </div>
+          <kendo-dropdownlist [(ngModel)]="dtTransporte.requiereMovilizacionContratada" class="form-control regular-font"
+            [data]="lstContratadoEmpresa" (ngModelChange)="CargarMovilizacionContratada()">
+          </kendo-dropdownlist>
+        </div>
+
+        <div *ngIf="vlTransporte.requiereMovilizacionContratada == true">
+          <em class="las la-info-circle validation-icon"></em> <span class="validation-text">Este campo es requerido</span>
+        </div>
+
+
+    </div>
+    </div>
+  </div>
+
+</div>

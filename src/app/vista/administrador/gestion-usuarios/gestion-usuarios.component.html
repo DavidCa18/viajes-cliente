@@ -1,0 +1,267 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin" [fullScreen]="true"></ngx-spinner>
+
+<div class="section-bg">
+
+  <app-administrator-side-bar></app-administrator-side-bar>
+
+  <section class="dashboard-area">
+
+    <app-administrator-top-bar></app-administrator-top-bar>
+
+    <div class="dashboard-content-wrap">
+      <div class="dashboard-bread dashboard--bread dashboard-bread-2">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="breadcrumb-content">
+                <div class="section-heading">
+                  <h2 class="sec__title font-size-30 text-white">Usuarios</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="breadcrumb-list text-right">
+                <ul class="list-items">
+                  <li><a class="text-white">Administrador</a></li>
+                  <li>Viajes</li>
+                  <li>Usuarios</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-main-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-box">
+                <div class="form-title-wrap">
+                  <h3 class="title">Listado de usuarios</h3>
+                </div>
+
+
+                <div class="collapse" id="collapseCrearUser">
+                  <div class="card">
+                    <div class="card-header"><b>Crear Usuario</b></div>
+                    <div class="card-body">
+                      <div class="form-row">
+                        <div class="col-md-6">
+                          <label for="usuario"><b>Usuario</b></label>
+                          <input type="usuario" class="form-control" id="usuario" placeholder="Ingrese el usuario"
+                            [(ngModel)]="usuario.usuario" name="usuario.usuario">
+                        </div>
+                        <div class="col-md-3  marginSearch">
+                          <button class="btn btn-info" (click)="BuscarPorUsuario()">Buscar</button>
+                        </div>
+                      </div>
+                      <hr />
+                      <div class="form-row">
+                        <div class="col-md-6">
+                          <label for="nombre"><b>Nombre</b></label>
+                          <input type="text" class="form-control" id="nombre" placeholder="Nombre del usuario"
+                            [(ngModel)]="usuario.nombre" name="nombre" readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="email"><b>Email</b></label>
+                          <input type="text" class="form-control" id="email" placeholder="Email del usuario"
+                            [(ngModel)]="usuario.email" name="email" readonly>
+                        </div>
+
+
+                        <div class="col-md-6">
+                          <label for="email"><b>Rol</b></label>
+                          <kendo-dropdownlist [data]="listaRoles" [textField]="'NombreRol'" [valueField]="'IdRolViaje'"
+                            class="form-control regular-font" [(ngModel)]="rolSeleccion" style="width: 100% !important;">
+                          </kendo-dropdownlist>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="email"><b>Ciudad</b></label>
+                          <kendo-dropdownlist [data]="lstCiudadesViajes" [textField]="'Nombre'" [valueField]="'Id'" class="form-control regular-font"
+                            [(ngModel)]="ciudadSeleccion" style="width: 100% !important;"></kendo-dropdownlist>
+                        </div>
+
+
+                        <div class="col-md-12" style="margin-top: 30px !important; margin-bottom: 30px !important;">
+                          <div class="form-row">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-3">
+                              <button class="btn btn-secondary btn-block" (click)="VerSoloCuadricula()">Cancelar</button>
+                            </div>
+                            <div class="col-md-3">
+                              <button class="btn btn-success btn-block" (click)="GuardarUsuario()">Crear Usuario</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-content" *ngIf="verTabla">
+                  <div class="form-row">
+                    <div class="col-9"></div>
+                    <div class="col-3 mb-3">
+                      <button class="btn btn-primary btn-block" (click)="AbrirFormularioCrearUsuario()"><strong>Crear
+                          Usuario</strong></button>
+                    </div>
+                  </div>
+                  <kendo-grid [data]="gridData" [pageSize]="state.take" [skip]="state.skip" [sort]="state.sort"
+                    [sortable]="true" [resizable]="true" [pageable]="true" filterable="menu"
+                    (dataStateChange)="dataStateChange($event)">
+
+                    <kendo-grid-column headerClass="text-center" field="NombreUsuario" title="Nombre">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="UserUsuario" title="Usuario">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="EmailUsuario" title="Email">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" width="80" title="Roles">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button class="btn btn-warning" (click)="AbrirModalEditar(dataItem)">
+                          <i class="fas fa-pencil-alt fa-lg"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" width="80" title="Eliminar">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button class="btn btn-danger" (click)="EliminarUsuario(dataItem)">
+                          <i class="fas fa-trash-alt fa-lg"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-messages groupPanelEmpty="Arrastra aquí para agrupar"
+                      noRecords="No hay elementos que mostrar." pagerPage="Página" pagerOf="de" pagerItems="Registros"
+                      pagerItemsPerPage="regiatros por página" filterClearButton="Limpiar" filterFilterButton="Buscar"
+                      filterAndLogic="Y" filterOrLogic="O" filterEqOperator="Es igual a"
+                      filterNotEqOperator="No es igual a" filterContainsOperator="Contiene"
+                      filterNotContainsOperator="No contiene" filterStartsWithOperator="Comienza con"
+                      filterEndsWithOperator="Termina con" filterIsNullOperator="Es nulo (null)"
+                      filterIsNotNullOperator="No es nulo (null)" filterIsEmptyOperator="Esta vacio"
+                      filterIsNotEmptyOperator="No está vacío" filterAfterOperator="Es posterior a"
+                      filterAfterOrEqualOperator="Es posterior o igual a"
+                      filterBeforeOrEqualOperator="Es anterior o igual a" filterBeforeOperator="Es antes">
+                    </kendo-grid-messages>
+                  </kendo-grid>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="modal fade" id="modalUsuarios" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="modalUsuarios" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Acciones de usuarios</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="nav  nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                aria-controls="v-pills-home" aria-selected="true">Lista de Roles</a>
+              <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+                aria-controls="v-pills-profile" aria-selected="false">Crear Rol</a>
+            </div>
+          </div>
+
+          <div class="col-12 mt-5">
+            <div class="tab-content" id="v-pills-tabContent">
+              <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                aria-labelledby="v-pills-home-tab">
+
+                <kendo-grid [data]="gridRolesPorUsuario" [pageSize]="stateRol.take" [skip]="stateRol.skip"
+                  [sort]="stateRol.sort" [sortable]="true" [resizable]="true" [pageable]="true" filterable="menu"
+                  (dataStateChange)="dataStateChangeRol($event)">
+
+                  <kendo-grid-column headerClass="text-center" field="Usuario.UserUsuario" title="Usuario">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column headerClass="text-center" field="Usuario.CiudadUsuario" title="Ciudad">
+                  </kendo-grid-column>
+
+                  <kendo-grid-column headerClass="text-center" field="Rol.NombreRol" title="Rol">
+                  </kendo-grid-column>
+
+
+                  <kendo-grid-column headerClass="text-center" title="Activar/Desactivar">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <button  class="btn btn-default" (click)="ActivarDesactivar(dataItem)">
+                        <em class="fas fa-toggle-on fa-lg" style="color: darkblue;" *ngIf='dataItem.EstadoUsuarioRolViaje==1'></em>
+                        <em class="fas fa-toggle-off fa-lg" *ngIf='dataItem.EstadoUsuarioRolViaje==0'></em>
+                      </button>
+                    </ng-template>
+                  </kendo-grid-column>
+
+                </kendo-grid>
+
+              </div>
+              <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+                <div class="alert alert-success alert-dismissible fade show  mb-3 alertCustom" role="alert"
+                  *ngIf="alerta">
+                  <strong>Rol creado correctamente!</strong>
+                  <button type="button" class="btn-close btnCerrar" data-bs-dismiss="alert" aria-label="Close"
+                    (click)="CerrarAlerta()">X</button>
+                </div>
+
+                <div class="row justify-content-center">
+                  <div class="col-md-6">
+                    <div>
+                      <label class="label-text valueInput"><b>Seleccionar rol</b></label>
+                      <div>
+                        <kendo-dropdownlist [data]="listaRoles" [textField]="'NombreRol'" [valueField]="'IdRolViaje'"
+                          class="form-control regular-font" [(ngModel)]="rolSeleccion" style="width: 100% !important;">
+                        </kendo-dropdownlist>
+                      </div>
+                      <div *ngIf="!rolSeleccion">
+                        <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este campo es
+                          requerido</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="label-text valueInput"><b>Ciudad</b></label>
+                      <div>
+                        <kendo-dropdownlist [data]="lstCiudadesViajes" [textField]="'Nombre'" [valueField]="'Id'" class="form-control regular-font"
+                          [(ngModel)]="ciudadSeleccion" style="width: 100% !important;">
+                        </kendo-dropdownlist>
+                      </div>
+                      <div *ngIf="!ciudadSeleccion">
+                        <i class="las la-info-circle validation-icon"></i> <span class="validation-text">Este campo es
+                          requerido</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <button type="submit" class="btn btn-primary btnCrearRol mt-3"
+                    (click)="CreaRolUsuario()">Crear</button>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                ...</div>
+              <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                ...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

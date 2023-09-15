@@ -1,0 +1,21 @@
+<div class="contact-form-action">
+  <div class="row" style="padding-right: 15px;">
+    <div class="col-md-12">
+      <label class="label-text"><b>Jefe de Área</b></label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text blank" id="Empresa">
+            <span class="las la-building form-icon"></span>
+          </span>
+        </div>
+        <kendo-dropdownlist class="form-control regular-font" [(ngModel)]="aprobador" [data]="lstJefeGrupoFiltro"
+          [filterable]="true" [textField]="'NombreCompleto'" [valueField]="'Usuario'" (ngModelChange)="SeleccionarInformacionAprobador()"
+          (filterChange)="FiltroJefe($event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="idViaje == undefined">
+      <small style="color: darkblue;"><b>Importante: </b><i>Al crear la solicitud, se debe esperar hasta que se realice el proceso de pre-aprobación, para realizar cualquier modificación.</i></small>
+    </div>
+  </div>
+</div>

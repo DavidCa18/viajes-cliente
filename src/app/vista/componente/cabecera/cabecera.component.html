@@ -1,0 +1,92 @@
+<header class="header-area">
+
+  <div class="header-top-bar padding-right-100px padding-left-100px"
+    style="background-color: #104B89; color: #ffffff !important;">
+    
+    <div class="container-fluid">
+      <div class="row align-items-center">
+
+        <div class="col-lg-6">
+          <div class="header-top-content">
+            <div class="header-left" style="padding-top: 8px;">
+              <ul class="list-items">
+                <li><a (click)="Navegacion(1)" style="color: #ffffff; cursor: pointer;">Compras</a></li>
+                <li><a (click)="Navegacion(2)" style="color: #ffffff; cursor: pointer;">Pagos</a></li>
+                <li><a style="color: #ffffff; cursor: pointer;">Viajes</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-btn ml-auto">
+          <div class="notification-wrap d-flex align-items-center">
+            <div class="notification-item">
+              <div class="dropdown">
+                <a href="#" class="dropdown-toggle" id="userDropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  <div class="d-flex align-items-center">
+                    <span class="font-size-14 font-weight-bold">{{ usuario.NombreCompleto }}</span>
+                    <span class="las la-user-circle form-icon ml-2" style="font-size: 30px;"></span>
+                  </div>
+                </a>
+                <div class="dropdown-menu dropdown-reveal dropdown-menu-md dropdown-menu-right">
+                  <div class="dropdown-item drop-reveal-header user-reveal-header">
+                    <h6 class="title text-uppercase">Bienvenido</h6>
+                  </div>
+                  <div class="list-group drop-reveal-list user-drop-reveal-list">
+
+                    <a *ngIf="administrador" (click)="Administracion()" class="list-group-item list-group-item-action"
+                      style="cursor: pointer !important;">
+                      <div class="msg-body">
+                        <div class="msg-content">
+                          <h3 class="title"><i class="fas fa-tools mr-2"></i> Administración</h3>
+                        </div>
+                      </div>
+                    </a>
+
+                    <a *ngIf="supervisor" (click)="Administracion()" class="list-group-item list-group-item-action"
+                      style="cursor: pointer !important;">
+                      <div class="msg-body">
+                        <div class="msg-content">
+                          <h3 class="title"><em class="fas fa-tools mr-2"></em> Reporte de Viajes</h3>
+                        </div>
+                      </div>
+                    </a>
+
+                    <a *ngIf="registradorVer" (click)="Reasignador()" class="list-group-item list-group-item-action"
+                      style="cursor: pointer !important;">
+                      <div class="msg-body">
+                        <div class="msg-content">
+                          <h3 class="title"><i class="fas fa-exchange-alt mr-2"></i>Reasignador de Tareas</h3>
+                        </div>
+                      </div>
+                    </a>
+                    <a  (click)="FueraOficina()" class="list-group-item list-group-item-action"
+                    style="cursor: pointer !important;">
+                    <div class="msg-body">
+                      <div class="msg-content">
+                        <h3 class="title"><i class="fas fa-suitcase-rolling mr-2"></i>Fuera de oficina</h3>
+                      </div>
+                    </div>
+                  </a>               
+
+                    <div class="section-block"></div>
+
+                    <a class="list-group-item list-group-item-action" style="cursor: pointer !important;"
+                      (click)="CerrarSesion()">
+                      <div class="msg-body">
+                        <div class="msg-content">
+                          <h3 class="title"><i class="la la-power-off mr-2"></i>Cerrar Sesión</h3>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+</header>

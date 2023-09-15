@@ -1,0 +1,222 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin" [fullScreen]="true"></ngx-spinner>
+
+<div class="section-bg">
+
+  <app-administrator-side-bar></app-administrator-side-bar>
+
+  <section class="dashboard-area">
+
+    <app-administrator-top-bar></app-administrator-top-bar>
+
+    <div class="dashboard-content-wrap">
+      <div class="dashboard-bread dashboard--bread dashboard-bread-2">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="breadcrumb-content">
+                <div class="section-heading">
+                  <h2 class="sec__title font-size-30 text-white">Rutas</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="breadcrumb-list text-right">
+                <ul class="list-items">
+                  <li><a class="text-white">Administrador</a></li>
+                  <li>Viajes</li>
+                  <li>Rutas</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-main-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-box">
+
+                <div class="form-title-wrap">
+                  <h3 class="title">Listado de Rutas</h3>
+                </div>
+
+                <div class="form-content">
+                  <div class="form-row">
+                    <div class="col-8"></div>
+                    <div class="col-4">
+                      <button class="btn btn-primary btn-block" (click)="AbrirModalCrear()">
+                        <b>Crear Ruta</b>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-content">
+                  <kendo-grid [data]="gridData" [pageSize]="state.take" [skip]="state.skip" [sort]="state.sort" [sortable]="true"
+                    [resizable]="true" [pageable]="true" filterable="menu" (dataStateChange)="dataStateChange($event)">
+
+                    <kendo-grid-column title="#" headerClass="text-center" class="text-center" width="50"
+                      [filterable]="false">
+                      <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        {{rowIndex + 1}}
+                      </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="DescripcionRuta" title="Descripción">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="NombreRuta" title="Nombre">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="OrigenRuta" title="Origen">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" field="DestinoRuta" title="Destino">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" width="80" title="Editar">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <button class="btn btn-warning" (click)="AbrirModalEditar(dataItem)">
+                          <i class="fas fa-pencil-alt fa-lg"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-messages groupPanelEmpty="Arrastra aquí para agrupar"
+                    noRecords="No hay elementos que mostrar." pagerPage="Página" pagerOf="de" pagerItems="Registros"
+                    pagerItemsPerPage="regiatros por página" filterClearButton="Limpiar" filterFilterButton="Buscar"
+                    filterAndLogic="Y" filterOrLogic="O" filterEqOperator="Es igual a" filterNotEqOperator="No es igual a"
+                    filterContainsOperator="Contiene" filterNotContainsOperator="No contiene"
+                    filterStartsWithOperator="Comienza con" filterEndsWithOperator="Termina con"
+                    filterIsNullOperator="Es nulo (null)" filterIsNotNullOperator="No es nulo (null)"
+                    filterIsEmptyOperator="Esta vacio" filterIsNotEmptyOperator="No está vacío"
+                    filterAfterOperator="Es posterior a" filterAfterOrEqualOperator="Es posterior o igual a"
+                    filterBeforeOrEqualOperator="Es anterior o igual a" filterBeforeOperator="Es antes">
+                  </kendo-grid-messages>
+                  </kendo-grid>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-top mt-5"></div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="back-to-top"><i class="la la-angle-up" title="Subir"></i>
+  </div>
+
+</div>
+
+<div class="modal fade" id="modalCrearRuta" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="modalCrearRuta" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crear Ruta</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-row">
+
+          <div class="col-md-12">
+            <label for="descripcion"><b>Descripción</b> </label>
+            <input type="text" class="form-control" id="descripcion" placeholder="Ingrese la descripción de la ruta"
+            [(ngModel)]="rute.DescripcionRuta" name="rute.DescripcionRuta" (keyup)="rute.DescripcionRuta = global.FormatearCampo(rute.DescripcionRuta, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-12">
+            <label for="nombre"><b>Nombre</b> </label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre de la ruta"
+              [(ngModel)]="rute.NombreRuta" name="rute.NombreRuta" (keyup)="rute.NombreRuta = global.FormatearCampo(rute.NombreRuta, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-6">
+            <label for="origen"><b>Origen</b> </label>
+            <input type="text" class="form-control" id="origen" placeholder="Ingrese el origen de la ruta"
+              [(ngModel)]="rute.OrigenRuta" name="rute.OrigenRuta" (keyup)="rute.OrigenRuta = global.FormatearCampo(rute.OrigenRuta, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-6">
+            <label for="destino"><b>Destino</b> </label>
+            <input type="text" class="form-control" id="destino" placeholder="Ingrese el destino de ka ruta"
+              [(ngModel)]="rute.DestinoRuta" name="rute.DestinoRuta" (keyup)="rute.DestinoRuta = global.FormatearCampo(rute.DestinoRuta, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+          </div>
+
+        </div>
+
+        <br><br>
+
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cancelar</button>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-primary btn-block" (click)="GuardarRuta()">Guardar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEditarRuta" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="modalEditarRuta" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Ruta</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+          <div class="col-md-12">
+            <label for="descripcion"><b>Descripción</b> </label>
+            <input type="text" class="form-control" id="descripcion" placeholder="Ingrese la descripción de la ruta"
+            [(ngModel)]="rute.DescripcionRuta" name="rute.DescripcionRuta" (keyup)="rute.DescripcionRuta = global.FormatearCampo(rute.DescripcionRuta, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-12">
+            <label for="nombre"><b>Nombre</b> </label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre de la ruta"
+              [(ngModel)]="rute.NombreRuta" name="rute.NombreRuta" (keyup)="rute.NombreRuta = global.FormatearCampo(rute.NombreRuta, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-6">
+            <label for="origen"><b>Origen</b> </label>
+            <input type="text" class="form-control" id="origen" placeholder="Ingrese el origen de la ruta"
+              [(ngModel)]="rute.OrigenRuta" name="rute.OrigenRuta" (keyup)="rute.OrigenRuta = global.FormatearCampo(rute.OrigenRuta, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+          </div>
+
+          <div class="col-md-6">
+            <label for="destino"><b>Destino</b> </label>
+            <input type="text" class="form-control" id="destino" placeholder="Ingrese el destino de ka ruta"
+              [(ngModel)]="rute.DestinoRuta" name="rute.DestinoRuta" (keyup)="rute.DestinoRuta = global.FormatearCampo(rute.DestinoRuta, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890-. ', 100, 1)">
+          </div>
+
+        </div>
+
+        <br><br>
+
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cancelar</button>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-primary btn-block" (click)="ActualizarRuta()">Actualizar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

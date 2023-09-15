@@ -1,0 +1,165 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" [loadingText]="mensaje" type="ball-spin" [fullScreen]="true"></ngx-spinner>
+
+<div class="section-bg">
+
+  <app-administrator-side-bar></app-administrator-side-bar>
+
+  <section class="dashboard-area">
+
+    <app-administrator-top-bar></app-administrator-top-bar>
+
+    <div class="dashboard-content-wrap">
+
+      <div class="dashboard-bread dashboard--bread dashboard-bread-2">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="breadcrumb-content">
+                <div class="section-heading">
+                  <h2 class="sec__title font-size-30 text-white">Estados</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="breadcrumb-list text-right">
+                <ul class="list-items">
+                  <li><a class="text-white">Administrador</a></li>
+                  <li>Viajes</li>
+                  <li>Estados</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-main-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-box">
+
+                <div class="form-title-wrap">
+                  <h3 class="title">Catálogo de Estados</h3>
+                </div>
+
+                <div class="form-content">
+                  <div class="form-row">
+                    <div class="col-8"></div>
+                    <div class="col-4">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-content">
+                  <kendo-grid [data]="gridData" [pageSize]="state.take" [skip]="state.skip" [sort]="state.sort"
+                    [sortable]="true" [resizable]="true" [pageable]="true"
+                    (dataStateChange)="dataStateChange($event)">
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" field="IdEstado" title="#"
+                      width="50" [filterable]="false"></kendo-grid-column>
+
+                    <kendo-grid-column headerClass="text-center" class="text-center" field="DescripcionEstado"
+                      title="Descripción">
+                    </kendo-grid-column>
+                  </kendo-grid>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-top mt-5"></div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <div id="back-to-top"><i class="la la-angle-up" title="Subir"></i>
+  </div>
+
+</div>
+
+<div class="modal fade" id="modalCrearEstado" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="modalCrearEstado" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Crear Estado</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form-row">
+
+          <div class="col-md-12">
+            <label for="descripcion"><b>Nombre</b> </label>
+            <input type="text" class="form-control" id="descripcion" placeholder="Ingrese un nombre para el estado"
+              [(ngModel)]="catalogoEstado.DescripcionEstado" name="catalogoEstado.DescripcionEstado"
+              (keyup)="catalogoEstado.DescripcionEstado = global.FormatearCampo(catalogoEstado.DescripcionEstado, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)">
+          </div>
+
+        </div>
+
+        <br><br>
+
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cancelar</button>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-primary btn-block" (click)="GuardarEstadoCatalogo()">Guardar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEditarEstado" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="modalEditarEstado" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Estado</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form-row">
+
+          <div class="col-md-12">
+            <label for="descripcion"><b>Nombre</b> </label>
+            <input type="text" class="form-control" id="descripcion" placeholder="Ingrese un nombre para el estado"
+              [(ngModel)]="catalogoEstado.DescripcionEstado" name="catalogoEstado.DescripcionEstado"
+              (keyup)="catalogoEstado.DescripcionEstado = global.FormatearCampo(catalogoEstado.DescripcionEstado, 'abcdefghijklmnñopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ-. ', 100, 1)">
+          </div>
+
+        </div>
+
+        <br><br>
+
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Cancelar</button>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-primary btn-block" (click)="ActualizarEstadoCatalogo()">Actualizar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

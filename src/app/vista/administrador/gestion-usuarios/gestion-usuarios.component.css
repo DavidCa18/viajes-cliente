@@ -1,0 +1,35 @@
+.centrarEstado {
+    color: white;
+    font-size: 14px;
+}
+.btnCrearRol {
+    width: 160px;
+    margin-bottom: 12px;
+    margin-left: 6px;
+}
+.valueInput  {
+    font-size: 16px !important;
+}
+
+.btnCerrar {
+    border: none;
+    position: absolute;
+    right: 17px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.alertCustom {
+    display: flex;
+    justify-content: space-between;
+}
+.active {
+    color: #104B89;
+}
+
+.marginSearch {
+    margin-top: 33px;
+}
